@@ -18,16 +18,17 @@ Vagrant.configure(VAGRANT_API_VER) do |config|
                 v.cpus = nodes["cpu"]
             end
 
-            config.vm.provision "file" do |file|
-                file.source = spec
-                file.destination = "/tmp/"
-            end
+            config.vm.provision "file", source: spec, destination: "/tmp/"
+            config.vm.provision "file", source: "scripts/env.sh", destination: "/tmp/"
 
-            # shell
+            # shell provisioning
             node.vm.provision "shell" do |shell|
                 shell.path = "scripts/setup-vm.sh"
                 shell.args = [spec]
                 shell.reboot = "true"
+            end
+            nodes["items"].each do |item|
+                node.vm.provision "shell", path: "scripts/#{item}.sh"
             end
         end
     end
