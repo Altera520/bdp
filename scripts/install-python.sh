@@ -2,7 +2,8 @@
 
 source '/tmp/env.sh'
 
-function install_python {
+function install_python 
+{
     local PYTHON_VER=$1
     echo "install python ${PYTHON_VER}"
 
@@ -32,15 +33,18 @@ function install_python {
                    python3-devel
 
     # pythonX -> python, pipX -> pip
-    local -r PYTHON_MAJOR_VER=$(echo $PYTHON_VER | cut -d '.' -f1 -f2)
+    local -r PYTHON_MAJOR_VER="$(echo $PYTHON_VER | cut -d '.' -f1,2)"
     ln -s "/usr/local/bin/python${PYTHON_MAJOR_VER}" /usr/bin/python
     ln -s "/usr/local/bin/pip${PYTHON_MAJOR_VER}" /usr/bin/pip
 
     # upgrade latest pip version
     python -m pip install --upgrade pip
 
-    # virtualenv install
+    # virtualenv and autoenv install
     python -m pip install --user -U virtualenv
+    pip install autoenv
+    echo "source /usr/local/bin/activate.sh" >> ~/.bash_profile
+    source ~/.bash_profile
 }
 
 install_python $PYTHON_VER
