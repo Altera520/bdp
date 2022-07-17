@@ -2,9 +2,10 @@
 
 source '/tmp/env.sh'
 
-function add_user {
-    USER=$1
-    PASSWD=$2
+function add_user 
+{
+    local -r USER=$1
+    local -r PASSWD=$2
     useradd -m -s /bin/bash -U $USER
     cp -pr /home/vagrant/.ssh "/home/$USER/"
     chown -R "$USER:$USER" "/home/$USER"
@@ -12,7 +13,8 @@ function add_user {
     echo "%$USER ALL=(ALL) NOPASSWD: ALL" > "/etc/sudoers.d/$USER"
 }
 
-function make_hosts {
+function make_hosts 
+{
     SPEC_FILE=$1
     NODES=(`cat "/tmp/$SPEC_FILE" | grep -e name -e ip | tr ':' '\n' | grep -v name | grep -v ip`)
     i=-1
