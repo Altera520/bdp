@@ -13,39 +13,39 @@ function add_user
     echo "%$USER ALL=(ALL) NOPASSWD: ALL" > "/etc/sudoers.d/$USER"
 }
 
-function make_hosts 
+function regist_host
 {
-    SPEC_FILE=$1
-    NODES=(`cat "/tmp/$SPEC_FILE" | grep -e name -e ip | tr ':' '\n' | grep -v name | grep -v ip`)
-    i=-1
-    for node in "${NODES[@]}"
+    local -r NODES=( $(cat /tmp/node-specs.yaml | grep -E 'name|ip'  | tr ':' '\n' | grep -vE 'name|ip') )
+    local -r LENGTH=${#NODES[@]}
+
+    for (( i=0; i<${LENGTH}; i+=2 ));
     do
-        i=$((i+1))
-        if ! ((i % 2)); then
-            continue
-        fi
-        echo "${NODES[$i]} ${NODES[$(($i - 1))]}" >> /etc/hosts
+        echo "${NODES[$i]} ${NODES[$(($i+1))]}" >> /etc/hosts
     done
-    rm "/tmp/$SPEC_FILE"
 }
 
 
 # =======================================================================
 
-# step1. update package & install
+VM_HOSTNAME=$1
+
 dnf -y update
 dnf -y install epel-release \
                wget \
                net-tools \
                lsof \
                vim \
-               curl
+               curl \
+               sshpass
 
-# step2. add user
 add_user $VM_USER $VM_PASSWORD
+regist_host
 
-# step3. edit /etc/hosts
-SPEC_FILE=$1
-make_hosts $SPEC_FILE
-
+# change locale
 localectl set-locale LANG=en_US.UTF-8
+
+# change hostname
+hostnamectl set-hostname $VM_HOSTNAME
+
+# change timezone
+timedatectl set-timezone Asia/Seoul

@@ -28,10 +28,10 @@ Vagrant.configure(VAGRANT_API_VER) do |config|
             node.vm.provision "shell", path: "scripts/increase-disk.sh"
             node.vm.provision "shell" do |shell|
                 shell.path = "scripts/setup-vm.sh"
-                shell.args = [SPEC_FILE]
+                shell.args = [node_spec["name"]]
                 shell.reboot = "true"
             end
-            if node_spec.include? 'items' && node_spec["items"].kind_of?(Array)
+            if node_spec.include?("items") && node_spec["items"].kind_of?(Array)
                 node_spec["items"].each do |item|
                     node.vm.provision "shell", path: "scripts/#{item}.sh"
                 end
