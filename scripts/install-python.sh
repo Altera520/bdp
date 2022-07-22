@@ -41,10 +41,10 @@ function install_python
     python -m pip install --upgrade pip
 
     # virtualenv and autoenv install
-    python -m pip install --user -U virtualenv
-    pip install autoenv
-    echo "source /usr/local/bin/activate.sh" >> ~/.bash_profile
-    source ~/.bash_profile
+    pip install virtualenv \
+                autoenv
+    # autoenv run all user
+    echo 'source /usr/local/bin/activate.sh' > /etc/profile.d/autoenv.sh
 }
 
 install_python $PYTHON_VER
