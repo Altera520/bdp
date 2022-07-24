@@ -1,0 +1,15 @@
+- hosts: all
+  become: yes
+  tasks:
+    - block:
+      when: not installed_jdk.stat.exists
+      - shell: dnf -y install java-1.8.0-openjdk java-1.8.0-openjdk-devel
+      - file:
+          path=/etc/profile.d/cluster-env.sh
+          state=touch
+          mode=0644
+      - lineinfile:
+          dest=/etc/profile.d/cluster-env.sh
+          line={{ item }}
+        with_items:
+          - export JAVA_HOME={{ java_home }}

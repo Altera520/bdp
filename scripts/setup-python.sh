@@ -2,7 +2,7 @@
 
 source '/tmp/env.sh'
 
-function install_python 
+setup_python()
 {
     local PYTHON_VER=$1
     echo "install python ${PYTHON_VER}"
@@ -47,4 +47,4 @@ function install_python
     echo 'source /usr/local/bin/activate.sh' > /etc/profile.d/autoenv.sh
 }
 
-install_python $PYTHON_VER
+setup_python $PYTHON_VER

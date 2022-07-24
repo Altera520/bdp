@@ -1,0 +1,27 @@
+---
+all:
+  hosts:
+    bdp-nn[1:2]:
+    bdp-eg1:
+    bdp-dn[1:3]:
+  
+  children:
+    namenode:
+      hosts:
+        bdp-nn1:
+    
+    datanode:
+      hosts:
+        bdp-dn[1:3]:
+
+    resourcemanager:
+      hosts:
+        bdp-nn[1:2]:
+
+    hadoop:
+      children:
+        namenode:
+        datanode:
+        resourcemanager:
+
+  vars:
