@@ -52,7 +52,7 @@ regist_host
 
 # change locale
 #localectl set-locale LANG=ko_KR.utf8
-localectl set-locale LANG=en_US.utf8
+#localectl set-locale LANG=en_US.utf8
 
 # change hostname
 hostnamectl set-hostname $VM_HOSTNAME

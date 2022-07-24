@@ -8,7 +8,7 @@ copy_sshkey()
     local -r VM_PASSWORD=$2
 
     # ssh key create and then copy other VM
-    local -r KEY='$HOME/.ssh/id_rsa'
+    local -r KEY="$HOME/.ssh/id_rsa"
     if [ ! -f "${KEY}.pub" ]; then
         echo -e 'y' | ssh-keygen -t rsa -f $KEY -q -N ""    
     fi

@@ -23,5 +23,3 @@ all:
         namenode:
         datanode:
         resourcemanager:
-
-  vars:

@@ -1,0 +1,31 @@
+- name: install openjdk
+  hosts: all
+  become: yes
+  tasks:
+    - shell: |
+        java -version
+      register: installed_jdk
+      failed_when: False
+    - block:
+      - name: install jdk
+        dnf:
+          name: "{{ java.package }}"
+          state: present
+
+      - name: find JAVA_HOME path
+        shell: |
+          dirname $(dirname $(dirname $(readlink -f $(readlink -f $(which java)))))
+        register: java_home
+
+      - file:
+          path: /etc/profile.d/cluster-env.sh
+          state: touch
+          mode: '0644'
+
+      - name: append JAVA_HOME
+        lineinfile:
+          path: /etc/profile.d/cluster-env.sh
+          line: "{{ item }}"
+        with_items:
+          - "export JAVA_HOME={{ java_home.stdout }}"
+      when: installed_jdk.rc != 0
