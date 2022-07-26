@@ -28,4 +28,5 @@
           line: "{{ item }}"
         with_items:
           - "export JAVA_HOME={{ java_home.stdout }}"
+      # if jdk already installed, skip this block
       when: installed_jdk.rc != 0

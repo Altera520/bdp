@@ -18,8 +18,28 @@ all:
       hosts:
         bdp-nn[1:2]:
 
+    journalnode:
+      hosts:
+        bdp-eg1:
+        bdp-nn[1:2]:
+
+    historyserver:
+      hosts:
+        bdp-nn2:
+
+    zookeeper:
+      hosts:
+        bdp-eg1:
+          id: 1
+        bdp-nn1:
+          id: 2
+        bdp-nn2:
+          id: 3
+
     hadoop:
       children:
         namenode:
         datanode:
         resourcemanager:
+        journalnode:
+        historyserver:

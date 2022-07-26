@@ -1,0 +1,11 @@
+- hosts: zookeeper
+  become: yes
+  tasks:
+    - file: 
+        path: /var/run/zookeeper
+        state: directory
+        owner: zookeeper
+        group: hadoop
+    - service:
+        name: zookeeper
+        state: restarted

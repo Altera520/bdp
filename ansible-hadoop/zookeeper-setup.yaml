@@ -1,0 +1,95 @@
+- hosts: zookeeper
+  become: yes
+  vars:
+    zk_filename: 'apache-zookeeper-{{ component.zookeeper }}-bin'
+  tasks:
+    - stat: 
+        path: "{{ component.root_path }}/{{ zk_filename }}"
+      register: installed_zookeeper
+    - name: install zookeeper
+      block:
+      - group:
+          name: hadoop
+          state: present
+      - user:
+          name: "{{ item }}"
+          group: hadoop
+          state: present
+        with_items:
+          - "{{ user }}"
+          - zookeeper
+      - file:
+          path: "{{ component.root_path }}"
+          state: directory
+          owner: root
+          group: root
+      - block:
+        - get_url:
+            url: "https://dlcdn.apache.org/zookeeper/zookeeper-{{ component.zookeeper }}/{{ zk_filename }}.tar.gz"
+            dest: /tmp/
+        - unarchive:
+            src: "/tmp/{{ zk_filename }}.tar.gz"
+            dest: "{{ component.root_path }}"
+            copy: no
+            owner: root
+            group: root
+        - file:
+            path: /etc/zookeeper
+            state: directory
+            owner: root
+            group: root
+        - file:
+            src: "{{ item.0 }}"
+            dest: "{{ item.1 }}"
+            state: link
+            owner: root
+            group: root
+          with_together:
+            # item.0
+            - [ "{{ component.root_path }}/{{ zk_filename }}", "{{ component.root_path }}/zookeeper/conf" ]
+            # item.1
+            - [ "{{ component.root_path }}/zookeeper", /etc/zookeeper/conf ]
+        - file:
+            path: "{{ item }}"
+            state: directory
+            owner: zookeeper
+            group: hadoop
+          with_items:
+            - /var/log/zookeeper
+            - /var/run/zookeeper
+            - /hadoop/zookeeper
+        - file:
+            path: /hadoop
+            state: directory
+            owner: root
+            group: root
+      when: not installed_zookeeper.stat.exists
+
+    - name: register systemd
+      block:
+      - template:
+          src: zookeeper/zookeeper.service.j2
+          dest: /etc/systemd/system/zookeeper.service
+      - systemd:
+          daemon_reload: yes
+      when: not installed_zookeeper.stat.exists
+
+    - name: apply zookeeper configuration
+      block:
+      - template:
+          src: "zookeeper/{{ item }}.j2"
+          dest: "{{ component.root_path }}/zookeeper/conf/{{ item }}"
+        with_items:
+          - zoo.cfg
+          - zookeeper-env.sh
+          - log4j.properties
+      - name: myid file to dataDir
+        template:
+          src: zookeeper/myid.j2
+          dest: /hadoop/zookeeper/myid
+      - template:
+          src: zookeeper/zookeeper-client.j2
+          dest: /usr/bin/zookeeper-client
+      - file:
+          path: /usr/bin/zookeeper-client
+          mode: 0755
