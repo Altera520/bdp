@@ -1,4 +1,14 @@
 ---
+- name: Create hadoop user
+  user: 
+    name: "{{ item }}"
+    group: hadoop 
+    state: present
+  with_items:
+    - hdfs
+    - yarn
+    - mapred
+    
 - name: Download hadoop
   get_url:
     url: "{{ download_path }}/{{ download_filename }}.tar.gz"

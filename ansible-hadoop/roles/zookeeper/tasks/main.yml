@@ -1,6 +1,6 @@
 ---
 - stat: 
-    path: "{{ stack_root }}/{{ download_filename }}"
+    path: "{{ stack_root }}/{{ zookeeper_download_filename }}"
   register: installed_zookeeper
 
 - include: setup-zookeeper.yml

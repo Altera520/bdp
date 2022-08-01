@@ -1,2 +1,21 @@
 ---
-# tasks file for kafka
+- stat: 
+    path: "{{ stack_root }}/{{ kafka_download_filename }}"
+  register: installed_kafka
+
+- include: setup-kafka.yml
+  when: 
+    - act == 'setup'
+    - not installed_kafka.stat.exists
+
+- include: config-kafka.yml
+  when: act == 'setup' or act == 'config'
+
+- include: start-kafka.yml
+  when: act == 'start'
+
+- include: stop-kafka.yml
+  when: act == 'stop'
+
+- include: restart-kafka.yml
+  when: act == 'restart'

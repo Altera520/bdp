@@ -36,6 +36,15 @@ all:
         bdp-nn2:
           id: 3
 
+    kafka:
+      hosts:
+        bdp-dn1:
+          id: 1
+        bdp-dn2:
+          id: 2
+        bdp-dn3:
+          id: 3
+
     hadoop:
       children:
         namenode:

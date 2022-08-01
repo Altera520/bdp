@@ -1,0 +1,18 @@
+---
+- block:
+  - service:
+      name: kafka
+      state: stopped
+  - wait_for:
+      host: "{{ inventory_hostname }}"
+      port: "{{ kafka_port }}"
+      state: stopped
+
+- block:
+  - service:
+      name: kafka
+      state: started
+  - wait_for:
+      host: "{{ inventory_hostname }}"
+      port: "{{ kafka_port }}"
+      state: started

@@ -1,0 +1,73 @@
+---
+- name: Create user
+  user:
+    name: kafka
+    group: hadoop
+    state: present
+
+- name: Install kafka
+  block:
+  - get_url:
+      url: "{{ kafka_download_path }}/{{ kafka_download_filename }}.tgz"
+      dest: /tmp/
+  - unarchive:
+      src: "/tmp/{{ kafka_download_filename }}.tgz"
+      dest: "{{ stack_root }}"
+      copy: no
+      owner: root
+      group: root
+
+- name: Link installed kafka
+  block:
+  - file:
+      path: /etc/kafka
+      state: directory
+      owner: root
+      group: root
+  - file:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      state: link
+      owner: root
+      group: root
+    loop:
+      # kafka install directory link
+      - { 
+        src: "{{ stack_root }}/{{ kafka_download_filename }}", 
+        dest: "{{ stack_root }}/kafka" 
+      }
+      # kafka config link
+      - { 
+        src: "{{ stack_root }}/kafka/config",
+        dest: /etc/kafka/conf 
+      }
+
+- name: Create kafka log directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: kafka
+    group: hadoop
+  with_items: "{{ log_dirs }}"
+
+- name: Register with systemd
+  block:
+  - template:
+      src: kafka.service.j2
+      dest: /etc/systemd/system/kafka.service
+  - systemd:
+      daemon_reload: yes
+
+- name: Register kafka bin script in alternatives
+  block:
+  - find:
+      paths: "{{ stack_root }}/kafka/bin"
+      patterns: "*.sh"
+    register: kafka_bin
+  - alternatives:
+      name: "{{ item.path | split ('/') | last | split('.') | first }}"
+      link: "/usr/bin/{{ item.path | split ('/') | last | split('.') | first }}"
+      path: "{{ item.path }}"
+      priority: 20
+    with_items: "{{ kafka_bin.files }}"

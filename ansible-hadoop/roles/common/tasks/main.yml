@@ -16,3 +16,9 @@
     state: directory
     owner: root
     group: root
+
+- file:
+    path: /data
+    state: directory
+    owner: root
+    group: root

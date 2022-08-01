@@ -1,7 +1,6 @@
 - hosts: hadoop
-  vars:
-    setup: true
-    config: true
+  become: yes
   roles:
+    - common
     - java
     - hadoop
