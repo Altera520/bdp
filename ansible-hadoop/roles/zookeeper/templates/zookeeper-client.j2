@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export ZOOKEEPER_HOME={{ component.root_path }}/zookeeper
+export ZOOKEEPER_HOME={{ stack_root }}/zookeeper
 export ZOOKEEPER_CONF=${ZOOKEEPER_HOME}/conf
 export CLASSPATH=$CLASSPATH:$ZOOKEEPER_CONF:$ZOOKEEPER_HOME/*:$ZOOKEEPER_HOME/lib/*
 export ZOOCFGDIR=${ZOOCFGDIR:-$ZOOKEEPER_CONF}

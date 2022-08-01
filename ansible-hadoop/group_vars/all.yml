@@ -1,0 +1,15 @@
+
+java_packages: 
+  - "java-1.8.0-openjdk"
+  - "java-1.8.0-openjdk-devel"
+
+stack_root: "/usr/bdp"
+general_user: altera
+
+
+# component:
+#   root_dir: 
+
+#   zookeeper: 3.6.3
+#   scala: 2.1.3
+#   kafka: 3.2.0

@@ -1,0 +1,7 @@
+- hosts: hadoop
+  vars:
+    setup: true
+    config: true
+  roles:
+    - java
+    - hadoop

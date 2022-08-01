@@ -1,0 +1,21 @@
+---
+- stat: 
+    path: "{{ stack_root }}/{{ download_filename }}"
+  register: installed_zookeeper
+
+- include: setup-zookeeper.yml
+  when: 
+    - act == 'setup'
+    - not installed_zookeeper.stat.exists
+
+- include: config-zookeeper.yml
+  when: act == 'setup' or act == 'config'
+
+- include: start-zookeeper.yml
+  when: act == 'start'
+
+- include: stop-zookeeper.yml
+  when: act == 'stop'
+
+- include: restart-zookeeper.yml
+  when: act == 'restart'

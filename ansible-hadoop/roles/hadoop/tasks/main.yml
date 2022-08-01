@@ -1,0 +1,28 @@
+---
+- name: Create stack root directory
+  file:
+    path: "{{ stack_root }}"
+    state: directory
+    owner: root
+    group: root
+
+- name: Create hadoop group
+  group:
+    name: hadoop
+    state: present
+
+- name: Create hadoop user
+  user: 
+    name: "{{ item }}"
+    group: hadoop 
+    state: present
+  with_items:
+    - hdfs
+    - yarn
+    - mapred
+
+- include: setup-hadoop.yaml
+  when: setup
+
+- include: config-hadoop.yaml
+  when: config

@@ -1,0 +1,89 @@
+---
+- name: Download hadoop
+  get_url:
+    url: "{{ download_path }}/{{ download_filename }}.tar.gz"
+    dest: /tmp/
+
+- name: Unzip hadoop
+  unarchive: 
+    src: /tmp/{{ hadoop_filename }}.tar.gz
+    dest: "{{ stack_root }}"
+    copy: no
+    owner: root
+    group: root
+
+- name: Prepare required directory
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+  with_items:
+    - /etc/hadoop
+    - /data
+
+- name: Create Link
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: link
+    owner: root
+    group: root
+  loop:
+    - { src: "{{ component.root_dir }}/{{ hadoop_filename }}", dest: "{{ component.root_dir }}/hadoop" }
+    - { src: "{{ component.root_dir }}/hadoop/etc/hadoop", dest: /etc/hadoop/conf }
+
+# https://hadoop.apache.org/docs/stable/hadoop-yarn/hadoop-yarn-site/GracefulDecommission.html
+- name: Graceful decommission of YARN nodes
+  file: 
+    path: /etc/hadoop/conf/yarn.exclude 
+    state: touch
+    owner: yarn
+    group: hadoop 
+
+- file: 
+    path: "{{ item }}"
+    owner: "{{ item | split('/') | last }}"
+    state: directory
+    group: hadoop
+  with_items:
+    - /data/mapred
+    - /hadoop/hdfs
+    - /hadoop/yarn
+    - /hadoop/mapred
+    - /var/lib/hadoop/hdfs
+    - /var/log/hadoop/hdfs
+    - /var/log/hadoop/yarn
+    - /var/log/hadoop/mapred
+    - /var/run/hadoop/hdfs
+    - /var/run/hadoop/yarn
+    - /var/run/hadoop/mapred
+
+- name: symbolic link hadoop component
+  file:
+    src: "{{ item }}"
+    dest: "/usr/bin/{{ item | split('/') | last }}"
+    owner: root
+    group: root
+    state: link
+  with_items:
+    - "{{ component.root_dir }}/hadoop/bin/hadoop"
+    - "{{ component.root_dir }}/hadoop/bin/hdfs"
+    - "{{ component.root_dir }}/hadoop/bin/yarn"
+
+- template: 
+    src: "hadoop/{{ item }}.j2"
+    dest: "{{ component.root_dir }}/hadoop/bin/{{ item }}"
+    mode: '0755'
+  with_items:
+    - kill-namenode
+    - kill-datanode
+    
+- block:
+  - copy:
+      src: "hadoop/{{ item }}"
+      dest: "{{ component.root_dir }}/hadoop/bin"
+      mode: '0755'
+    with_items:
+      - hdfs.distro
+      - yarn.distro

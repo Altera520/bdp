@@ -1,0 +1,9 @@
+---
+- name: Check if java is installed 
+  shell: java -version
+  register: installed_jdk
+  failed_when: False
+
+- name: Install openjdk
+  include: setup-jdk.yml
+  when: installed_jdk.rc != 0
