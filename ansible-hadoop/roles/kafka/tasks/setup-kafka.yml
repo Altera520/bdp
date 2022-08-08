@@ -71,3 +71,6 @@
       path: "{{ item.path }}"
       priority: 20
     with_items: "{{ kafka_bin.files }}"
+
+- name: Apply config
+  include_tasks: "config-kafka.yml"

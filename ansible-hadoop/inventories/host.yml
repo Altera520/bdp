@@ -6,9 +6,14 @@ all:
     bdp-dn[1:3]:
   
   children:
+    appl_master:
+      hosts:
+        bdp-eg1:
+        
     namenode:
       hosts:
         bdp-nn1:
+        bdp-nn2:
     
     datanode:
       hosts:
@@ -45,6 +50,10 @@ all:
         bdp-dn3:
           id: 3
 
+    mariadb:
+      hosts:
+        bdp-nn1:
+
     hadoop:
       children:
         namenode:
@@ -52,3 +61,5 @@ all:
         resourcemanager:
         journalnode:
         historyserver:
+
+    

@@ -1,0 +1,3 @@
+---
+- include_tasks: "{{ act }}-common.yml"
+  when: "{{ act }}-common.yml" is file

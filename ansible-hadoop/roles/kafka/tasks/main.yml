@@ -1,21 +1,14 @@
 ---
-- stat: 
+- name: check file exists
+  local_action: stat path="{{ act }}-kafka.yml"
+  register: file
+
+- name: check installed status
+  stat: 
     path: "{{ stack_root }}/{{ kafka_download_filename }}"
-  register: installed_kafka
+  register: installed
 
-- include: setup-kafka.yml
-  when: 
-    - act == 'setup'
-    - not installed_kafka.stat.exists
-
-- include: config-kafka.yml
-  when: act == 'setup' or act == 'config'
-
-- include: start-kafka.yml
-  when: act == 'start'
-
-- include: stop-kafka.yml
-  when: act == 'stop'
-
-- include: restart-kafka.yml
-  when: act == 'restart'
+- include_tasks: "{{ act }}-kafka.yml"
+  when: file.stat.exists and
+        (act == "setup" and not installed.stat.exists) or
+        act != "setup"

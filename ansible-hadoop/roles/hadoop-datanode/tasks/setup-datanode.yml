@@ -1,0 +1,31 @@
+---
+- name: Create hdfs directories
+  file:
+    path: "{{ item }}/hdfs"
+    state: directory
+    recurse: yes
+    owner: hdfs 
+    group: hadoop
+  with_items:
+    - /data
+
+- name: Create yarn directories
+  file:
+    path: "{{ item }}/yarn"
+    state: directory
+    recurse: yes
+    owner: hdfs 
+    group: hadoop
+  with_items:
+    - /data
+
+- name: Register with systemd
+  block:
+  - template:
+      src: "{{ item }}.service.j2"
+      dest: "/etc/systemd/system/{{ item }}.service"
+    with_items:
+      - datanode
+      - nodemanager
+  - systemd:
+      daemon_reload: yes

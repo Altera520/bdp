@@ -1,6 +1,0 @@
----
-- include: setup-hadoop.yaml
-  when: setup
-
-- include: config-hadoop.yaml
-  when: config

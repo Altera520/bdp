@@ -21,7 +21,7 @@ add_user()
 
 regist_host()
 {
-    local -r NODES=( $(cat /tmp/node-specs.yaml | grep -E 'name|ip'  | tr ':' '\n' | grep -vE 'name|ip') )
+    local -r NODES=( $(cat /tmp/node-specs.yml | grep -E 'name|ip'  | tr ':' '\n' | grep -vE 'name|ip') )
     local -r LENGTH=${#NODES[@]}
 
     for (( i=0; i<${LENGTH}; i+=2 ));

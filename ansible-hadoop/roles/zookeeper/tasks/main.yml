@@ -1,21 +1,14 @@
 ---
-- stat: 
+- name: check file exists
+  local_action: stat path="{{ act }}-zookeeper.yml"
+  register: file
+
+- name: check installed status
+  stat: 
     path: "{{ stack_root }}/{{ zookeeper_download_filename }}"
-  register: installed_zookeeper
+  register: installed
 
-- include: setup-zookeeper.yml
-  when: 
-    - act == 'setup'
-    - not installed_zookeeper.stat.exists
-
-- include: config-zookeeper.yml
-  when: act == 'setup' or act == 'config'
-
-- include: start-zookeeper.yml
-  when: act == 'start'
-
-- include: stop-zookeeper.yml
-  when: act == 'stop'
-
-- include: restart-zookeeper.yml
-  when: act == 'restart'
+- include_tasks: "{{ act }}-zookeeper.yml"
+  when: file.stat.exists and
+        (act == "setup" and not installed.stat.exists) or
+        act != "setup"

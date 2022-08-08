@@ -1,0 +1,36 @@
+---
+all:
+  hosts:
+  
+  children:
+    appl_master:
+      hosts:
+        
+    namenode:
+      hosts:
+    
+    datanode:
+      hosts:
+
+    resourcemanager:
+      hosts:
+
+    journalnode:
+      hosts:
+
+    historyserver:
+      hosts:
+
+    zookeeper:
+      hosts:
+
+    kafka:
+      hosts:
+
+    hadoop:
+      children:
+        namenode:
+        datanode:
+        resourcemanager:
+        journalnode:
+        historyserver:

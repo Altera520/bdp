@@ -1,6 +1,6 @@
 ---
 - block:
-  - service:
+  - systemd:
       name: kafka
       state: stopped
   - wait_for:
@@ -9,7 +9,7 @@
       state: stopped
 
 - block:
-  - service:
+  - systemd:
       name: kafka
       state: started
   - wait_for:

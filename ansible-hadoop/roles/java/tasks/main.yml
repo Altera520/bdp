@@ -5,5 +5,5 @@
   failed_when: False
 
 - name: Install openjdk
-  include: setup-jdk.yml
+  include_tasks: setup-jdk.yml
   when: installed_jdk.rc != 0

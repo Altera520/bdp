@@ -1,0 +1,44 @@
+---
+- name: Create user
+  user:
+    name: mysql
+    group: mysql
+    state: present
+    groups: hadoop
+    append: yes
+
+- template:
+    src: "{{ item }}.j2"
+    dest: "/etc/yum.repos.d/{{ item }}"
+  with_items:
+    - mariadb.repo
+
+- shell: |
+    dnf -y install mariadb-server mariadb
+
+- file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: mysql
+    group: mysql
+  with_items:
+    - "{{ mariadb_data_dir }}"
+    - "{{ mariadb_log_dir }}"
+    - "{{ mariadb_run_dir }}"
+- file:
+    path: "{{ mariadb_data_dir }}"
+    mode: 0755
+
+- systemd:
+    name: mariadb
+    state: started
+    enabled: yes
+    daemon_reload: yes
+
+- shell: |
+    echo "set password=password('{{ mariadb_root_password }}');" | mysql -u root
+    echo "flush privileges;" | mysql -u root
+
+- name: Apply config
+  include_tasks: config-mariadb.yml

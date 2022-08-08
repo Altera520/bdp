@@ -1,0 +1,18 @@
+[Unit]
+Description=NodeManager Service
+Wants=network.target network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/hadoop/yarn/hadoop-yarn-nodemanager.pid
+User=yarn
+ExecStartPre=+/usr/bin/mkdir -p /sys/fs/cgroup/cpu/hadoop-yarn ; /usr/bin/chown -R yarn:hadoop /sys/fs/cgroup/cpu/hadoop-yarn
+ExecStartPre=+/usr/bin/mkdir -p /sys/fs/cgroup/memory/hadoop-yarn ; /usr/bin/chown -R yarn:hadoop /sys/fs/cgroup/memory/hadoop-yarn
+ExecStart={{ stack_root }}/hadoop/bin/yarn --daemon start nodemanager
+ExecStop={{ stack_root }}/hadoop/bin/yarn --daemon stop nodemanager
+Restart=no
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

@@ -1,7 +1,7 @@
 require 'yaml'
 
 VAGRANT_API_VER = "2"
-SPEC_FILE = 'node-specs.yaml'
+SPEC_FILE = 'node-specs.yml'
 
 NODES = YAML.load_file(SPEC_FILE)
 

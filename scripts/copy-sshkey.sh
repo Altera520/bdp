@@ -12,7 +12,7 @@ copy_sshkey()
     if [ ! -f "${KEY}.pub" ]; then
         echo -e 'y' | ssh-keygen -t rsa -f $KEY -q -N ""    
     fi
-    NODES=( $(cat /tmp/node-specs.yaml | grep name | awk '{print $3}') )
+    NODES=( $(cat /tmp/node-specs.yml | grep name | awk '{print $3}') )
     #NODES=( $(cat /tmp/node-specs.yaml | grep name | awk '{print $3}' | grep -v $HOSTNAME) )
     for NODE in "${NODES[@]}"
     do

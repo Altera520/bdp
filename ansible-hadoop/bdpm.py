@@ -12,12 +12,12 @@ if __name__ == '__main__':
         print_usage()
         sys.exit(2)
 
-    def parse_args(component, act):
-        return (component, act)
+    def parse_args(target, act):
+        return (target, act)
     
     # inventories/host.yaml
     inventory = 'host' 
-    component, act = parse_args(*sys.argv[1:])
+    target, act = parse_args(*sys.argv[1:])
 
     # make ansible-playbook command
     # ansible-playbook -i <inventory-file> <playbook-file>
@@ -26,7 +26,7 @@ if __name__ == '__main__':
         # inventory
         f'-i {HOME_PATH}/inventories/{inventory}.yml',
         # playbook
-        f'{HOME_PATH}/{component}.yml',
+        f'{HOME_PATH}/{target}.yml',
         # extra vars
         f'--extra-vars "act={act}"'
     ])

@@ -13,7 +13,7 @@
     state: touch
     mode: '0644'
 
-- name: append JAVA_HOME
+- name: Append JAVA_HOME
   lineinfile:
     path: /etc/profile.d/java-home.sh
     line: export JAVA_HOME={{ java_home.stdout }}

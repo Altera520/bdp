@@ -60,3 +60,6 @@
       dest: /etc/systemd/system/zookeeper.service
   - systemd:
       daemon_reload: yes
+
+- name: Apply config
+  include_tasks: "config-zookeeper.yml"

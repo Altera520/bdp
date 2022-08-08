@@ -5,7 +5,7 @@ source '/tmp/env.sh'
 setup_ansible()
 {
     local -r VM_USER=$1
-    local -r ANSIBLE_HOME=$2
+    local -r ANSIBLE_HOME=${2:-/ansible}
 
     # install ansible
     echo "ANSIBLE_HOME=$ANSIBLE_HOME" >> ~/.bash_profile

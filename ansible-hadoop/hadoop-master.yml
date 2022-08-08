@@ -1,0 +1,9 @@
+---
+- hosts: namenode
+  vars_files:
+    - group_vars/zookeeper.yml
+  roles:
+    - common
+    - java
+    - hadoop-common
+    - hadoop-namenode
