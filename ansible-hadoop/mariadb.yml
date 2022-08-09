@@ -1,3 +1,4 @@
+---
 - hosts: mariadb
   become: yes
   roles:

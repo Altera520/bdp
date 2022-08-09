@@ -16,6 +16,11 @@
       copy: no
       owner: root
       group: root
+  - file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+      - "/tmp/{{ kafka_download_filename }}.tgz"
 
 - name: Link installed kafka
   block:

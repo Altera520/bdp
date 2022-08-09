@@ -1,9 +1,9 @@
 ---
 - name: check file exists
-  local_action: stat path="{{ act }}-mariadb.yml"
+  local_action: stat path="{{ role_path }}/tasks/{{ act }}-mariadb.yml"
   register: file
 
 - include_tasks: "{{ act }}-mariadb.yml"
-  when: file.stat.exists and
-        (act == "setup") or
-        act != "setup"
+  when: 
+    - file.stat.exists
+    - (act == "setup") or act != "setup"

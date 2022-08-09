@@ -28,7 +28,7 @@ if __name__ == '__main__':
         # playbook
         f'{HOME_PATH}/{target}.yml',
         # extra vars
-        f'--extra-vars "act={act}"'
+        f'--extra-vars "act={act} target={target}"'
     ])
 
     # execute ansible playbook

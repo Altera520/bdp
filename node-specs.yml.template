@@ -7,7 +7,7 @@
 #   mem: 32
 #   cpu: 8
 #   disk: 200
-#   items:
+#   scripts:
 #     - setup-python
 #     - setup-ansible
 #
@@ -19,4 +19,4 @@
   mem: 
   cpu: 
   disk:
-  items:
+  scripts:

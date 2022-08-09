@@ -27,6 +27,12 @@ all:
     kafka:
       hosts:
 
+    mariadb:
+      hosts:
+
+    airflow:
+      hosts:
+
     hadoop:
       children:
         namenode:

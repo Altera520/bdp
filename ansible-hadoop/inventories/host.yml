@@ -54,6 +54,10 @@ all:
       hosts:
         bdp-nn1:
 
+    airflow:
+      hosts:
+        bdp-eg1:
+
     hadoop:
       children:
         namenode:

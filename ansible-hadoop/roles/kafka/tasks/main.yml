@@ -1,6 +1,6 @@
 ---
 - name: check file exists
-  local_action: stat path="{{ act }}-kafka.yml"
+  local_action: stat path="{{ role_path }}/tasks/{{ act }}-kafka.yml"
   register: file
 
 - name: check installed status
@@ -9,6 +9,6 @@
   register: installed
 
 - include_tasks: "{{ act }}-kafka.yml"
-  when: file.stat.exists and
-        (act == "setup" and not installed.stat.exists) or
-        act != "setup"
+  when: 
+    - file.stat.exists
+    - (act == "setup" and not installed.stat.exists) or act != "setup"

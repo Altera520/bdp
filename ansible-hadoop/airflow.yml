@@ -1,0 +1,5 @@
+---
+- hosts: airflow
+  become: yes
+  roles:
+    - python
