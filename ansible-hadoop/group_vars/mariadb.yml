@@ -8,3 +8,5 @@ mariadb_bind_address: 0.0.0.0
 mariadb_data_dir: /var/lib/mysql
 mariadb_run_dir: /var/run/mysqld
 mariadb_log_dir: /var/log/mysql
+
+default_character_set: utf8mb4

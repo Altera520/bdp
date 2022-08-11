@@ -3,25 +3,5 @@
     path: "{{ stack_root }}"
   register: stack_root_dir
 
-- block:
-  - name: Create hadoop group
-    group:
-      name: hadoop
-      state: present
-
-  - name: Add user to hadoop group
-    user:
-      name: "{{ general_user }}"
-      groups: hadoop
-      append: true
-
-  - name: Create stack root dir
-    file:
-      path: "{{ item }}"
-      state: directory
-      owner: root
-      group: root
-    with_items:
-      - "{{ stack_root }}"
-      - /data
-  when: not stack_root_dir.stat.exists
+- include_tasks: setup-common.yml
+  when: act == "setup" and not stack_root_dir.stat.exists

@@ -3,6 +3,7 @@
 [mysql]
 port                            = {{ mariadb_port }}
 socket                          = {{ mariadb_run_dir }}/mysql.sock
+default-character-set 	        = {{ default_character_set }}
 
 [mysqld]
 # === Required Settings ===
@@ -131,6 +132,11 @@ disable_log_bin                 = 1     # Binary logging disabled by default
 #expire_logs_days               = 1     # Keep logs for 1 day - For MySQL 5.x & MariaDB before 10.6 only
 #binlog_expire_logs_seconds     = 86400 # Keep logs for 1 day (in seconds) - For MySQL 8+ & MariaDB 10.6+ only
 
+# === Encoding ===
+character-set-server  	        = {{ default_character_set }}
+collation-server     	        = {{ default_character_set }}_general_ci
+skip-character-set-client-handshake
+
 # === Error & Slow Query Logging ===
 log_error                       = {{ mariadb_log_dir }}/mysql_error.log
 log_queries_not_using_indexes   = 0     # Disabled on production
@@ -145,4 +151,4 @@ slow_query_log_file             = {{ mariadb_log_dir }}/mysql_slow.log
 quick
 quote_names
 max_allowed_packet              = 16M
-default-character-set 	        = utf8
+default-character-set 	        = {{ default_character_set }}

@@ -1,1 +1,117 @@
 ---
+- name: Create user
+  user:
+    name: airflow
+    group: hadoop
+    state: present
+
+- name: Download the required package
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - gcc
+    - gcc-c++
+    - cyrus-sasl-devel
+    - mysql-devel
+
+- name: Create airflow directory
+  block:
+  - file:
+      path: "{{ stack_root }}/{{ item }}"
+      state: directory
+      owner: root
+      group: root
+      recurse: yes
+    with_items:
+      - "airflow-{{ airflow_version }}"
+  - file:
+      src: "{{ stack_root }}/airflow-{{ airflow_version }}"
+      dest: "{{ stack_root }}/airflow"
+      state: link
+      owner: root
+      group: root
+  - file:
+      path: "{{ item }}"
+      state: directory
+      owner: airflow
+      group: hadoop
+      recurse: yes
+    with_items:
+      - "{{ airflow_dags_folder }}"
+      - "{{ airflow_plugins_folder }}"
+      - "{{ airflow_base_log_folder }}"
+      - "{{ airflow_run_dir }}"
+  - file:
+      path: "{{ airflow_run_dir }}"
+      mode: 0755
+
+- name: Append AIRFLOW_HOME
+  block:
+  - lineinfile:
+      path: "/etc/profile.d/{{ cluster_env }}"
+      line: export AIRFLOW_HOME={{ stack_root }}/airflow
+  - shell: source "/etc/profile.d/{{ cluster_env }}"
+
+- name: Install airflow and additional plugins
+  shell: |
+    cd "{{ stack_root }}/airflow"
+    python -m virtualenv venv
+    echo "source $(pwd)/venv/bin/activate" > .env
+    source venv/bin/activate
+    pip install apache-airflow=={{ airflow_version }}
+    deactivate
+
+- name: Install airflow additional plugins
+  shell: |
+    source "{{ stack_root }}/airflow/venv/bin/activate"
+    pip install {{ item }} 
+    deactivate
+  with_items:
+    - "apache-airflow[mysql]=={{ airflow_version }}"
+    - sasl
+    - mysqlclient
+    - pymysql
+
+- name: Apply config
+  include_tasks: config-airflow.yml
+
+- name: Initialize airflow
+  shell: |
+    cd "{{ stack_root }}/airflow"
+    source venv/bin/activate
+    airflow db init
+    deactivate
+
+- name: Create airflow user
+  shell: |
+    cd "{{ stack_root }}/airflow"
+    source venv/bin/activate
+    airflow users create \
+      --username airflow \
+      --firstname {{ airflow_admin_name | split(' ') | first }} \
+      --lastname {{ airflow_admin_name | split(' ') | last }} \
+      --role Admin \
+      --email {{ airflow_admin_email }}
+    deactivate
+
+- name: Register with systemd
+  block:
+  - template:
+      src: "{{ item }}.j2"
+      dest: "/etc/sysconfig/{{ item }}"
+    with_items:
+      - airflow
+  - template:
+      src: "{{ item }}.j2"
+      dest: "/usr/lib/tmpfiles.d/{{ item }}"
+    with_items:
+      - airflow.conf
+  - template:
+      src: "{{ item }}.j2"
+      dest: "/etc/systemd/system/{{ item }}"
+    with_items:
+      - airflow-scheduler.service
+      - airflow-webserver.service
+  - systemd:
+      daemon_reload: yes

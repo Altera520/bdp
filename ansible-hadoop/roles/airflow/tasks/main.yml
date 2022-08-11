@@ -1,0 +1,14 @@
+---
+- name: check file exists
+  local_action: stat path="{{ role_path }}/tasks/{{ act }}-airflow.yml"
+  register: file
+
+- name: check installed status
+  stat: 
+    path: "{{ stack_root }}/airflow-{{ airflow_version }}"
+  register: installed
+
+- include_tasks: "{{ act }}-airflow.yml"
+  when: 
+    - file.stat.exists
+    - (act == "setup" and not installed.stat.exists) or act != "setup"

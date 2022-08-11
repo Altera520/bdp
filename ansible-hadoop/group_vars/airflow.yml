@@ -1,0 +1,19 @@
+---
+airflow_admin_email: altera@kakao.com
+airflow_admin_name: "airflow admin"
+
+db_user: airflow
+db_name: airflow
+db_password: airflow
+
+airflow_run_dir: /run/airflow
+
+# airflow.cfg
+executor: LocalExecutor
+sql_alchemy_conn: "mysql+pymysql://{{ db_user }}:{{ db_password }}@{{ groups['mariadb'][0] }}:{{ mariadb_port }}/{{ db_name }}"
+
+airflow_dags_folder: "{{ stack_root }}/airflow/dags"
+airflow_plugins_folder: "{{ stack_root }}/airflow/plugins"
+airflow_base_log_folder: /var/log/airflow
+
+

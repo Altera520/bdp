@@ -1,6 +1,8 @@
 ---
 # global vars
 
+cluster_env: cluster-env.sh
+
 java_packages: 
   - "java-1.8.0-openjdk"
   - "java-1.8.0-openjdk-devel"
@@ -15,3 +17,7 @@ scala_version: 2.13.8
 spark_version: 3.3.0
 mariadb_version: 10.8
 python_version: 3.10.0
+
+# airflow 2.3 version cannot use mariadb backend database
+# https://github.com/apache/airflow/issues/24247
+airflow_version: 2.2.5
