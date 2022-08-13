@@ -1,0 +1,6 @@
+---
+# setup | config | start | stop | restart
+- include: "{{ act }}-datanode.yml"
+
+- include: "config-datanode.yml"
+  when: act == "setup"

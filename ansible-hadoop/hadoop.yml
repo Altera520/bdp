@@ -1,0 +1,22 @@
+---
+- hosts: hadoop
+  become: yes
+  vars_files:
+    - group_vars/zookeeper.yml
+  roles:
+    - common
+    - java
+    - hadoop-common
+  when: 
+
+- hosts: datanode
+  become: yes
+  roles:
+    - hadoop-datanode
+  when:
+
+- hosts: namenode
+  become: yes
+  roles:
+    - hadoop-namenode
+  when:

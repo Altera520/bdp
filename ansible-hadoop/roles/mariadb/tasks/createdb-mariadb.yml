@@ -1,0 +1,18 @@
+---
+# Required variables
+# - db_name
+# - db_user
+# - db_password
+
+- name: Check schema exists
+  shell: |
+    echo "SHOW SCHEMAS LIKE '{{ db_name }}'" | mysql -u root
+  register: schema
+
+- name: Create schema
+  shell: |
+    echo "CREATE DATABASE {{ db_name }} DEFAULT CHARACTER SET '{{ default_character_set }}' DEFAULT COLLATE '{{ default_character_set }}_general_ci';" | mysql -u root
+    echo "CREATE USER '{{ db_user }}'@'%' IDENTIFIED BY '{{ db_password }}';" | mysql -u root
+    echo "GRANT ALL PRIVILEGES ON {{ db_name }}.* to '{{ db_user }}'@'%' WITH GRANT OPTION;" | mysql -u root
+    echo "FLUSH PRIVILEGES;" | mysql -u root
+  when: schema.stdout == ""

@@ -1,0 +1,21 @@
+- name: install jdk
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ java_packages }}"
+
+- name: find java home path
+  shell: dirname $(dirname $(dirname $(readlink -f $(readlink -f $(which java)))))
+  register: java_home
+
+- file:
+    path: /etc/profile.d/java-home.sh
+    state: touch
+    mode: '0644'
+
+- name: Append JAVA_HOME
+  lineinfile:
+    path: /etc/profile.d/java-home.sh
+    line: export JAVA_HOME={{ java_home.stdout }}
+
+- shell: source /etc/profile.d/java-home.sh

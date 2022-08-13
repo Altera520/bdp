@@ -1,0 +1,70 @@
+---
+- name: Download the required package
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - gcc
+    - openssl-devel
+    - bzip2-devel
+    - libffi-devel
+    - zlib-devel
+
+- name: "Download python {{ python_version }}"
+  block:
+  - get_url:
+      url: "https://www.python.org/ftp/python/{{ python_version }}/Python-{{ python_version }}.tar.xz"
+      dest: /tmp/
+  - unarchive:
+      src: "/tmp/Python-{{ python_version }}.tar.xz"
+      dest: /tmp/
+      copy: no
+      owner: root
+      group: root
+
+- name: compile and build
+  shell: |
+    cd /tmp/Python-{{ python_version }} 
+    ./configure --enable-optimizations
+    make -j 2
+    nproc
+    make altinstall
+  
+- name: Remove install file
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "/tmp/Python-{{ python_version }}.tar.xz"
+    - "/tmp/Python-{{ python_version }}"
+
+- name: Install python pip and devel
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python3-pip
+    - python3-devel
+
+- name: Create link, (pythonX -> python, pipX -> pip)
+  file:
+    src: "/usr/local/bin/{{ item }}{{ (python_version | split('.'))[0:2] | join('.') }}"
+    dest: "/usr/bin/{{ item }}"
+    state: link
+    owner: root
+    group: root
+  with_items:
+    - python
+    - pip
+
+- name: Upgrade latest pip version
+  shell: |
+    python -m pip install --upgrade pip
+
+- name: Virtualenv and autoenv install
+  shell: |
+    pip install virtualenv autoenv
+
+- name: autoenv enable all user
+  shell: |
+    echo 'source /usr/local/bin/activate.sh' > /etc/profile.d/autoenv.sh

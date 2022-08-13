@@ -1,0 +1,14 @@
+---
+- name: check file exists
+  local_action: stat path="{{ role_path }}/tasks/{{ act }}-zookeeper.yml"
+  register: file
+
+- name: check installed status
+  stat: 
+    path: "{{ stack_root }}/{{ zookeeper_download_filename }}"
+  register: installed
+
+- include_tasks: "{{ act }}-zookeeper.yml"
+  when: 
+    - file.stat.exists
+    - (act == "setup" and not installed.stat.exists) or act != "setup"

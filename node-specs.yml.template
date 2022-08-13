@@ -1,0 +1,22 @@
+# node-specs.yaml example
+# 
+# - name: bdp-eg1
+#   box: rockylinux/8
+#   network: public_network
+#   ip: 192.168.45.244
+#   mem: 32
+#   cpu: 8
+#   disk: 200
+#   scripts:
+#     - setup-python
+#     - setup-ansible
+#
+
+- name: 
+  box: 
+  network: 
+  ip: 
+  mem: 
+  cpu: 
+  disk:
+  scripts:

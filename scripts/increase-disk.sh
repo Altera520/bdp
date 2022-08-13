@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function increase_disk 
+increase_disk()
 {
     local -r BLOCK=$1
     local -r PARTITION=$2

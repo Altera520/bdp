@@ -1,0 +1,15 @@
+[Unit]
+Description=Zookeeper
+After=syslog.target network.target
+
+[Service]
+User=zookeeper
+Type=forking
+ExecStart={{ stack_root }}/zookeeper/bin/zkServer.sh start
+ExecStop={{ stack_root }}/zookeeper/bin/zkServer.sh stop
+WorkingDirectory={{ stack_root }}/zookeeper/bin/
+Restart=always
+LimitNOFILE=32768
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,69 @@
+---
+all:
+  hosts:
+    bdp-nn[1:2]:
+    bdp-eg1:
+    bdp-dn[1:3]:
+  
+  children:
+    appl_master:
+      hosts:
+        bdp-eg1:
+        
+    namenode:
+      hosts:
+        bdp-nn1:
+        bdp-nn2:
+    
+    datanode:
+      hosts:
+        bdp-dn[1:3]:
+
+    resourcemanager:
+      hosts:
+        bdp-nn[1:2]:
+
+    journalnode:
+      hosts:
+        bdp-eg1:
+        bdp-nn[1:2]:
+
+    historyserver:
+      hosts:
+        bdp-nn2:
+
+    zookeeper:
+      hosts:
+        bdp-eg1:
+          id: 1
+        bdp-nn1:
+          id: 2
+        bdp-nn2:
+          id: 3
+
+    kafka:
+      hosts:
+        bdp-dn1:
+          id: 1
+        bdp-dn2:
+          id: 2
+        bdp-dn3:
+          id: 3
+
+    mariadb:
+      hosts:
+        bdp-nn1:
+
+    airflow:
+      hosts:
+        bdp-eg1:
+
+    hadoop:
+      children:
+        namenode:
+        datanode:
+        resourcemanager:
+        journalnode:
+        historyserver:
+
+    

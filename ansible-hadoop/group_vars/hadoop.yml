@@ -1,0 +1,24 @@
+---
+# Hadoop3 default port info
+# https://www.stefaanlippens.net/hadoop-3-default-ports.html
+
+# hadoop basic vars
+hadoop_download_path: "https://dlcdn.apache.org/hadoop/common/hadoop-{{ hadoop_version }}"
+hadoop_download_filename: "hadoop-{{ hadoop_version }}"
+
+# core-site.xml
+fs:
+  defaultFS: hdfs://{{ dfs.nameservices }}
+
+# hdfs-site.xml
+dfs:
+  nameservices: bdp
+  replication: 3
+  datanode:
+    data:
+      dir: 
+        - /data/hdfs/data
+    
+    address: "0.0.0.0:50010"
+
+# yarn-site.xml

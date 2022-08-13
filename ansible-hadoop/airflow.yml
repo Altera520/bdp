@@ -1,0 +1,19 @@
+---
+- name: Create airflow schema
+  hosts: mariadb
+  become: yes
+  gather_facts: false
+  vars_files:
+    - group_vars/airflow.yml
+  tasks:
+    - include_tasks: roles/mariadb/tasks/createdb-mariadb.yml
+      when: act == "setup"
+
+- hosts: airflow
+  become: yes
+  vars_files:
+    - group_vars/mariadb.yml
+  roles:
+    - common
+    - python
+    - airflow

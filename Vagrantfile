@@ -1,7 +1,7 @@
 require 'yaml'
 
 VAGRANT_API_VER = "2"
-SPEC_FILE = 'node-specs.yaml'
+SPEC_FILE = 'node-specs.yml'
 
 NODES = YAML.load_file(SPEC_FILE)
 
@@ -31,9 +31,9 @@ Vagrant.configure(VAGRANT_API_VER) do |config|
                 shell.args = [node_spec["name"]]
                 shell.reboot = "true"
             end
-            if node_spec.include?("items") && node_spec["items"].kind_of?(Array)
-                node_spec["items"].each do |item|
-                    node.vm.provision "shell", path: "scripts/#{item}.sh"
+            if node_spec.include?("scripts") && node_spec["scripts"].kind_of?(Array)
+                node_spec["scripts"].each do |script|
+                    node.vm.provision "shell", path: "scripts/#{script}.sh"
                 end
             end
         end

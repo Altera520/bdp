@@ -1,0 +1,12 @@
+---
+- template:
+    src: "{{ item.src }}.j2"
+    dest: "{{ stack_root }}/airflow/{{ item.dest }}"
+    owner: airflow
+    group: hadoop
+    mode: 0640
+  with_items:
+    - {
+      src: "airflow{{ (airflow_version | split('.'))[0:2] | join ('.') }}.cfg",
+      dest: airflow.cfg
+    }

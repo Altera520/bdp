@@ -1,0 +1,12 @@
+---
+mariadb_port: 3306
+mariadb_root_password: root
+
+# 127.0.0.1 allow local connections
+# 0.0.0.0   allow remote connections
+mariadb_bind_address: 0.0.0.0
+mariadb_data_dir: /var/lib/mysql
+mariadb_run_dir: /var/run/mysqld
+mariadb_log_dir: /var/log/mysql
+
+default_character_set: utf8mb4

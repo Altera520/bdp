@@ -1,0 +1,17 @@
+[Unit]
+Description=Kafka
+After=syslog.target network.target
+
+[Service]
+Type=simple
+User=kafka
+Group=hadoop
+SyslogIdentifier=kafka
+ExecStart={{ stack_root }}/kafka/bin/kafka-server-start.sh {{ stack_root }}/kafka/config/server.properties
+ExecStop={{ stack_root }}/kafka/bin/kafka-server-stop.sh
+WorkingDirectory={{ stack_root }}/kafka/
+Restart=always
+LimitNOFILE=32768
+
+[Install]
+WantedBy=multi-user.target
