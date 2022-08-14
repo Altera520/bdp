@@ -1,4 +1,4 @@
----
-- systemd:
+- name: start mariadb
+  systemd:
     name: mariadb
     state: started

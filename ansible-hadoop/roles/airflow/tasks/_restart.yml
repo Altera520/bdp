@@ -1,8 +1,10 @@
 ---
-- systemd:
+- name: restart airflow-scheduler
+  systemd:
     name: airflow-scheduler
     state: restarted
-    
-- systemd:
+
+- name: restart airflow-webserver
+  systemd:
     name: airflow-webserver
     state: restarted

@@ -1,4 +1,4 @@
----
-- systemd:
+- name: stop mariadb
+  systemd:
     name: mariadb
     state: stopped

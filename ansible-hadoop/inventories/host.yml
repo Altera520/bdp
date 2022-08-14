@@ -6,10 +6,6 @@ all:
     bdp-dn[1:3]:
   
   children:
-    appl_master:
-      hosts:
-        bdp-eg1:
-        
     namenode:
       hosts:
         bdp-nn1:
@@ -55,6 +51,10 @@ all:
         bdp-nn1:
 
     airflow:
+      hosts:
+        bdp-eg1:
+
+    superset:
       hosts:
         bdp-eg1:
 

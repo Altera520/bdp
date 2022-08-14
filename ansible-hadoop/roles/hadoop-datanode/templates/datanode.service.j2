@@ -5,7 +5,7 @@ After=network.target network-online.target
 
 [Service]
 Type=forking
-PIDFile=/var/run/hadoop/hdfs/hadoop-hdfs-datanode.pid
+PIDFile={{ hadoop_run_dir }}/hdfs/hadoop-hdfs-datanode.pid
 User=hdfs
 ExecStart={{ stack_root }}/hadoop/bin/hdfs --daemon start datanode
 ExecStop={{ stack_root }}/hadoop/bin/hdfs --daemon stop datanode

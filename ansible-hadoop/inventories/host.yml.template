@@ -33,6 +33,9 @@ all:
     airflow:
       hosts:
 
+    superset:
+      hosts:
+
     hadoop:
       children:
         namenode:

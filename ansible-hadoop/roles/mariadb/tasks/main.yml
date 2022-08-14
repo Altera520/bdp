@@ -1,9 +1,31 @@
 ---
-- name: check file exists
-  local_action: stat path="{{ role_path }}/tasks/{{ act }}-mariadb.yml"
-  register: file
+# tags:
+#   - setup
+#   - config
+#   - start
+#   - stop
+#   - restart
+#   - createdb
 
-- include_tasks: "{{ act }}-mariadb.yml"
-  when: 
-    - file.stat.exists
-    - (act == "setup") or act != "setup"
+- block:
+  - import_tasks: _setup.yml
+  tags: setup
+
+- import_tasks: _config.yml
+  tags: 
+    - setup
+    - config
+
+- import_tasks: _createdb.yml
+  tags: createdb
+
+- import_tasks: _start.yml
+  tags: start
+  
+- import_tasks: _stop.yml
+  tags: stop
+
+- import_tasks: _restart.yml
+  tags: 
+    - restart
+    - config

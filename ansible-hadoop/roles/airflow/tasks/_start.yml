@@ -1,8 +1,9 @@
----
-- systemd:
+- name: start airflow-scheduler
+  systemd:
     name: airflow-scheduler
     state: started
 
-- systemd:
+- name: start airflow-webserver
+  systemd:
     name: airflow-webserver
     state: started

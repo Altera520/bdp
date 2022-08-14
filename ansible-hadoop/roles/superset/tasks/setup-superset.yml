@@ -1,0 +1,64 @@
+---
+- name: Create user
+  user:
+    name: superset
+    group: hadoop
+    state: present
+
+- name: Download the required package
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - gcc
+    - gcc-c++
+    - libffi-devel
+    - python-devel
+    - python-pip
+    - python-wheel
+    - openssl-devel
+    - cyrus-sasl-devel 
+    - openldap-devel
+
+- name: Create superset directory
+  block:
+  - file:
+      path: "{{ stack_root }}/{{ item }}"
+      state: directory
+      owner: root
+      group: root
+      recurse: yes
+    with_items:
+      - "superset-{{ superset_version }}"
+  - file:
+      src: "{{ stack_root }}/superset-{{ superset_version }}"
+      dest: "{{ stack_root }}/superset"
+      state: link
+      owner: root
+      group: root
+
+- name: Append SUPERSET_HOME
+  block:
+  - lineinfile:
+      path: "/etc/profile.d/{{ cluster_env }}"
+      line: export SUPERSET_HOME={{ stack_root }}/superset
+  - shell: source "/etc/profile.d/{{ cluster_env }}"
+
+- name: Install superset
+  shell: |
+    cd "{{ stack_root }}/superset"
+    python -m virtualenv venv
+    echo "source $(pwd)/venv/bin/activate" > .env
+    source venv/bin/activate
+    pip install apache-superset=={{ superset_version }}
+    deactivate
+
+- name: Apply config
+  include_tasks: config-superset.yml
+
+- name: Initialize superset
+  shell: |
+    cd "{{ stack_root }}/superset"
+    source venv/bin/activate
+    superset db upgrade
+    deactivate

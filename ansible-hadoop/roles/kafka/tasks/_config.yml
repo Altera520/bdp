@@ -5,5 +5,3 @@
   with_items:
     - server.properties
     - log4j.properties
-
-- include_tasks: restart-kafka.yml

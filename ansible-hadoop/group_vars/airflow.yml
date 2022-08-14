@@ -1,5 +1,4 @@
 ---
-airflow_admin_email: altera@kakao.com
 airflow_admin_name: "airflow admin"
 
 db_user: airflow

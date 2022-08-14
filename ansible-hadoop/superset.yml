@@ -1,19 +1,18 @@
 ---
-- name: Create airflow schema
+- name: Create superset schema
   hosts: mariadb
   become: yes
   gather_facts: false
   vars_files:
-    - group_vars/airflow.yml
+    - group_vars/superset.yml
   tasks:
     - include_tasks: roles/mariadb/tasks/createdb-mariadb.yml
-  tags: setup
+      when: act == "setup"
 
-- hosts: airflow
+- hosts: superset
   become: yes
   vars_files:
-    - group_vars/mariadb.yml
   roles:
     - common
     - python
-    - airflow
+    - superset

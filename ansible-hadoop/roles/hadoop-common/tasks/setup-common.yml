@@ -93,7 +93,7 @@
     chmod 0644 {{ item }}
     source {{ item }}
   with_items:
-    - /etc/profile.d/hadoop-env.sh
+    - "/etc/profile.d/{{ cluster_env }}"
 
 - name: Apply config
   include_tasks: "config-common.yml"

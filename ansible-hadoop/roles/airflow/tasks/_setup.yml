@@ -92,7 +92,7 @@
       --firstname {{ airflow_admin_name | split(' ') | first }} \
       --lastname {{ airflow_admin_name | split(' ') | last }} \
       --role Admin \
-      --email {{ airflow_admin_email }}
+      --email {{ cluster_admin_email }}
     deactivate
 
 - name: Register with systemd

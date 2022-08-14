@@ -4,5 +4,3 @@
     dest: "/etc/{{ item }}"
   with_items:
     - my.cnf
-
-- include_tasks: restart-mariadb.yml

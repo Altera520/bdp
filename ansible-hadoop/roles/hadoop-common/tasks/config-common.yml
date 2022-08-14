@@ -1,7 +1,6 @@
 ---
 - template: 
     src: "hadoop/{{ item }}.j2"
-    # dest: "{{ stack_root }}/hadoop/etc/hadoop/{{ item }}"
     dest: "/etc/hadoop/conf/{{ item }}" 
   with_items:
     - workers

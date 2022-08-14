@@ -1,0 +1,16 @@
+[Unit]
+Description=ResourceManager Service
+Wants=network.target network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=forking
+PIDFile={{ hadoop_run_dir }}/yarn/hadoop-yarn-resourcemanager.pid
+User=yarn
+ExecStart={{ stack_root }}/hadoop/bin/yarn --daemon start resourcemanager
+ExecStop={{ stack_root }}/hadoop/bin/yarn --daemon stop resourcemanager
+Restart=no
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

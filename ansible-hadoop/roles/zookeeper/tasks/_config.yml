@@ -15,5 +15,3 @@
     src: zookeeper-client.j2
     dest: /usr/bin/zookeeper-client
     mode: 0755
-
-- include_tasks: restart-zookeeper.yml

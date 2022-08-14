@@ -5,7 +5,7 @@ After=network.target network-online.target
 
 [Service]
 Type=forking
-PIDFile=/var/run/hadoop/yarn/hadoop-yarn-nodemanager.pid
+PIDFile={{ hadoop_run_dir }}/yarn/hadoop-yarn-nodemanager.pid
 User=yarn
 ExecStartPre=+/usr/bin/mkdir -p /sys/fs/cgroup/cpu/hadoop-yarn ; /usr/bin/chown -R yarn:hadoop /sys/fs/cgroup/cpu/hadoop-yarn
 ExecStartPre=+/usr/bin/mkdir -p /sys/fs/cgroup/memory/hadoop-yarn ; /usr/bin/chown -R yarn:hadoop /sys/fs/cgroup/memory/hadoop-yarn

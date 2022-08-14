@@ -6,6 +6,7 @@
     recurse: yes
     owner: hdfs 
     group: hadoop
+  # list of mount disk
   with_items:
     - /data
 
@@ -14,8 +15,9 @@
     path: "{{ item }}/yarn"
     state: directory
     recurse: yes
-    owner: hdfs 
+    owner: hdfs
     group: hadoop
+  # list of mount disk
   with_items:
     - /data
 

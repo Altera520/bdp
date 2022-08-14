@@ -1,0 +1,16 @@
+[Unit]
+Description=ZKFC Service
+Wants=network.target network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=forking
+PIDFile={{ hadoop_run_dir }}/hdfs/hadoop-hdfs-zkfc.pid
+User=hdfs
+ExecStart={{ stack_root }}/hadoop/bin/hdfs --daemon start zkfc
+ExecStop={{ stack_root }}/hadoop/bin/hdfs --daemon stop zkfc
+Restart=no
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
