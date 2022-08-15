@@ -1,8 +1,0 @@
----
-- systemd:
-    name: airflow-webserver
-    state: stopped
-    
-- systemd:
-    name: airflow-scheduler
-    state: stopped

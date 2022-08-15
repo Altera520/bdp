@@ -1,0 +1,22 @@
+---
+- template: 
+    src: "hadoop/{{ item }}.j2"
+    dest: "/etc/hadoop/conf/{{ item }}" 
+  with_items:
+    - workers
+    - hadoop-env.sh
+    - yarn-env.sh
+    - mapred-env.sh
+    - core-site.xml
+    - hdfs-site.xml
+    - yarn-site.xml
+    - mapred-site.xml
+    - capacity-scheduler.xml
+    - container-executor.cfg
+    - log4j.properties
+
+- file:
+    path: "{{ stack_root }}/hadoop/bin/container-executor"
+    owner: root
+    group: hadoop
+    mode: 6050

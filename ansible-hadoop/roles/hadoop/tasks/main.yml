@@ -1,0 +1,37 @@
+---
+# hosts: hadoop 
+- name: check installed status
+  stat: 
+    path: "{{ stack_root }}/{{ hadoop_download_filename }}"
+  register: installed
+  tags: setup
+
+# hosts: namenode, historyserver, journalnode, datanode
+- block:
+  # - name: check task_file exists
+  #   local_action: stat path="{{ role_path }}/tasks/_setup-{{ component }}.yml"
+  #   register: task_file
+
+  - include_tasks: "_setup-{{ component }}.yml"
+    # when: task_file.stat.exists
+
+  - include_tasks: _config.yml
+    when: component == "common"
+
+  when: not installed.stat.exists
+  tags: setup
+
+- import_tasks: _config.yml
+  tags: config
+
+- block:
+  - include_tasks: "_start-{{ component }}.yml"
+  tags: start
+
+- block:
+  - include_tasks: "_stop-{{ component }}.yml"
+  tags: stop
+
+- block:
+  - include_tasks: "_restart.yml"
+  tags: restart

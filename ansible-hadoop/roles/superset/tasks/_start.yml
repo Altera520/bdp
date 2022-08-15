@@ -1,0 +1,4 @@
+- name: start superset
+  systemd:
+    name: superset
+    state: started

@@ -3,20 +3,100 @@
   become: yes
   vars_files:
     - group_vars/zookeeper.yml
+  vars:
+    component: common
   roles:
     - common
     - java
-    - hadoop-common
-  when: 
+    - hadoop
+  tags: 
+    - setup
+    - config
 
-- hosts: datanode
+- hosts: journalnode
   become: yes
+  vars:
+    component: journalnode
   roles:
-    - hadoop-datanode
-  when:
+    - hadoop
+  tags: setup
 
 - hosts: namenode
   become: yes
+  vars:
+    component: namenode
   roles:
-    - hadoop-namenode
-  when:
+    - hadoop
+  tags: setup
+
+- hosts: historyserver
+  become: yes
+  vars:
+    component: historyserver
+  roles:
+    - hadoop
+  tags: setup
+
+- hosts: datanode
+  become: yes
+  vars:
+    component: datanode
+  roles:
+    - hadoop
+  tags: setup
+
+---
+- hosts: journalnode
+  become: yes
+  serial: 1
+  vars:
+    component: journalnode
+  roles:
+    - hadoop
+  tags: start
+
+- hosts: namenode
+  become: yes
+  serial: 1
+  vars:
+    component: namenode
+  roles:
+    - hadoop
+  tags: start
+
+- hosts: datanode
+  become: yes
+  serial: 1
+  vars:
+    component: datanode
+  roles:
+    - hadoop
+  tags: start
+
+---
+- hosts: datanode
+  become: yes
+  serial: 1
+  vars:
+    component: datanode
+  roles:
+    - hadoop
+  tags: stop
+
+- hosts: namenode
+  become: yes
+  serial: 1
+  vars:
+    component: namenode
+  roles:
+    - hadoop
+  tags: stop
+
+- hosts: journalnode
+  become: yes
+  serial: 1
+  vars:
+    component: journalnode
+  roles:
+    - hadoop
+  tags: stop

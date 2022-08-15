@@ -18,12 +18,12 @@ setup_ansible()
     source venv/bin/activate
     pip install ansible
 
-    git init
-    git remote add origin https://github.com/Altera520/BDP.git
-    # sparse checkout enable
-    git config core.sparsecheckout true
-    echo 'ansible-hadoop/*' >> .git/info/sparse-checkout
-    git pull origin main
+    # git init
+    # git remote add origin https://github.com/Altera520/BDP.git
+    # # sparse checkout enable
+    # git config core.sparsecheckout true
+    # echo 'ansible-hadoop/*' >> .git/info/sparse-checkout
+    # git pull origin main
 }
 
 #export -f setup_ansible

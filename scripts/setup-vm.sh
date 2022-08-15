@@ -44,7 +44,8 @@ dnf -y install epel-release \
                curl \
                sshpass \
                git \
-               glibc-langpack-ko
+               glibc-langpack-ko \
+               netcat
 
 root_passwd $VM_PASSWORD
 add_user $VM_USER $VM_PASSWORD

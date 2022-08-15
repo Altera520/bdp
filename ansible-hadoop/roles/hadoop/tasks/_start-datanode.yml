@@ -1,0 +1,17 @@
+- block:
+  - file: 
+      path: "{{ hadoop_run_dir }}/{{ item }}"
+      state: directory
+      owner: "{{ item }}"
+      group: hadoop
+    with_items:
+      - hdfs
+      - yarn
+      - mapred
+  - systemd:
+      name: datanode
+      state: started
+  - wait_for: 
+      host: "{{ inventory_hostname }}"
+      port: 50075
+      state: started

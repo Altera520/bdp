@@ -1,0 +1,10 @@
+---
+- name: Register with systemd
+  block:
+  - template:
+      src: "systemd/{{ item }}.service.j2"
+      dest: "/etc/systemd/system/{{ item }}.service"
+    with_items:
+      - journalnode
+  - systemd:
+      daemon_reload: yes

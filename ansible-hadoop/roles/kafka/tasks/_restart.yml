@@ -1,0 +1,4 @@
+---
+- block:
+  - import_tasks: _stop.yml
+  - import_tasks: _start.yml

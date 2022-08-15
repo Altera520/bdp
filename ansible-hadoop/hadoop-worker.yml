@@ -1,7 +1,0 @@
-- hosts: datanode
-  become: yes
-  roles:
-    - common
-    - java
-    - hadoop-common
-    - hadoop-datanode

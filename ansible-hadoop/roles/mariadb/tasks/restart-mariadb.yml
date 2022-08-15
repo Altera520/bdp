@@ -1,3 +1,0 @@
-- systemd:
-    name: mariadb
-    state: restarted

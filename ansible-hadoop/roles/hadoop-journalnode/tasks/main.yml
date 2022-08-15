@@ -1,2 +1,0 @@
----
-include: "{{ act }}-journalnode.yml"

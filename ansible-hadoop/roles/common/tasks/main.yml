@@ -1,7 +1,8 @@
 ---
-- stat:
-    path: "{{ stack_root }}"
-  register: stack_root_dir
-
-- include_tasks: setup-common.yml
-  when: act == "setup" and not stack_root_dir.stat.exists
+- block:
+  - stat:
+      path: "{{ stack_root }}"
+    register: stack_root_dir
+  - import_tasks: _setup.yml
+    when: not stack_root_dir.stat.exists
+  tags: setup

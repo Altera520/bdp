@@ -1,4 +1,0 @@
----
-- systemd:
-    name: mariadb
-    state: stopped

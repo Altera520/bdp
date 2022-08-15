@@ -1,0 +1,10 @@
+---
+- name: Register with systemd
+  block:
+  - template:
+      src: "systemd/{{ item }}.service.j2"
+      dest: "/etc/systemd/system/{{ item }}.service"
+    with_items:
+      - historyserver
+  - systemd:
+      daemon_reload: yes

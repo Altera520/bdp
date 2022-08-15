@@ -6,6 +6,12 @@
 hadoop_download_path: "https://dlcdn.apache.org/hadoop/common/hadoop-{{ hadoop_version }}"
 hadoop_download_filename: "hadoop-{{ hadoop_version }}"
 
+hadoop_log_dir: /var/log/hadoop
+hadoop_run_dir: /var/run/hadoop
+
+hadoop_mount_directories:
+  - /data
+
 # core-site.xml
 fs:
   defaultFS: hdfs://{{ dfs.nameservices }}
@@ -22,3 +28,12 @@ dfs:
     address: "0.0.0.0:50010"
 
 # yarn-site.xml
+
+
+# container-executor.cfg
+yarn.nodemanager.local-dirs: "{{ hadoop_mount_directories | join(',') }}"
+banned.users:
+  - hdfs
+  - yarn
+  - mapred
+  - bin

@@ -1,0 +1,14 @@
+---
+- block:
+  - file: 
+      path: "{{ hadoop_run_dir }}/hdfs" 
+      state: directory
+      owner: hdfs
+      group: hadoop 
+  - systemd:
+      name: journalnode
+      state: started
+  - wait_for: 
+      host: "{{ inventory_hostname }}" 
+      port: 8480
+      state: started

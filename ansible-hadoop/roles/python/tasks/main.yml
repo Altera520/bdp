@@ -1,15 +1,11 @@
 ---
-- name: check file exists
-  local_action: stat path="{{ role_path }}/tasks/{{ act }}-python.yml"
-  register: file
+- block:
+  - name: check installed status
+    shell: python --version
+    register: installed
+    failed_when: False
 
-- name: check installed status
-  shell: |
-    python --version
-  register: installed
-  failed_when: False
-
-- include_tasks: "{{ act }}-python.yml"
-  when: 
-    - file.stat.exists
-    - (act == "setup" and installed.rc != 0) or act != "setup"
+  - import_tasks: _setup.yml
+    when: installed.rc != 0
+    
+  tags: setup

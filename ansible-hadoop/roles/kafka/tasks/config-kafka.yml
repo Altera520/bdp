@@ -1,9 +1,0 @@
----
-- template:
-    src: "{{ item }}.j2"
-    dest: "{{ stack_root }}/kafka/config/{{ item }}"
-  with_items:
-    - server.properties
-    - log4j.properties
-
-- include_tasks: restart-kafka.yml

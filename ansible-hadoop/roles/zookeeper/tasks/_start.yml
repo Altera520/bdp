@@ -1,0 +1,10 @@
+---
+- name: start zookeeper
+  block:
+  - systemd:
+      name: zookeeper
+      state: started
+  - wait_for:
+      host: "{{ inventory_hostname }}"
+      port: "{{ zookeeper_client_port }}"
+      state: started

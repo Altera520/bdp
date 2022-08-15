@@ -1,0 +1,9 @@
+---
+- block:
+  - systemd:
+      name: journalnode
+      state: stopped
+  - wait_for: 
+      host: "{{ inventory_hostname }}"
+      port: 8480
+      state: stopped

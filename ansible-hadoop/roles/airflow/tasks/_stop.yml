@@ -1,0 +1,10 @@
+---
+- name: stop airflow-scheduler
+  systemd:
+    name: airflow-scheduler
+    state: stopped
+
+- name: stop airflow-webserver
+  systemd:
+    name: airflow-webserver
+    state: stopped

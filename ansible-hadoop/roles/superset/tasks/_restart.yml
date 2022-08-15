@@ -1,0 +1,5 @@
+---
+- name: restart superset
+  systemd:
+    name: superset
+    state: restarted

@@ -1,4 +1,0 @@
----
-- systemd:
-    name: zookeeper
-    state: started

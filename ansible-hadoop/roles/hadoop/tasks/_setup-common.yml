@@ -1,0 +1,96 @@
+---
+- name: Create user
+  user: 
+    name: "{{ item }}"
+    group: hadoop 
+    state: present
+  with_items:
+    - hdfs
+    - yarn
+    - mapred
+
+- name: Install hadoop
+  block:
+  - get_url:
+      url: "{{ hadoop_download_path }}/{{ hadoop_download_filename }}.tar.gz"
+      dest: /tmp/
+  - unarchive:
+      src: "/tmp/{{ hadoop_download_filename }}.tar.gz"
+      dest: "{{ stack_root }}"
+      copy: no
+      owner: root
+      group: root
+
+- name: Link installed hadoop
+  block:
+  - file:
+      path: /etc/hadoop
+      state: directory
+      owner: root
+      group: root
+  - file:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      state: link
+      owner: root
+      group: root
+    loop:
+      # hadoop install directory link
+      - { 
+        src: "{{ stack_root }}/{{ hadoop_download_filename }}", 
+        dest: "{{ stack_root }}/hadoop" 
+      }
+      # hadoop config link
+      - { 
+        src: "{{ stack_root }}/hadoop/etc/hadoop",
+        dest: /etc/hadoop/conf 
+      }
+      # hadoop component link
+      - {
+        src: "{{ stack_root }}/hadoop/bin/hadoop",
+        dest: /usr/bin/hadoop
+      }
+      - {
+        src: "{{ stack_root }}/hadoop/bin/hdfs",
+        dest: /usr/bin/hdfs
+      }
+      - {
+        src: "{{ stack_root }}/hadoop/bin/yarn",
+        dest: /usr/bin/yarn
+      }
+
+# https://hadoop.apache.org/docs/stable/hadoop-yarn/hadoop-yarn-site/GracefulDecommission.html
+- name: Graceful decommission of YARN nodes
+  file: 
+    path: /etc/hadoop/conf/yarn.exclude 
+    state: touch
+    owner: yarn
+    group: hadoop 
+
+- name: Create the required directory
+  file: 
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: "{{ item | split('/') | last }}"
+    group: hadoop
+  with_items:
+    - /data/mapred
+    - /hadoop/hdfs
+    - /hadoop/yarn
+    - /hadoop/mapred
+    - /var/lib/hadoop/hdfs
+    - "{{ hadoop_log_dir }}/hdfs"
+    - "{{ hadoop_log_dir }}/yarn"
+    - "{{ hadoop_log_dir }}/mapred"
+    - "{{ hadoop_run_dir }}/hdfs"
+    - "{{ hadoop_run_dir }}/yarn"
+    - "{{ hadoop_run_dir }}/mapred"
+
+- name: Set HADOOP_HOME
+  shell: |
+    echo "export HADOOP_HOME={{ stack_root }}/hadoop" > {{ item }}
+    chmod 0644 {{ item }}
+    source {{ item }}
+  with_items:
+    - "/etc/profile.d/{{ cluster_env }}"

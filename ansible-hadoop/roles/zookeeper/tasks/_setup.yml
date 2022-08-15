@@ -1,0 +1,67 @@
+---
+- name: Create user
+  user:
+    name: zookeeper
+    group: hadoop
+    state: present
+
+- name: Install zookeeper
+  block:
+  - get_url:
+      url: "{{ zookeeper_download_path }}/{{ zookeeper_download_filename }}.tar.gz"
+      dest: /tmp/
+  - unarchive:
+      src: "/tmp/{{ zookeeper_download_filename }}.tar.gz"
+      dest: "{{ stack_root }}"
+      copy: no
+      owner: root
+      group: root
+  - file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+      - "/tmp/{{ zookeeper_download_filename }}.tar.gz"
+
+- name: Link installed zookeeper
+  block:
+  - file:
+      path: /etc/zookeeper
+      state: directory
+      owner: root
+      group: root
+  - file:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      state: link
+      owner: root
+      group: root
+    loop:
+      # zookeeper install directory link
+      - { 
+        src: "{{ stack_root }}/{{ zookeeper_download_filename }}", 
+        dest: "{{ stack_root }}/zookeeper" 
+      }
+      # zookeeper config link
+      - { 
+        src: "{{ stack_root }}/zookeeper/conf", 
+        dest: /etc/zookeeper/conf 
+      }
+
+- file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: zookeeper
+    group: hadoop
+  with_items:
+    - "{{ zookeeper_log_dir }}"
+    - "{{ zookeeper_run_dir }}"
+    - "{{ zookeeper_data_dir }}"
+
+- name: Register with systemd
+  block:
+  - template:
+      src: systemd/zookeeper.service.j2
+      dest: /etc/systemd/system/zookeeper.service
+  - systemd:
+      daemon_reload: yes
