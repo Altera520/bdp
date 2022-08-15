@@ -13,9 +13,9 @@
     - gcc
     - gcc-c++
     - libffi-devel
-    - python-devel
-    - python-pip
-    - python-wheel
+    # - python-devel
+    # - python-pip
+    # - python-wheel
     - openssl-devel
     - cyrus-sasl-devel 
     - openldap-devel
@@ -29,7 +29,7 @@
       group: root
       recurse: yes
     with_items:
-      - "superset-{{ superset_version }}"
+      - "apache-superset-{{ superset_version }}"
   - file:
       src: "{{ stack_root }}/superset-{{ superset_version }}"
       dest: "{{ stack_root }}/superset"
@@ -62,3 +62,23 @@
     source venv/bin/activate
     superset db upgrade
     deactivate
+
+- name: Register with systemd
+  block:
+  - template:
+      src: "{{ item }}.j2"
+      dest: "/etc/sysconfig/{{ item }}"
+    with_items:
+      - superset
+  - template:
+      src: "{{ item }}.j2"
+      dest: "/usr/lib/tmpfiles.d/{{ item }}"
+    with_items:
+      - superset.conf
+  - template:
+      src: "{{ item }}.j2"
+      dest: "/etc/systemd/system/{{ item }}"
+    with_items:
+      - superset.service
+  - systemd:
+      daemon_reload: yes

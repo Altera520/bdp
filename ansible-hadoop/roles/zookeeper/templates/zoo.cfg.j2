@@ -40,6 +40,10 @@ quorum.auth.enableSasl=false
 # zookeeper ensemble
 {% for host in groups['zookeeper'] %}
 {% if hostvars[host]['id'] is defined %}
+{% if inventory_hostname == host %}
+server.{{ hostvars[host]['id'] }}=0.0.0.0:2888:3888
+{% else %}
 server.{{ hostvars[host]['id'] }}={{ host }}:2888:3888
+{% endif %}
 {% endif %}
 {% endfor %}

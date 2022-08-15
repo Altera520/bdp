@@ -27,7 +27,7 @@ if __name__ == '__main__':
         f'-i {HOME_PATH}/inventories/{inventory}.yml',
         # playbook
         f'{HOME_PATH}/{target}.yml',
-        # extra vars
+        # tags
         f'--tags "{tag}"'
     ])
     print(command)

@@ -2,6 +2,7 @@ db_user: superset
 db_name: superset
 db_password: superset
 
+superset_run_dir: /run/superset
 superset_log_dir: /var/log/superset
 
 # superset_config.py
@@ -16,3 +17,10 @@ time_rotate_log_level: INFO
 log_rollover: midnight
 log_interval: 1
 log_backup_count: 30
+
+webdriver_baseurl: "http://0.0.0.0:28080/"
+
+redis_port: 6379
+redis_host: 127.0.0.1
+redis_password: ""
+websocket_url: ws://127.0.0.1:28080/

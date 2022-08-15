@@ -10,6 +10,8 @@
 - template:
     src: myid.j2
     dest: "{{ zookeeper_data_dir }}/myid"
+    owner: zookeeper 
+    group: hadoop
 
 - template:
     src: zookeeper-client.j2

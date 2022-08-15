@@ -24,6 +24,11 @@
     </property>
 
     <property>
+        <name>dfs.ha.namenodes.{{ dfs.nameservices }}</name>
+        <value>nn1,nn2</value>
+    </property>
+
+    <property>
         <name>dfs.namenode.name.dir</name>
         <value>/hadoop/hdfs/namenode</value>
         <final>true</final>
@@ -33,11 +38,6 @@
         <name>dfs.datanode.data.dir</name>
         <value>{{ dfs.datanode.data.dir | join(',') }}</value>
         <final>true</final>
-    </property>
-
-    <property>
-        <name>dfs.ha.namenodes.{{ dfs.nameservices }}</name>
-        <value>nn1,nn2</value>
     </property>
 
     <property>

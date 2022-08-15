@@ -10,3 +10,7 @@
       src: "airflow{{ (airflow_version | split('.'))[0:2] | join ('.') }}.cfg",
       dest: airflow.cfg
     }
+    - {
+      src: webserver_config.py,
+      dest: webserver_config.py
+    }

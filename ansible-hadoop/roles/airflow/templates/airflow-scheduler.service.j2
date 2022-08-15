@@ -25,7 +25,7 @@ Wants=postgresql.service mysql.service redis.service rabbitmq-server.service
 EnvironmentFile=/etc/sysconfig/airflow
 User=airflow
 Type=simple
-ExecStart=/usr/bin/bash -c ‘source {{stack_root}}/airflow/venv/bin/activate ; airflow scheduler'
+ExecStart=/usr/bin/bash -c 'source {{stack_root}}/airflow/venv/bin/activate ; airflow scheduler'
 Restart=always
 RestartSec=5s
 

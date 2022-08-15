@@ -10,7 +10,7 @@
     groups: hadoop
     append: true
 
-- name: Create stack root dir
+- name: Create required dir
   file:
     path: "{{ item }}"
     state: directory

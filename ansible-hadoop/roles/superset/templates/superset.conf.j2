@@ -16,19 +16,4 @@
 # specific language governing permissions and limitations
 # under the License.
 
-[Unit]
-Description=Airflow webserver daemon
-After=network.target postgresql.service mysql.service redis.service rabbitmq-server.service
-Wants=postgresql.service mysql.service redis.service rabbitmq-server.service
-
-[Service]
-EnvironmentFile=/etc/sysconfig/airflow
-User=airflow
-Type=simple
-ExecStart=/usr/bin/bash -c 'source {{stack_root}}/airflow/venv/bin/activate ; airflow webserver --pid {{ airflow_run_dir }}/webserver.pid'
-Restart=on-failure
-RestartSec=5s
-PrivateTmp=true
-
-[Install]
-WantedBy=multi-user.target
+D {{ superset_run_dir }} 0755 superset hadoop

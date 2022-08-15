@@ -6,7 +6,7 @@
   vars_files:
     - group_vars/airflow.yml
   tasks:
-    - include_tasks: roles/mariadb/tasks/createdb-mariadb.yml
+    - import_tasks: roles/mariadb/tasks/createdb-mariadb.yml
   tags: setup
 
 - hosts: airflow

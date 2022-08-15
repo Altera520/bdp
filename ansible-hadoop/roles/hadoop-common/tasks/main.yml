@@ -1,14 +1,14 @@
 ---
-- name: check file exists
-  local_action: stat path="{{ role_path }}/tasks/{{ act }}-common.yml"
-  register: file
+- block:
+  - name: check installed status
+    stat: 
+      path: "{{ stack_root }}/{{ hadoop_download_filename }}"
+    register: installed
+  - import_tasks: _setup.yml
+    when: not installed.stat.exists
+  tags: setup
 
-- name: check installed status
-  stat: 
-    path: "{{ stack_root }}/{{ hadoop_download_filename }}"
-  register: installed
-
-- include_tasks: "{{ act }}-common.yml"
-  when: 
-    - file.stat.exists
-    - (act == "setup" and not installed.stat.exists) or act != "setup"
+- import_tasks: _config.yml
+  tags: 
+    - config
+    - setup

@@ -1,0 +1,5 @@
+---
+- name: stop superset
+  systemd:
+    name: superset
+    state: stopped
