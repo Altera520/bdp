@@ -1,0 +1,9 @@
+---
+- block:
+  - systemd:
+      name: datanode
+      state: stopped
+  - wait_for: 
+      host: "{{ inventory_hostname }}"
+      port: 50075 
+      state: stopped

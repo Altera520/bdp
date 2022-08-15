@@ -1,0 +1,12 @@
+---
+- block:
+  - systemd:
+      name: zkfc
+      state: stopped
+  - systemd:
+      name: namenode
+      state: stopped
+  - wait_for: 
+      host: "{{ inventory_hostname }}"
+      port: 50070
+      state: stopped

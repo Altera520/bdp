@@ -61,7 +61,7 @@
 - name: Register with systemd
   block:
   - template:
-      src: zookeeper.service.j2
+      src: systemd/zookeeper.service.j2
       dest: /etc/systemd/system/zookeeper.service
   - systemd:
       daemon_reload: yes

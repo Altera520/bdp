@@ -80,12 +80,12 @@
     - /hadoop/yarn
     - /hadoop/mapred
     - /var/lib/hadoop/hdfs
-    - /var/log/hadoop/hdfs
-    - /var/log/hadoop/yarn
-    - /var/log/hadoop/mapred
-    - /var/run/hadoop/hdfs
-    - /var/run/hadoop/yarn
-    - /var/run/hadoop/mapred
+    - "{{ hadoop_log_dir }}/hdfs"
+    - "{{ hadoop_log_dir }}/yarn"
+    - "{{ hadoop_log_dir }}/mapred"
+    - "{{ hadoop_run_dir }}/hdfs"
+    - "{{ hadoop_run_dir }}/yarn"
+    - "{{ hadoop_run_dir }}/mapred"
 
 - name: Set HADOOP_HOME
   shell: |

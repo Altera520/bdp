@@ -198,7 +198,7 @@ export HADOOP_IDENT_STRING=$USER
 # export HADOOP_STOP_TIMEOUT=5
 
 # Where pid files are stored.  /tmp by default.
-export HADOOP_PID_DIR={{ hadoop_pid_dir }}/$USER
+export HADOOP_PID_DIR={{ hadoop_run_dir }}/$USER
 
 # Default log4j setting for interactive commands
 # Java property: hadoop.root.logger
@@ -252,7 +252,7 @@ export HADOOP_PID_DIR={{ hadoop_pid_dir }}/$USER
 
 #
 # This directory contains pids for secure and privileged processes.
-export HADOOP_SECURE_PID_DIR={{ hadoop_pid_dir }}/$HDFS_DATANODE_SECURE_USER
+export HADOOP_SECURE_PID_DIR={{ hadoop_run_dir }}/$HDFS_DATANODE_SECURE_USER
 
 #
 # This directory contains the logs for secure and privileged processes.

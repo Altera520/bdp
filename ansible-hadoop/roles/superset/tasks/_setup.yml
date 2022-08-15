@@ -76,7 +76,7 @@
     with_items:
       - superset.conf
   - template:
-      src: "{{ item }}.j2"
+      src: "systemd/{{ item }}.j2"
       dest: "/etc/systemd/system/{{ item }}"
     with_items:
       - superset.service
