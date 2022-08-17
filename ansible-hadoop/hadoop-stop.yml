@@ -1,0 +1,27 @@
+---
+- hosts: datanode
+  become: yes
+  serial: 1
+  include_role:
+    name: hadoop
+    apply:
+      tags: stop_datanode
+  tags: stop
+
+- hosts: namenode
+  become: yes
+  serial: 1
+  include_role:
+    name: hadoop
+    apply:
+      tags: stop_namenode
+  tags: stop
+
+- hosts: journalnode
+  become: yes
+  serial: 1
+  include_role:
+    name: hadoop
+    apply:
+      tags: stop_journalnode
+  tags: stop

@@ -1,37 +1,64 @@
 ---
-# hosts: hadoop 
-- name: check installed status
-  stat: 
-    path: "{{ stack_root }}/{{ hadoop_download_filename }}"
-  register: installed
-  tags: setup
-
-# hosts: namenode, historyserver, journalnode, datanode
 - block:
-  # - name: check task_file exists
-  #   local_action: stat path="{{ role_path }}/tasks/_setup-{{ component }}.yml"
-  #   register: task_file
-
-  - include_tasks: "_setup-{{ component }}.yml"
-    # when: task_file.stat.exists
-
-  - include_tasks: _config.yml
-    when: component == "common"
-
-  when: not installed.stat.exists
+  - name: check installed status
+    stat: 
+      path: "{{ stack_root }}/{{ hadoop_download_filename }}"
+    register: installed
+  - include_tasks: _setup-common.yml
+    when: not installed.stat.exists
   tags: setup
 
 - import_tasks: _config.yml
-  tags: config
+  tags: 
+    - setup
+    - config
 
-- block:
-  - include_tasks: "_start-{{ component }}.yml"
-  tags: start
+- import_tasks: _setup-namenode.yml
+  tags: setup_namenode
 
-- block:
-  - include_tasks: "_stop-{{ component }}.yml"
-  tags: stop
+- import_tasks: _setup-journalnode.yml
+  tags: setup_journalnode
 
-- block:
-  - include_tasks: "_restart.yml"
-  tags: restart
+- import_tasks: _setup-datanode.yml
+  tags: setup_datanode
+
+- import_tasks: _setup-historyserver.yml
+  tags: setup_historyserver
+
+- import_tasks: _format-namenode.yml
+  tags:
+    - format_namenode
+    - bootstrap_standby_namenode
+    - format_zookeeper
+    - start_zkfc
+    - debug_namenode_status
+
+- import_tasks: _stop-namenode.yml
+  tags: 
+    - stop_namenode
+    - restart_namenode
+
+- import_tasks: _stop-journalnode.yml
+  tags: 
+    - stop_journalnode
+    - restart_journalnode
+
+- import_tasks: _stop-datanode.yml
+  tags: 
+    - stop_datanode
+    - restart_datanode
+
+- import_tasks: _start-namenode.yml
+  tags: 
+    - start_namenode
+    - restart_namenode
+
+- import_tasks: _start-journalnode.yml
+  tags: 
+    - start_journalnode
+    - restart_journalnode
+
+- import_tasks: _start-datanode.yml
+  tags: 
+    - start_datanode
+    - restart_datanode

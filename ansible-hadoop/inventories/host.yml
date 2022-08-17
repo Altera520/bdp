@@ -9,7 +9,9 @@ all:
     namenode:
       hosts:
         bdp-nn1:
+          status: active
         bdp-nn2:
+          status: standby
     
     datanode:
       hosts:

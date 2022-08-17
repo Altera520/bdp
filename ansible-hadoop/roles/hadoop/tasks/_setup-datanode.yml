@@ -6,9 +6,7 @@
     recurse: yes
     owner: hdfs 
     group: hadoop
-  # list of mount disk
-  with_items:
-    - /data
+  with_items: "{{ hadoop_mount_disks }}"
 
 - name: Create yarn directories
   file:
@@ -17,9 +15,7 @@
     recurse: yes
     owner: hdfs
     group: hadoop
-  # list of mount disk
-  with_items:
-    - /data
+  with_items: "{{ hadoop_mount_disks }}"
 
 - name: Register with systemd
   block:

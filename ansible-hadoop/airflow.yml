@@ -5,8 +5,10 @@
   gather_facts: false
   vars_files:
     - group_vars/airflow.yml
-  tasks:
-    - import_tasks: roles/mariadb/tasks/createdb-mariadb.yml
+  include_role:
+    name: mariadb
+    apply:
+      tags: createdb
   tags: setup
 
 - hosts: airflow

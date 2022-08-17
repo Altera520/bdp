@@ -1,102 +1,14 @@
 ---
-- hosts: hadoop
-  become: yes
-  vars_files:
-    - group_vars/zookeeper.yml
-  vars:
-    component: common
-  roles:
-    - common
-    - java
-    - hadoop
-  tags: 
+- import_playbook: hadoop-setup.yml
+  tags:
     - setup
-    - config
+    - config 
 
-- hosts: journalnode
-  become: yes
-  vars:
-    component: journalnode
-  roles:
-    - hadoop
-  tags: setup
+- import_playbook: hadoop-format.yml
+  tags: format
 
-- hosts: namenode
-  become: yes
-  vars:
-    component: namenode
-  roles:
-    - hadoop
-  tags: setup
-
-- hosts: historyserver
-  become: yes
-  vars:
-    component: historyserver
-  roles:
-    - hadoop
-  tags: setup
-
-- hosts: datanode
-  become: yes
-  vars:
-    component: datanode
-  roles:
-    - hadoop
-  tags: setup
-
----
-- hosts: journalnode
-  become: yes
-  serial: 1
-  vars:
-    component: journalnode
-  roles:
-    - hadoop
+- import_playbook: hadoop-start.yml
   tags: start
 
-- hosts: namenode
-  become: yes
-  serial: 1
-  vars:
-    component: namenode
-  roles:
-    - hadoop
-  tags: start
-
-- hosts: datanode
-  become: yes
-  serial: 1
-  vars:
-    component: datanode
-  roles:
-    - hadoop
-  tags: start
-
----
-- hosts: datanode
-  become: yes
-  serial: 1
-  vars:
-    component: datanode
-  roles:
-    - hadoop
-  tags: stop
-
-- hosts: namenode
-  become: yes
-  serial: 1
-  vars:
-    component: namenode
-  roles:
-    - hadoop
-  tags: stop
-
-- hosts: journalnode
-  become: yes
-  serial: 1
-  vars:
-    component: journalnode
-  roles:
-    - hadoop
+- import_playbook: hadoop-stop.yml
   tags: stop

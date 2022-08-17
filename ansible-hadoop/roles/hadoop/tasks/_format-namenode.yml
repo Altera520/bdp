@@ -1,0 +1,39 @@
+---
+- name: Format namenode
+  block:
+    - shell: sudo su hdfs -c 'hdfs namenode -format'
+    - pause: seconds=3
+    - shell: sudo su hdfs -c 'hdfs --daemon start namenode'
+    - pause: seconds=3
+  tags: format_namenode
+
+- name: BootstrapStandby namenode
+  block:
+    - shell: sudo su hdfs -c 'hdfs namenode -bootstrapStandby'
+    - pause: seconds=3
+    - shell: sudo su hdfs -c 'hdfs --daemon start namenode'
+    - pause: seconds=3
+  tags: bootstrap_standby_namenode
+
+- name: Format zookeeper
+  block:
+    - shell: sudo su hdfs -c 'hdfs zkfc -formatZK'
+    - pause: seconds=3
+  tags: format_zookeeper
+
+- name: Start zkfc
+  block:
+    - shell: sudo su hdfs -c 'hdfs --daemon start zkfc'
+    - pause: seconds=3
+  tags: start_zkfc
+
+- name: namenode HA status
+  block:
+    - shell: sudo su hdfs -c 'hdfs haadmin -getServiceState nn1'
+      register: result
+    - debug: msg='nn1 => {{ result.stdout }}'
+    - pause: seconds=1
+    - shell: sudo su hdfs -c 'hdfs haadmin -getServiceState nn2'
+      register: result
+    - debug: msg='nn2 => {{ result.stdout }}'
+  tags: debug_namenode_status
