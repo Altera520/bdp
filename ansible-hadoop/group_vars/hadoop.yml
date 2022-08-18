@@ -9,7 +9,7 @@ hadoop_download_filename: "hadoop-{{ hadoop_version }}"
 hadoop_log_dir: /var/log/hadoop
 hadoop_run_dir: /var/run/hadoop
 
-hadoop_mount_directories:
+hadoop_mount_disks:
   - /data
 
 # core-site.xml
@@ -31,9 +31,4 @@ dfs:
 
 
 # container-executor.cfg
-yarn.nodemanager.local-dirs: "{{ hadoop_mount_directories | join(',') }}"
-banned.users:
-  - hdfs
-  - yarn
-  - mapred
-  - bin
+

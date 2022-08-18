@@ -1,0 +1,31 @@
+---
+# HDFS High Availability Using the Quorum Journal Manager
+# https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html
+
+- name: Format namenode
+  block:
+    - shell: sudo su hdfs -c 'hdfs namenode -format'
+    - pause: seconds=3
+    - shell: sudo su hdfs -c 'hdfs --daemon start namenode'
+    - pause: seconds=3
+  tags: format_namenode
+
+- name: BootstrapStandby namenode
+  block:
+    - shell: sudo su hdfs -c 'hdfs namenode -bootstrapStandby'
+    - pause: seconds=3
+    - shell: sudo su hdfs -c 'hdfs --daemon start namenode'
+    - pause: seconds=3
+  tags: bootstrap_standby_namenode
+
+- name: Format zookeeper
+  block:
+    - shell: sudo su hdfs -c 'hdfs zkfc -formatZK'
+    - pause: seconds=3
+  tags: format_zookeeper
+
+- name: Start zkfc
+  block:
+    - shell: sudo su hdfs -c 'hdfs --daemon start zkfc'
+    - pause: seconds=3
+  tags: start_zkfc

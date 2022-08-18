@@ -1,0 +1,16 @@
+[Unit]
+Description=HttpFS Service
+Wants=network.target network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=forking
+PIDFile={{ hadoop_run_dir }}/httpfs/hadoop-httpfs-httpfs.pid
+User=httpfs
+ExecStart={{ stack_root }}/hadoop/bin/hdfs --daemon start httpfs
+ExecStop={{ stack_root }}/hadoop/bin/hdfs --daemon stop httpfs
+Restart=no
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

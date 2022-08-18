@@ -59,10 +59,11 @@
         dest: /usr/bin/yarn
       }
 
+# YARN Graceful Decommission
 # https://hadoop.apache.org/docs/stable/hadoop-yarn/hadoop-yarn-site/GracefulDecommission.html
 - name: Graceful decommission of YARN nodes
   file: 
-    path: /etc/hadoop/conf/yarn.exclude 
+    path: "{{ yarn_resourcemanager_nodes_exclude_path }}"
     state: touch
     owner: yarn
     group: hadoop 
@@ -87,10 +88,7 @@
     - "{{ hadoop_run_dir }}/yarn"
     - "{{ hadoop_run_dir }}/mapred"
 
-- name: Set HADOOP_HOME
-  shell: |
-    echo "export HADOOP_HOME={{ stack_root }}/hadoop" > {{ item }}
-    chmod 0644 {{ item }}
-    source {{ item }}
-  with_items:
-    - "/etc/profile.d/{{ cluster_env }}"
+- name: Append HADOOP_HOME
+  lineinfile:
+    path: "/etc/profile.d/{{ cluster_env }}"
+    line: export HADOOP_HOME={{ stack_root }}/hadoop

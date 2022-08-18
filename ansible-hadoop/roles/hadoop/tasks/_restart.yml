@@ -1,5 +1,0 @@
----
-- import_tasks: "{{ item }}"
-  with_items:
-    - "_stop-{{ component }}.yml"
-    - "_start-{{ component }}.yml"

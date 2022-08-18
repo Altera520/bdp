@@ -1,0 +1,30 @@
+---
+- hosts: journalnode
+  become: yes
+  serial: 1
+  tasks:
+  - include_role:
+      name: hadoop
+      apply:
+        tags: start_journalnode
+  tags: start
+
+- hosts: namenode
+  become: yes
+  serial: 1
+  tasks:
+  - include_role:
+      name: hadoop
+      apply:
+        tags: start_namenode
+  tags: start
+
+- hosts: datanode
+  become: yes
+  serial: 1
+  tasks:
+  - include_role:
+      name: hadoop
+      apply:
+        tags: start_datanode
+  tags: start

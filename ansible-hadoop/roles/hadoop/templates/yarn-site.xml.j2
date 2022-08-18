@@ -15,9 +15,25 @@
 <configuration>
 
 <!-- Site specific YARN configuration properties -->
+    {% set local_dirs = [] %}
+    {% set log_dirs = [] %}
+    {% for disk in hadoop_mount_disks %}
+    {{ local_dirs.append(disk + yarn.nodemanager.local-dirs) }}
+    {{ log_dirs.append(disk + yarn.nodemanager.log-dirs) }}
+    {% endfor %}
     <property>
         <name>yarn.nodemanager.local-dirs</name>
-        <value>/data/yarn/nm-local</value>
+        <value>{{ local_dirs | join(',') }}</value>
+    </property>
+
+    <property>
+      <name>yarn.nodemanager.log-dirs</name>
+      <value>{{ log_dirs }}</value>
+    </property>
+
+    <property>
+      <name>yarn.nodemanager.log-aggregation.compression-type</name>
+      <value>gz</value>
     </property>
 
     <property>
@@ -35,9 +51,16 @@
         <value>org.apache.spark.network.yarn.YarnShuffleService</value>
     </property>
 
+    <!-- ResourceManager High Availability -->
+    <!-- https://hadoop.apache.org/docs/r3.3.3/hadoop-yarn/hadoop-yarn-site/ResourceManagerHA.html -->
     <property>
         <name>yarn.resourcemanager.ha.enabled</name>
         <value>true</value>
+    </property>
+
+    <property>
+        <name>yarn.resourcemanager.cluster-id</name>
+        <value>yarn-cluster</value>
     </property>
 
     <property>
@@ -73,11 +96,8 @@
         <name>yarn.resourcemanager.zk-address</name>
         <value>{{ zookeeper_connect | join(',') }}</value>
     </property>
+    <!-- ------------------------------------------------------------------ -->
 
-    <property>
-        <name>yarn.resourcemanager.cluster-id</name>
-        <value>yarn-cluster</value>
-    </property>
 
     <property>
         <name>yarn.application.classpath</name>
@@ -89,6 +109,11 @@
             {{ stack_root }}/hadoop/share/hadoop/yarn/*,
             {{ stack_root }}/hadoop/share/hadoop/yarn/lib/*
         </value>
+    </property>
+
+    <property>
+      <name>yarn.resourcemanager.nodes.exclude-path</name>
+      <value>{{ yarn_resourcemanager_nodes_exclude_path }}</value>
     </property>
 
 </configuration>
