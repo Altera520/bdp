@@ -9,6 +9,7 @@ setup_ansible()
 
     # install ansible
     echo "ANSIBLE_HOME=$ANSIBLE_HOME" >> ~/.bash_profile
+    echo "alias bdpm='python "$ANSIBLE_HOME"/ansible-hadoop/bdpm.py'" >> ~/.bash_profile
     source ~/.bash_profile
 
     mkdir -p $ANSIBLE_HOME

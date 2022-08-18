@@ -1,11 +1,11 @@
 ---
 - block:
-  - name: check installed status
-    stat: 
-      path: "{{ stack_root }}/{{ hadoop_download_filename }}"
-    register: installed
+  # - name: check installed status
+  #   stat: 
+  #     path: "{{ stack_root }}/{{ hadoop_download_filename }}"
+  #   register: installed
   - include_tasks: _setup-common.yml
-    when: not installed.stat.exists
+    # when: not installed.stat.exists
   tags: setup
 
 - import_tasks: _config.yml
@@ -31,7 +31,6 @@
     - bootstrap_standby_namenode
     - format_zookeeper
     - start_zkfc
-    - debug_namenode_status
 
 - import_tasks: _stop-namenode.yml
   tags: 
@@ -62,3 +61,8 @@
   tags: 
     - start_datanode
     - restart_datanode
+
+- import_tasks: _status.yml
+  tags:
+    - status_namenode_ha
+    - status_resourcemanager_ha

@@ -1,6 +1,13 @@
-yarn.nodemanager.local-dirs=/yarn/nm-local
-yarn.nodemanager.log-dirs=/yarn/container-log
-yarn.nodemanager.linux-container-executor.group=hadoop#configured value of yarn.nodemanager.linux-container-executor.group
+{% set local_dirs = [] %}
+{% set log_dirs = [] %}
+{% for disk in hadoop_mount_disks %}
+{{ local_dirs.append(disk + yarn.nodemanager.local-dirs) }}
+{{ log_dirs.append(disk + yarn.nodemanager.log-dirs) }}
+{% endfor %}
+yarn.nodemanager.local-dirs={{ local_dirs | join(',') }}
+yarn.nodemanager.log-dirs={{ log_dirs | join(',') }}
+
+yarn.nodemanager.linux-container-executor.group={{ yarn.nodemanager.linux-container-executor.group }}#configured value of yarn.nodemanager.linux-container-executor.group
 banned.users={{ banned.users | join(',') }}#comma separated list of users who can not run applications
 min.user.id=1000#Prevent other super-users
 allowed.system.users=##comma separated list of system users who CAN run applications

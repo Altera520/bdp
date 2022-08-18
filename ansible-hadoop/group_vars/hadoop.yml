@@ -31,9 +31,4 @@ dfs:
 
 
 # container-executor.cfg
-yarn.nodemanager.local-dirs: "{{ hadoop_mount_disks | join(',') }}"
-banned.users:
-  - hdfs
-  - yarn
-  - mapred
-  - bin
+

@@ -5,10 +5,11 @@
   gather_facts: false
   vars_files:
     - group_vars/superset.yml
-  include_role:
-    name: mariadb
-    apply:
-      tags: createdb
+  tasks:
+  - include_role:
+      name: mariadb
+      apply:
+        tags: createdb
   tags: setup
 
 - hosts: superset

@@ -1,0 +1,2 @@
+# yarn.resourcemanager.nodes.exclude-path
+yarn_resourcemanager_nodes_exclude_path: /etc/hadoop/conf/yarn.exclude
