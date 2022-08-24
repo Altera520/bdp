@@ -8,4 +8,4 @@
   - name: Install openjdk
     import_tasks: _setup.yml
     when: installed_jdk.rc != 0
-  tags: setup
+  when: act == 'setup'

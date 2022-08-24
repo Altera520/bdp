@@ -3,50 +3,44 @@
   become: yes
   vars_files:
     - group_vars/zookeeper.yml
+  vars:
+    act: setup
+    target: all
   roles:
     - common
     - java
     - hadoop
-  tags:
-    - setup
-    - config
 
 - hosts: journalnode
   become: yes
-  tasks:
-  - include_role:
-      name: hadoop
-      apply:
-        tags: setup_journalnode
-  tags: setup
+  vars:
+    act: setup
+    target: journalnode
+  roles: 
+    - hadoop
 
 - hosts: namenode
   become: yes
-  tasks:
-  - include_role:
-      name: hadoop
-      apply:
-        tags: setup_namenode
-  tags: setup
+  vars:
+    act: setup
+    target: namenode
+  roles: 
+    - hadoop
 
 - hosts: historyserver
   become: yes
-  tasks:
-  - include_role:
-      name: hadoop
-      apply:
-        tags: setup_historyserver
-  tags: setup
+  vars:
+    act: setup
+    target: historyserver
+  roles: 
+    - hadoop
 
 - hosts: datanode
   become: yes
-  tasks:
-  - include_role:
-      name: hadoop
-      apply:
-        tags: setup_datanode
-  tags: setup
+  vars:
+    act: setup
+    target: datanode
+  roles: 
+    - hadoop
 
-- name: namenode ha setup
-  import_playbook: hadoop-format.yml
-  tags: setup
+- import_playbook: hadoop-ha.yml

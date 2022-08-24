@@ -1,5 +1,7 @@
 ---
 airflow_admin_name: "airflow admin"
+airflow_admin_id: airflow
+airflow_admin_password: airflow
 
 db_user: airflow
 db_name: airflow
@@ -15,4 +17,8 @@ airflow_dags_folder: "{{ stack_root }}/airflow/dags"
 airflow_plugins_folder: "{{ stack_root }}/airflow/plugins"
 airflow_base_log_folder: /var/log/airflow
 
+airflow_webserver_port: 38080
 
+airflow_expose_config: True
+airflow_expose_hostname: True
+airflow_dag_default_view: tree

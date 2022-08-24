@@ -1,7 +1,7 @@
 ---
 - template: 
-    src: "hadoop/{{ item }}.j2"
-    dest: "/etc/hadoop/conf/{{ item }}" 
+    src: "{{ item }}.j2"
+    dest: "{{ hadoop_conf_dir }}/{{ item }}" 
   with_items:
     - workers
     - hadoop-env.sh

@@ -1,31 +1,23 @@
 ---
-# tags:
-#   - setup
-#   - config
-#   - start
-#   - stop
-#   - restart
-#   - createdb
-
 - block:
   - import_tasks: _setup.yml
-  tags: setup
+  when: act == 'setup'
 
-- import_tasks: _config.yml
-  tags: 
-    - setup
-    - config
+- include_tasks: _config.yml
+  when: act in ['setup', 'config']
 
-- import_tasks: _createdb.yml
-  tags: createdb
+- include_tasks: _createdb.yml
+  when: 
+    - act == 'createdb'
+    - db_name is defined
+    - db_user is defined
+    - db_password is defined
 
-- import_tasks: _start.yml
-  tags: start
+- include_tasks: _start.yml
+  when: act == 'start'
   
-- import_tasks: _stop.yml
-  tags: stop
+- include_tasks: _stop.yml
+  when: act == 'stop'
 
-- import_tasks: _restart.yml
-  tags: 
-    - restart
-    - config
+- include_tasks: _restart.yml
+  when: act in ['restart', 'config']

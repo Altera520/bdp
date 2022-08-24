@@ -52,10 +52,11 @@
 # The java implementation to use. By default, this environment
 # variable is REQUIRED on ALL platforms except OS X!
 export JAVA_HOME={{ java_home }}
+USER="$(whoami)"
 
 # Location of Hadoop.  By default, Hadoop will attempt to determine
 # this location based upon its execution path.
-export HADOOP_HOME= {{ stack_root }}/hadoop
+export HADOOP_HOME={{ stack_root }}/hadoop
 export HADOOP_MAPRED_HOME={{ stack_root }}/hadoop
 export HADOOP_YARN_HOME={{ stack_root }}/hadoop
 export HADOOP_LIBEXEC_DIR=${HADOOP_HOME}/libexec

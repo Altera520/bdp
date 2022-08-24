@@ -20,14 +20,15 @@
 
     <property>
         <name>fs.defaultFS</name>
-        <value>{{ fs.defaultFS }}</value>
-        <final>true<final>
+        <value>hdfs://{{ dfs.nameservices }}</value>
+        <final>true</final>
     </property>
 
     {% set zookeeper_connect = [] %}
     {% for hostname in groups.zookeeper %}
     {{ zookeeper_connect.append(hostname + ':' + zookeeper_client_port) }}
     {% endfor %}
+
     <property>
         <name>ha.zookeeper.quorum</name>
         <value>{{ zookeeper_connect | join(',') }}</value>

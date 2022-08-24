@@ -1,0 +1,49 @@
+---
+# HDFS High Availability Using the Quorum Journal Manager
+# https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-hdfs/HDFSHighAvailabilityWithQJM.html
+- name: Check edits_dir
+  block:
+    - include_tasks: _stop-journalnode.yml
+    - stat:
+        path: "{{ dfs.journalnode.edits_dir }}/{{ dfs.nameservices }}"
+      register: edits_dir
+    - file:
+        state: absent
+        path: "{{ dfs.journalnode.edits_dir }}/{{ dfs.nameservices }}"
+      when: edits_dir.stat.exists
+  when: act == 'check_edits_dir'
+
+- name: Format namenode
+  block:
+    - shell: sudo su - hdfs -c 'echo 'Y' | hdfs namenode -format'
+    - pause: seconds=3
+    - systemd:
+        name: namenode
+        state: started
+    - pause: seconds=3
+  when: act == 'format_active_namenode'
+
+- name: BootstrapStandby namenode
+  block:
+    - shell: sudo su - hdfs -c 'hdfs namenode -bootstrapStandby'
+    - pause: seconds=3
+    - systemd:
+        name: namenode
+        state: started
+    - pause: seconds=3
+  when: act == 'bootstrap_standby_namenode'
+
+- name: Format zookeeper
+  block:
+    - shell: sudo su - hdfs -c 'hdfs zkfc -formatZK'
+    - pause: seconds=3
+  when: act == 'format_zkfc'
+
+- name: Start zkfc
+  block:
+    - systemd:
+        name: zkfc
+        state: started
+    - pause: seconds=3
+  when: act in ['format_zkfc', 'start_zkfc']
+    

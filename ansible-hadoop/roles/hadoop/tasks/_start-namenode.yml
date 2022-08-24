@@ -3,7 +3,7 @@
       path: "{{ hadoop_run_dir }}/hdfs" 
       state: directory
       owner: hdfs
-      group: hadoops
+      group: hadoop
   - systemd:
       name: namenode
       state: started
