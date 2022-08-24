@@ -8,7 +8,7 @@
 
 - include_tasks: _createdb.yml
   when: 
-    - act == 'createdb'
+    - createdb is defined and createdb
     - db_name is defined
     - db_user is defined
     - db_password is defined
