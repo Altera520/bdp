@@ -1,0 +1,4 @@
+- shell: |
+    {{ stack_root }}/hive/bin/schematool -initSchema -dbType mysql
+    {{ stack_root }}/hive/bin/schematool -initSchema -dbType mysql -userName {{ db_user }} -password {{ db_password }}
+  failed_when: True

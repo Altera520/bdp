@@ -1,0 +1,18 @@
+<configuration  xmlns:xi="http://www.w3.org/2001/XInclude">
+
+    {% set zookeeper_connect = [] %}
+    {% for hostname in groups.zookeeper %}
+    {{ zookeeper_connect.append(hostname + ':' + zookeeper_client_port) }}
+    {% endfor %}
+
+    <property>
+        <name>beeline.hs2.jdbc.url.container</name>
+        <value>jdbc:hive2://{{ zookeeper_connect | join(',') }}/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2</value>
+    </property>
+
+    <property>
+        <name>beeline.hs2.jdbc.url.default</name>
+        <value>container</value>
+    </property>
+
+</configuration>

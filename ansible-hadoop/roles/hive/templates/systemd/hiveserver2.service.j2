@@ -1,0 +1,15 @@
+[Unit]
+Description=HiveServer2
+After=syslog.target network.target
+
+[Service]
+User=hive
+Type=forking
+ExecStart=/bin/sh -c '{{ stack_root }}/hive/bin/hive --service hiveserver2 &'
+ExecStop=/usr/bin/kill -TERM $MAINPID
+WorkingDirectory={{ stack_root }}/hive/bin
+Restart=always
+LimitNOFILE=32768
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,15 @@
+- hosts: hivemetastore
+  become: yes
+  vars:
+    act: start
+    target: hivemetastore
+  roles:
+    - hive
+
+- hosts: hiveserver2
+  become: yes
+  vars:
+    act: start
+    target: hiveserver2
+  roles:
+    - hive

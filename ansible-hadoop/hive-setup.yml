@@ -1,0 +1,35 @@
+---
+- name: Create hive schema
+  hosts: mariadb
+  become: yes
+  gather_facts: false
+  vars_files:
+    - group_vars/hive.yml
+  vars:
+    createdb: True
+  roles:
+    - mariadb
+
+- name: Setup hive all hadoop nodes
+  hosts: hadoop
+  become: yes
+  vars_files:
+    - group_vars/hive.yml
+  vars:
+    act: setup
+    target: all
+  roles:
+    - common
+    - java
+    - hive
+
+- name: Init hiveserver2
+  hosts: hive
+  become: yes
+  vars:
+    act: setup
+    target: hiveserver2
+  roles:
+    - hive
+
+- import_playbook: hive-config.yml

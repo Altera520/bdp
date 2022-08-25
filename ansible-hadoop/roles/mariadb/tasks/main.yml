@@ -1,10 +1,14 @@
 ---
 - block:
   - import_tasks: _setup.yml
-  when: act == 'setup'
+  when: 
+    - createdb is not defined
+    - act == 'setup'
 
 - include_tasks: _config.yml
-  when: act in ['setup', 'config']
+  when: 
+    - createdb is not defined
+    - act in ['setup', 'config']
 
 - include_tasks: _createdb.yml
   when: 
@@ -14,10 +18,16 @@
     - db_password is defined
 
 - include_tasks: _start.yml
-  when: act == 'start'
+  when: 
+    - createdb is not defined
+    - act == 'start'
   
 - include_tasks: _stop.yml
-  when: act == 'stop'
+  when: 
+    - createdb is not defined
+    - act == 'stop'
 
 - include_tasks: _restart.yml
-  when: act in ['restart', 'config']
+  when: 
+    - createdb is not defined
+    - act in ['restart', 'config']

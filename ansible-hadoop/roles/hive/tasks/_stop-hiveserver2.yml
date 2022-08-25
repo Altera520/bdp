@@ -1,0 +1,4 @@
+---
+- systemd:
+    name: hiveserver2
+    state: stopped
