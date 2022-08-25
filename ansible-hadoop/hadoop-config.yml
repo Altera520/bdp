@@ -7,3 +7,4 @@
     target: all
   roles:
     - hadoop
+    - tez

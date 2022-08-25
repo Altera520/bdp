@@ -10,6 +10,7 @@
     - common
     - java
     - hadoop
+    - tez
 
 - hosts: journalnode
   become: yes
