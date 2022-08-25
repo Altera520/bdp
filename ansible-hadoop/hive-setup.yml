@@ -23,12 +23,19 @@
     - java
     - hive
 
-- name: Init hiveserver2
-  hosts: hive
+- hosts: hiveserver2
   become: yes
   vars:
     act: setup
     target: hiveserver2
+  roles:
+    - hive
+
+- hosts: hivemetastore
+  become: yes
+  vars:
+    act: setup
+    target: hivemetastore
   roles:
     - hive
 

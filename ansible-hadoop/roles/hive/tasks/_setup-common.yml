@@ -1,5 +1,5 @@
 ---
-- name: Create user
+- name: Create user and group
   user:
     name: hive
     group: hadoop
@@ -31,9 +31,9 @@
       src: "/tmp/{{ mysql_connector_j }}.tar.gz"
       dest: /tmp/
       copy: no
-  - copy:
-      src: "/tmp/{{ mysql_connector_j }}/{{ mysql_connector_j }}.jar"
-      dest: "/usr/share/java/{{ mysql_connector_j }}.jar"
+  - shell: |
+      mv /tmp/{{ mysql_connector_j }}/{{ mysql_connector_j }}.jar /usr/share/java/{{ mysql_connector_j }}.jar
+      rm -rf /tmp/{{ mysql_connector_j }}
   - file:
       path: "{{ item }}"
       state: absent
@@ -79,7 +79,7 @@
     - {
       path: "{{ stack_root }}/hive/logs",
       owner: hive,
-      group: hive
+      group: hadoop
     }
     - {
       path: "{{ hive_log_dir }}",
@@ -108,6 +108,15 @@
       src: "/usr/share/java/{{ mysql_connector_j }}.jar",
       dest: "{{ stack_root }}/hive/lib/{{ mysql_connector_j }}.jar"
     }
+
+- name: Copy distro file
+  copy: 
+    src: "{{ item }}"
+    dest: "{{ stack_root }}/hive/bin/{{ item }}"
+    mode: 0755
+  with_items:
+    - hive.distro
+    - beeline.distro
 
 - alternatives:
     name: "{{ item.name }}"

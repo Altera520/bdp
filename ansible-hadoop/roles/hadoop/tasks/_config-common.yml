@@ -1,4 +1,12 @@
 ---
+- template:
+    src: "{{ item }}.j2"
+    dest: "{{ stack_root }}/hadoop/bin/{{ item }}"
+    mode: 0755
+  with_items:
+    - hdfs
+    - yarn
+
 - template: 
     src: "{{ item }}.j2"
     dest: "{{ hadoop_conf_dir }}/{{ item }}" 

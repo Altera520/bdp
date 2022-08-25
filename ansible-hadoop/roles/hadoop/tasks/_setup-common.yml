@@ -94,6 +94,15 @@
     - "{{ hadoop_run_dir }}/yarn"
     - "{{ hadoop_run_dir }}/mapred"
 
+- name: Copy distro file
+  copy: 
+    src: "{{ item }}"
+    dest: "{{ stack_root }}/hadoop/bin/{{ item }}"
+    mode: 0755
+  with_items:
+    - hdfs.distro
+    - yarn.distro
+
 - name: Append HADOOP_HOME
   lineinfile:
     path: "/etc/profile.d/{{ cluster_env }}"

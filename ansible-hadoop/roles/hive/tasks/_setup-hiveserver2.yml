@@ -1,11 +1,10 @@
 ---
 - name: Initialize hive server
   shell: |
-    sudo su - hdfs
-    hdfs dfs -mkdir -p /user/hive/warehouse
-    hdfs dfs -chmod 755 /user
-    hdfs dfs -chown hive:hdfs /user/hive
-    hdfs dfs -chmod 777 /user/hive/warehouse
-    hdfs dfs -mkdir -p /user/{{ general_user }}
-    hdfs dfs -chown {{ general_user }}:hdfs /user/{{ general_user }}
-  failed_when: True
+    sudo su - hdfs -c 'hdfs dfs -mkdir -p /user/hive/warehouse'
+    sudo su - hdfs -c 'hdfs dfs -chmod 755 /user'
+    sudo su - hdfs -c 'hdfs dfs -chown hive:hdfs /user/hive'
+    sudo su - hdfs -c 'hdfs dfs -chmod 777 /user/hive/warehouse'
+    sudo su - hdfs -c 'hdfs dfs -mkdir -p /user/{{ general_user }}'
+    sudo su - hdfs -c 'hdfs dfs -chown {{ general_user }}:hdfs /user/{{ general_user }}'
+  ignore_errors: yes

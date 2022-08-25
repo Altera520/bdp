@@ -10,7 +10,7 @@
     - act == 'setup'
     - target == 'all'
 
-- include_tasks: "_setup-common.yml"
+- include_tasks: "_setup-{{ target }}.yml"
   when: 
     - act == "setup"
     - target in ['hiveserver2', 'hivemetastore']

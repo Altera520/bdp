@@ -1,0 +1,8 @@
+#!/bin/bash
+
+export HADOOP_HOME=${HADOOP_HOME:-{{ stack_root }}/hadoop}
+export HADOOP_MAPRED_HOME=${HADOOP_MAPRED_HOME:-{{ stack_root }}/hadoop}
+export HADOOP_YARN_HOME=${HADOOP_YARN_HOME:-{{ stack_root }}/hadoop}
+export HADOOP_LIBEXEC_DIR=${HADOOP_HOME}/libexec
+
+exec {{ stack_root }}/hadoop/bin/yarn.distro "$@"

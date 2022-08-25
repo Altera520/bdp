@@ -2,6 +2,7 @@
   become: yes
   vars_files:
     - group_vars/zookeeper.yml
+    - group_vars/tez.yml
   vars:
     act: config
     target: all
