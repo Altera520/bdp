@@ -7,6 +7,9 @@
     - group_vars/hive.yml
   vars:
     createdb: True
+    db_user: "{{ hive_db_user }}"
+    db_name: "{{ hive_db_name }}"
+    db_password: "{{ hive_db_password }}"
   roles:
     - mariadb
 
@@ -23,6 +26,8 @@
     - java
     - hive
 
+- import_playbook: hive-config.yml
+
 - hosts: hiveserver2
   become: yes
   vars:
@@ -38,5 +43,3 @@
     target: hivemetastore
   roles:
     - hive
-
-- import_playbook: hive-config.yml

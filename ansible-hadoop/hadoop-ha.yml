@@ -1,4 +1,6 @@
 ---
+- import_playbook: hadoop-stop.yml
+
 - name: Check edits dir
   hosts: journalnode
   become: yes
@@ -55,9 +57,9 @@
   roles:
     - hadoop
 
-- hosts: namenode[0]
-  become: yes
-  vars:
-    act: status
-  roles:
-    - hadoop
+# - hosts: namenode[0]
+#   become: yes
+#   vars:
+#     act: status
+#   roles:
+#     - hadoop

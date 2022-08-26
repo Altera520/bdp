@@ -109,14 +109,11 @@
       dest: "{{ stack_root }}/hive/lib/{{ mysql_connector_j }}.jar"
     }
 
-- name: Copy distro file
-  copy: 
-    src: "{{ item }}"
-    dest: "{{ stack_root }}/hive/bin/{{ item }}"
-    mode: 0755
+- name: distro files
+  shell: mv {{ stack_root }}/hive/bin/{{ item }} {{ stack_root }}/hive/bin/{{ item }}.distro
   with_items:
-    - hive.distro
-    - beeline.distro
+    - hive
+    - beeline
 
 - alternatives:
     name: "{{ item.name }}"

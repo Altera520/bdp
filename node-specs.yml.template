@@ -1,4 +1,4 @@
-# node-specs.yaml example
+# node-specs.yml example
 # 
 # - name: bdp-eg1
 #   box: rockylinux/8

@@ -15,7 +15,7 @@
 
 - name: Format namenode
   block:
-    - shell: sudo su - hdfs -c 'echo 'Y' | hdfs namenode -format'
+    - shell: sudo su hdfs -c 'echo 'Y' | hdfs namenode -format'
     - pause: seconds=3
     - systemd:
         name: namenode
@@ -25,7 +25,7 @@
 
 - name: BootstrapStandby namenode
   block:
-    - shell: sudo su - hdfs -c 'hdfs namenode -bootstrapStandby'
+    - shell: sudo su hdfs -c 'echo 'Y' | hdfs namenode -bootstrapStandby'
     - pause: seconds=3
     - systemd:
         name: namenode
@@ -35,7 +35,7 @@
 
 - name: Format zookeeper
   block:
-    - shell: sudo su - hdfs -c 'hdfs zkfc -formatZK'
+    - shell: sudo su hdfs -c 'echo 'Y' | hdfs zkfc -formatZK'
     - pause: seconds=3
   when: act == 'format_zkfc'
 

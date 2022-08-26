@@ -11,7 +11,6 @@
     - common
     - java
     - hadoop
-    - tez
 
 - hosts: journalnode
   become: yes
@@ -46,3 +45,5 @@
     - hadoop
 
 - import_playbook: hadoop-ha.yml
+
+- import_playbook: tez-setup.yml

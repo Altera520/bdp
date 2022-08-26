@@ -58,3 +58,5 @@
     - export TEZ_CONF_DIR={{ stack_root }}/tez/conf
     - export TEZ_JARS={{ stack_root }}/tez
     - export HADOOP_CLASSPATH=${HADOOP_CLASSPATH}:${TEZ_CONF_DIR}:${TEZ_JARS}/*:${TEZ_JARS}/lib/*
+
+- shell: source /etc/profile.d/{{ cluster_env }}

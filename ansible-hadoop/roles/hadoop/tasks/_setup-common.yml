@@ -94,14 +94,11 @@
     - "{{ hadoop_run_dir }}/yarn"
     - "{{ hadoop_run_dir }}/mapred"
 
-- name: Copy distro file
-  copy: 
-    src: "{{ item }}"
-    dest: "{{ stack_root }}/hadoop/bin/{{ item }}"
-    mode: 0755
+- name: distro files
+  shell: mv {{ stack_root }}/hadoop/bin/{{ item }} {{ stack_root }}/hadoop/bin/{{ item }}.distro
   with_items:
-    - hdfs.distro
-    - yarn.distro
+    - hdfs
+    - yarn
 
 - name: Append HADOOP_HOME
   lineinfile:

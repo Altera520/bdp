@@ -11,10 +11,8 @@ hadoop_conf_dir: /etc/hadoop/conf
 hadoop_mount_disks:
   - /data
 
-# Hadoop3 default port info
-# https://www.stefaanlippens.net/hadoop-3-default-ports.html
-
 # core-site.xml
+ha_health_monitor_rpc_timeout_ms: 120000
 
 # hdfs-site.xml
 dfs:

@@ -6,3 +6,4 @@ tez_conf_dir: /etc/tez/conf
 
 # tez-site.xml
 tez_am_resource_memory_mb: 1024
+tez_lib_uris: [ '/apps/tez', 'tez.tar.gz']

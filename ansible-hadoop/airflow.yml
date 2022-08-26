@@ -7,6 +7,9 @@
     - group_vars/airflow.yml
   vars:
     createdb: True
+    db_user: "{{ airflow_db_user }}"
+    db_name: "{{ airflow_db_name }}"
+    db_password: "{{ airflow_db_password }}"
   roles:
     - mariadb
   when: act == 'setup'

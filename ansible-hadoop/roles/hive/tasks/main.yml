@@ -15,10 +15,16 @@
     - act == "setup"
     - target in ['hiveserver2', 'hivemetastore']
 
+# this task require group_vars/mariadb.yml, group_vars/zookeeper.yml
 - include_tasks: "_config-common.yml"
   when:
-    - act == ['config', 'setup']
+    - act == 'config'
     - target == 'all'
+
+- include_tasks: "_config-{{ target }}.yml"
+  when: 
+    - act == "config"
+    - target in ['hiveserver2', 'hivemetastore']
 
 - include_tasks: "_start-{{ target }}.yml"
   when: 

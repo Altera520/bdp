@@ -8,5 +8,11 @@
   when:
     - act == 'setup'
 
+- include_tasks: "_setup-tezlib.yml"
+  when:
+    - act == 'setup'
+    - target is defined and 
+      target == 'tezlib'
+
 - include_tasks: "_config.yml"
-  when: act == ['setup', 'config']
+  when: act in ['setup', 'config']

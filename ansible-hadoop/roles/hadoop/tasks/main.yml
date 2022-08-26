@@ -8,29 +8,35 @@
     when: not installed.stat.exists
   when:
     - act == 'setup'
-    - target == 'all'
+    - target is defined and 
+      target == 'all'
 
 - include_tasks: "_config-common.yml"
   when: 
     - act in ['setup', 'config']
-    - target == 'all'
+    - target is defined and 
+      target == 'all'
 
 - include_tasks: "_setup-{{ target }}.yml"
   when: 
     - act == 'setup'
-    - target in ['namenode', 'datanode', 'journalnode', 'historyserver']
+    - target is defined and 
+      target in ['namenode', 'datanode', 'journalnode', 'historyserver']
 
 - include_tasks: "_setup-namenode-ha.yml"
 
 - include_tasks: "_start-{{ target }}.yml"
   when: 
     - act in ['start', 'restart']
-    - target in ['namenode', 'datanode', 'journalnode']
+    - target is defined and 
+      target in ['namenode', 'datanode', 'journalnode']
 
 - include_tasks: "_stop-{{ target }}.yml"
   when: 
     - act in ['stop', 'restart']
-    - target in ['namenode', 'datanode', 'journalnode']
+    - target is defined and 
+      target in ['namenode', 'datanode', 'journalnode']
 
 - include_tasks: _status.yml
-  when: act == "status"
+  when: 
+    - act == 'status'
