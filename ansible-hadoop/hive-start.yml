@@ -1,3 +1,4 @@
+---
 - hosts: hivemetastore
   become: yes
   vars:

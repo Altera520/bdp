@@ -1,0 +1,15 @@
+---
+- name: Register with systemd
+  block:
+  - template:
+      src: "systemd/{{ item }}.j2"
+      dest: "/etc/systemd/system/{{ item }}"
+    with_items:
+      - spark-historyserver.service
+  - systemd:
+      daemon_reload: yes
+  - name: Create spark-history dir in hdfs
+    shell: |
+      sudo su hdfs -c 'hdfs dfs -mkdir {{ spark_hdfs_event_log_dir }}'
+      sudo su hdfs -c 'hdfs dfs -chmod 777 {{ spark_hdfs_event_log_dir }}'
+      sudo su hdfs -c 'hdfs dfs -chown spark:hdfs {{ spark_hdfs_event_log_dir }}'

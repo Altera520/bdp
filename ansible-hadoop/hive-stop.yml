@@ -1,3 +1,4 @@
+---
 - hosts: hiveserver2
   become: yes
   vars:

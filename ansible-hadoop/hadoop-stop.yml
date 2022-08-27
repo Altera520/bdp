@@ -1,3 +1,4 @@
+---
 - hosts: datanode
   become: yes
   serial: 1

@@ -11,7 +11,6 @@
     src: "{{ item }}.j2"
     dest: "{{ hadoop_conf_dir }}/{{ item }}" 
   with_items:
-    - workers
     - hadoop-env.sh
     - yarn-env.sh
     - mapred-env.sh

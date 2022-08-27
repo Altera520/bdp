@@ -1,8 +1,25 @@
 ---
+- import_playbook: hadoop-start.yml
+
 - hosts: hadoop
   become: yes
+  vars_files:
+    - group_vars/spark.yml
+    - group_vars/hive.yml
   vars:
     act: setup
+    target: all
   roles:
     - java
     - scala
+    - spark
+
+- hosts: spark_historyserver
+  become: yes
+  vars_files:
+    - group_vars/spark.yml
+  vars:
+    act: setup
+    target: spark_historyserver
+  roles:
+    - spark

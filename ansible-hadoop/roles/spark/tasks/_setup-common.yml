@@ -1,0 +1,87 @@
+---
+- name: Create user
+  user:
+    name: spark
+    group: hadoop
+    state: present
+
+- name: Install spark
+  block:
+  - get_url:
+      url: "{{ spark_download_path }}/{{ spark_download_filename }}.tgz"
+      dest: /tmp/
+  - unarchive:
+      src: "/tmp/{{ spark_download_filename }}.tgz"
+      dest: "{{ stack_root }}"
+      copy: no
+      owner: root
+      group: root
+  - file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+      - "/tmp/{{ spark_download_filename }}.tgz"
+
+- name: Link installed spark
+  block:
+  - file:
+      path: /etc/spark
+      state: directory
+      owner: root
+      group: root
+  - file:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      state: link
+      owner: root
+      group: root
+    loop:
+      # spark install directory link
+      - { 
+        src: "{{ stack_root }}/{{ spark_download_filename }}", 
+        dest: "{{ stack_root }}/spark" 
+      }
+      # spark config link
+      - { 
+        src: "{{ stack_root }}/spark/conf", 
+        dest: "{{ spark_conf_dir }}"
+      }
+
+- file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: spark
+    group: hadoop
+  with_items:
+    - "{{ spark_log_dir }}"
+    - "{{ spark_run_dir }}"
+    - "{{ spark_lib_dir }}"
+
+- file:
+    src: "{{ stack_root }}/spark/bin/{{ item }}"
+    dest: "/usr/bin/{{ item }}"
+    state: link
+    owner: root
+    group: root
+  with_items:
+    - spark-submit
+    - spark-shell
+    - pyspark
+
+- name: Append SPARK_HOME
+  block:
+  - lineinfile:
+      dest: "/etc/profile.d/{{ cluster_env }}"
+      line: "export SPARK_HOME={{ stack_root }}/spark"
+  - shell: "source /etc/profile.d/{{ cluster_env }}"
+
+- name: copy spark's yarn shuffle jar to hadoop's yarn share dir
+  block:
+  - shell: echo '{{ stack_root }}/spark/jars/spark-network-shuffle_{{ (scala_version | split('.'))[0:2] | join('.') }}-{{ spark_version }}.jar'
+    register: src_jar
+  - stat:
+      path: "{{ stack_root }}/hadoop/share/hadoop/yarn/lib/{{ src_jar.stdout }}"
+    register: dst_jar_exist
+  - shell: cp {{ src_jar.stdout }} {{ stack_root }}/hadoop/share/hadoop/yarn/lib/
+    when: not dst_jar_exist.stat.exists

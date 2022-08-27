@@ -1,10 +1,31 @@
 ---
 - block:
-  - name: Check if scala is installed 
-    shell: java -version
-    register: installed_scala
-    failed_when: False
-  - name: Install scala
-    import_tasks: _setup.yml
-    when: installed_scala.rc != 0
-  when: act == 'setup'
+  - name: check installed status
+    stat: 
+      path: "{{ stack_root }}/{{ spark_download_filename }}"
+    register: installed
+  - include_tasks: "_setup-common.yml"
+    when: not installed.stat.exists
+  when:
+    - act == 'setup'
+    - target == 'all'
+
+- include_tasks: "_config-common.yml"
+  when: 
+    - act in ['setup', 'config']
+    - target == 'all'
+
+- include_tasks: "_setup-{{ target }}.yml"
+  when: 
+    - act == 'setup'
+    - target == 'spark_historyserver'
+
+- include_tasks: "_start-{{ target }}.yml"
+  when: 
+    - act in ['start', 'restart']
+    - target == 'spark_historyserver'
+
+- include_tasks: "_stop-{{ target }}.yml"
+  when: 
+    - act in ['stop', 'restart']
+    - target == 'spark_historyserver'

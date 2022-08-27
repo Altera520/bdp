@@ -1,3 +1,4 @@
+---
 - name: Apply config
   hosts: hadoop
   become: yes

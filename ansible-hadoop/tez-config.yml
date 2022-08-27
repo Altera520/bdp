@@ -1,3 +1,4 @@
+---
 - hosts: hadoop
   become: yes
   vars_files:

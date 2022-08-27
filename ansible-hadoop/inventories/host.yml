@@ -68,6 +68,10 @@ all:
       hosts:
         bdp-nn1:
 
+    spark_historyserver:
+      hosts:
+        bdp-nn2:
+
     hadoop:
       children:
         namenode:
@@ -80,3 +84,7 @@ all:
       children:
         hiveserver2:
         hivemetastore:
+
+    spark:
+      children:
+        spark_historyserver:

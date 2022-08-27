@@ -101,6 +101,8 @@
     - yarn
 
 - name: Append HADOOP_HOME
-  lineinfile:
-    path: "/etc/profile.d/{{ cluster_env }}"
-    line: export HADOOP_HOME={{ stack_root }}/hadoop
+  block:
+  - lineinfile:
+      path: "/etc/profile.d/{{ cluster_env }}"
+      line: export HADOOP_HOME={{ stack_root }}/hadoop
+  - shell: "source /etc/profile.d/{{ cluster_env }}"

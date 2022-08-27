@@ -1,8 +1,8 @@
 ---
-- name: start kafka
+- name: start spark_historyserver
   block:
   - systemd:
-      name: kafka
+      name: spark-historyserver
       state: started
   - wait_for:
       host: "{{ inventory_hostname }}"

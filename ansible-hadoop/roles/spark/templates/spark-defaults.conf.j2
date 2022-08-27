@@ -1,0 +1,69 @@
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.
+# The ASF licenses this file to You under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with
+# the License.  You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# Default system properties included when running spark-submit.
+# This is useful for setting default environmental settings.
+
+# Example:
+# spark.master                     spark://master:7077
+# spark.eventLog.enabled           true
+# spark.eventLog.dir               hdfs://namenode:8021/directory
+# spark.serializer                 org.apache.spark.serializer.KryoSerializer
+# spark.driver.memory              5g
+# spark.executor.extraJavaOptions  -XX:+PrintGCDetails -Dkey=value -Dnumbers="one two three"
+
+spark.driver.extraClassPath
+spark.driver.extraLibraryPath                   {{ stack_root }}/hadoop/lib/native:{{ stack_root }}/hadoop/lib/native/Linux-amd64-64
+spark.dynamicAllocation.enabled                 false
+spark.dynamicAllocation.minExecutors            0
+spark.eventLog.dir                              hdfs://{{ spark_hdfs_event_log_dir }}/
+spark.eventLog.enabled                          true
+spark.executor.extraJavaOptions                 -XX:+UseNUMA
+spark.executor.extraLibraryPath                 {{ stack_root }}/hadoop/lib/native:{{ stack_root }}/hadoop/lib/native/Linux-amd64-64
+spark.executorEnv.PYTHONHASHSEED                0
+spark.extraListeners
+spark.history.fs.cleaner.enabled                true
+spark.history.fs.cleaner.interval               7d
+spark.history.fs.cleaner.maxAge                 90d
+spark.history.fs.logDirectory                   hdfs://{{ spark_hdfs_event_log_dir }}/
+spark.history.kerberos.keytab                   none
+spark.history.kerberos.principal                none
+spark.history.provider                          org.apache.spark.deploy.history.FsHistoryProvider
+spark.history.store.path                        {{ spark_lib_dir }}/shs_db
+spark.history.ui.port                           {{ spark_historyserver_ui_port }}
+spark.io.compression.lz4.blockSize              128kb
+spark.master                                    yarn
+spark.port.maxRetries                           100
+spark.shuffle.file.buffer                       1m
+spark.shuffle.io.backLog                        8192
+spark.shuffle.io.serverThreads                  128
+spark.shuffle.service.enabled                   true
+spark.shuffle.unsafe.file.output.buffer         5m
+spark.sql.autoBroadcastJoinThreshold            26214400
+spark.sql.hive.convertMetastoreOrc              true
+spark.sql.hive.metastore.jars                   {{ stack_root }}/spark/standalone-metastore/*
+spark.sql.hive.metastore.version                3.0
+spark.sql.orc.filterPushdown                    true
+spark.sql.orc.impl                              native
+spark.sql.queryExecutionListeners
+spark.sql.statistics.fallBackToHdfs             true
+spark.sql.streaming.streamingQueryListeners
+spark.sql.warehouse.dir                         {{ hivemetastore_warehouse_dir }}
+spark.unsafe.sorter.spill.reader.buffer.size    1m
+spark.yarn.dist.files
+spark.yarn.historyServer.address                {{ groups.spark_historyserver.0 }}:{{ spark_historyserver_ui_port }}
+spark.yarn.queue default

@@ -50,13 +50,14 @@
       rm -rf {{ stack_root }}/tez/lib/hadoop-*.jar
       rm -rf {{ stack_root }}/tez/lib/slf4j-log4j12-*.jar
 
-- lineinfile:
-    dest: "/etc/profile.d/{{ cluster_env }}"
-    line: "{{ item }}"
-  with_items:
-    - export TEZ_HOME={{ stack_root }}/tez
-    - export TEZ_CONF_DIR={{ stack_root }}/tez/conf
-    - export TEZ_JARS={{ stack_root }}/tez
-    - export HADOOP_CLASSPATH=${HADOOP_CLASSPATH}:${TEZ_CONF_DIR}:${TEZ_JARS}/*:${TEZ_JARS}/lib/*
-
-- shell: source /etc/profile.d/{{ cluster_env }}
+- name: Append TEZ variables
+  block:
+  - lineinfile:
+      dest: "/etc/profile.d/{{ cluster_env }}"
+      line: "{{ item }}"
+    with_items:
+      - export TEZ_HOME={{ stack_root }}/tez
+      - export TEZ_CONF_DIR={{ stack_root }}/tez/conf
+      - export TEZ_JARS={{ stack_root }}/tez
+      - export HADOOP_CLASSPATH=${HADOOP_CLASSPATH}:${TEZ_CONF_DIR}:${TEZ_JARS}/*:${TEZ_JARS}/lib/*
+  - shell: "source /etc/profile.d/{{ cluster_env }}"
