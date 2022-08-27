@@ -1,0 +1,5 @@
+---
+
+spark_log_dir: /var/log/spark
+spark_run_dir: /var/run/spark
+spark_lib_dir: /var/lib/spark

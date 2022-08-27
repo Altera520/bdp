@@ -1,7 +1,7 @@
 ---
 - block:
   - name: Check if scala is installed 
-    shell: java -version
+    shell: scala -version
     register: installed_scala
     failed_when: False
   - name: Install scala

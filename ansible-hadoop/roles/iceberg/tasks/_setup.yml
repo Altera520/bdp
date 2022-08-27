@@ -1,0 +1,13 @@
+---
+- name: Download iceberg
+  block:
+  - get_url:
+      url: "{{ iceberg_download_path }}/{{ iceberg_download_filename }}.tar.gz"
+      dest: /tmp/
+  - unarchive:
+      src: "/tmp/{{ iceberg_download_filename }}.tgz"
+      dest: "{{ stack_root }}"
+      copy: no
+      owner: root
+      group: root
+

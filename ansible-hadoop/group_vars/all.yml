@@ -23,6 +23,7 @@ scala_version: 2.13.8
 spark_version: 3.3.0
 mariadb_version: 10.8
 python_version: 3.8.9
+iceberg_version: 0.14.0
 
 # airflow 2.3 version cannot use mariadb backend database
 # https://github.com/apache/airflow/issues/24247

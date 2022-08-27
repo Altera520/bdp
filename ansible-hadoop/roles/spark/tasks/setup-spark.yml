@@ -1,4 +1,0 @@
-# move all hadoop component
-- copy:
-    src=hadoop/spark-{{ spark_version_only }}-yarn-shuffle.jar
-    dest={{ stack_root }}/hadoop/share/hadoop/yarn/lib/

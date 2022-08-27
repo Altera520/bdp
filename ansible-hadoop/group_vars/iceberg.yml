@@ -1,0 +1,3 @@
+---
+iceberg_download_path: https://github.com/apache/iceberg/releases/download/apache-iceberg-{{ iceberg_version }}
+iceberg_download_filename: apache-iceberg-{{ iceberg_version }}
