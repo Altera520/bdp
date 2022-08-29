@@ -18,6 +18,7 @@
   become: yes
   vars_files:
     - group_vars/hive.yml
+    - group_vars/iceberg.yml
   vars:
     act: setup
     target: all
@@ -30,11 +31,17 @@
 
 - hosts: hiveserver2
   become: yes
+  vars_files:
+    - group_vars/iceberg.yml
   vars:
     act: setup
     target: hiveserver2
   roles:
     - hive
+  tasks:
+    - include_role: 
+        name: iceberg
+      when: use_iceberg
 
 - hosts: hivemetastore
   become: yes

@@ -6,5 +6,5 @@
       state: started
   - wait_for:
       host: "{{ inventory_hostname }}"
-      port: "{{ spark_historyserver_ui_port }}"
+      port: "{{ kafka_port }}"
       state: started

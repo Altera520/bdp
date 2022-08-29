@@ -1,0 +1,63 @@
+---
+- name: Create user
+  user:
+    name: hbase
+    group: hadoop
+    state: present
+
+- name: Install hbase
+  block:
+  - get_url:
+      url: "{{ hbase_download_path }}/{{ hbase_download_filename }}.tar.gz"
+      dest: /tmp/
+  - unarchive:
+      src: "/tmp/{{ hbase_download_filename }}.tar.gz"
+      dest: "{{ stack_root }}"
+      copy: no
+      owner: root
+      group: root
+  - file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+      - "/tmp/{{ hbase_download_filename }}.tar.gz"
+
+- name: Link installed hbase
+  block:
+  - file:
+      path: /etc/hbase
+      state: directory
+      owner: root
+      group: root
+  - file:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      state: link
+      owner: root
+      group: root
+    loop:
+      # hbase install directory link
+      - { 
+        src: "{{ stack_root }}/{{ hbase_download_filename }}", 
+        dest: "{{ stack_root }}/hbase" 
+      }
+      # hbase config link
+      - { 
+        src: "{{ stack_root }}/hbase/conf", 
+        dest: "{{ hbase_conf_dir }}"
+      }
+
+- file:
+    path: "{{ item }}"
+    state: directory
+    owner: hbase
+    group: hadoop
+    recurse: yes
+  with_items:
+    - "{{ hbase_log_dir }}"
+    - "{{ hbase_run_dir }}"
+
+- name: distro files
+  shell: mv {{ stack_root }}/hbase/bin/{{ item }} {{ stack_root }}/hbase/bin/{{ item }}.distro
+  with_items:
+    - hbase

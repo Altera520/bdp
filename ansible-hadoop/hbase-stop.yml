@@ -1,0 +1,29 @@
+- hosts: namenode[1]
+  become: yes
+  vars_files:
+    - group_vars/hbase.yml
+  vars:
+    act: start
+    target: backup_master
+  roles:
+    - hbase
+
+- hosts: namenode[0]
+  become: yes
+  vars_files:
+    - group_vars/hbase.yml
+  vars:
+    act: start
+    target: master
+  roles:
+    - hbase
+
+- hosts: datanode
+  become: yes
+  vars_files:
+    - group_vars/hbase.yml
+  vars:
+    act: start
+    target: regionserver
+  roles:
+    - hbase

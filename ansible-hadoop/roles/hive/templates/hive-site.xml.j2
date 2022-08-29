@@ -835,11 +835,6 @@
     </property>
 
     <property>
-        <name>hive.vectorized.execution.enabled</name>
-        <value>true</value>
-    </property>
-
-    <property>
         <name>hive.vectorized.execution.mapjoin.minmax.enabled</name>
         <value>true</value>
     </property>
@@ -876,7 +871,7 @@
 
     <property>
         <name>hive.zookeeper.client.port</name>
-        <value>2181</value>
+        <value>{{ zookeeper_client_port }}</value>
     </property>
 
     <property>
@@ -891,7 +886,7 @@
 
     <property>
         <name>javax.jdo.option.ConnectionDriverName</name>
-        <value>com.mysql.cj.jdbc.Driver</value>
+        <value>com.mysql.jdbc.Driver</value>
     </property>
 
     <property>
@@ -928,5 +923,30 @@
         <name>datanucleus.fixedDatastore</name>
         <value>true</value>
     </property>
+
+    {% if use_iceberg == True %}
+    <!-- adding hive jars permanently -->
+    <property>
+        <name>hive.aux.jars.path</name>
+        <value>file://{{ hive_aux_jar_path }}/{{ iceberg_download_filename }}</value>
+    </property>
+
+    <property>
+        <name>iceberg.engine.hive.enabled</name>
+        <value>true</value>
+    </property>
+    {% endif %}
+
+    {% if use_iceberg == True %}
+    <property>
+        <name>hive.vectorized.execution.enabled</name>
+        <value>false</value>
+    </property>
+    {% else %}
+    <property>
+        <name>hive.vectorized.execution.enabled</name>
+        <value>true</value>
+    </property>
+    {% endif %}
 
 </configuration>

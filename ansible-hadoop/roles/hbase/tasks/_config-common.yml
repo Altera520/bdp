@@ -1,0 +1,21 @@
+---
+- template:
+    src: "{{ item }}.j2"
+    dest: "{{ hbase_conf_dir }}/{{ item }}"
+  with_items:
+    - hbase-site.xml
+    - regionservers
+    - log4j.properties
+    - hbase-env.sh
+
+- block:
+  - template:
+      src: "{{ item }}.j2"
+      dest: "{{ stack_root }}/hbase/bin/hbase"
+      mode: 0755
+    with_items:
+      - hbase
+  - file: 
+      src: "{{ stack_root }}/hbase/bin/hbase" 
+      dest: /usr/bin/hbase 
+      state: link

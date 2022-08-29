@@ -26,7 +26,7 @@ STACK = {
     'hive': ['hadoop', 'mariadb', 'zookeeper', 'tez'],
     'kafka': ['java', 'zookeeper'],
     'zookeeper': ['java'],
-    'spark': ['scala', 'hive'],
+    'spark': ['scala', 'hive', 'hadoop'],
     'hue': ['hive', 'hadoop']
 }
 

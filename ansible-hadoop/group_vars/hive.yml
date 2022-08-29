@@ -10,6 +10,8 @@ hive_log_dir: /var/log/hive
 hive_run_dir: /var/run/hive
 hive_conf_dir: /etc/hive/conf
 
+use_iceberg: True
+
 # hive-env.sh
 hiveserver2_heapsize: 2048
 hivemetastore_heapsize: 1024
@@ -24,3 +26,5 @@ hiveserver2_thrift_port: 10000
 hiveserver2_webui_port: 10002
 
 hive_tez_container_size: 1024
+
+hive_aux_jar_path: "{{ stack_root }}/hive/auxlib"

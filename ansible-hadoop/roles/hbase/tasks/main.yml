@@ -1,0 +1,26 @@
+---
+- block:
+  - name: check installed status
+    stat: 
+      path: "{{ stack_root }}/{{ hbase_download_filename }}"
+    register: installed
+  - include_tasks: _setup-common.yml
+    when: not installed.stat.exists
+  when: 
+    - act == 'setup'
+    - target == 'all'
+
+- import_tasks: _config-common.yml
+  when: 
+    - act in ['setup', 'config']
+    - target == 'all'
+
+- import_tasks: "_start-{{ target }}.yml"
+  when: 
+    - act in ['start', 'restart']
+    - target in ['backup_master', 'master', 'regionserver']
+  
+- import_tasks: "_stop-{{ target }}.yml"
+  when: 
+    - act in ['stop', 'restart']
+    - target in ['backup_master', 'master', 'regionserver']
