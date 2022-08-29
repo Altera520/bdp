@@ -1,6 +1,6 @@
-db_user: superset
-db_name: superset
-db_password: superset
+superset_db_user: superset
+superset_db_name: superset
+superset_db_password: superset
 
 superset_run_dir: /run/superset
 superset_log_dir: /var/log/superset
@@ -10,7 +10,7 @@ superset_webserver_protocol: http
 superset_webserver_address: 0.0.0.0
 superset_webserver_port: 18088
 
-sql_alchemy_conn: "mysql+pymysql://{{ db_user }}:{{ db_password }}@{{ groups['mariadb'][0] }}:{{ mariadb_port }}/{{ db_name }}"
+sql_alchemy_conn: "mysql+pymysql://{{ superset_db_user }}:{{ superset_db_password }}@{{ groups['mariadb'][0] }}:{{ mariadb_port }}/{{ superset_db_name }}"
 
 log_level: INFO
 time_rotate_log_level: INFO

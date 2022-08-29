@@ -1,0 +1,33 @@
+---
+- template:
+    src: "{{ item }}.j2"
+    dest: "{{ stack_root }}/hive/bin/{{ item }}"
+    mode: 0755
+  with_items:
+    - hive
+    - beeline
+
+- template:
+    src: "{{ item }}.j2"
+    dest: "{{ hive_conf_dir }}/{{ item }}"
+    owner: root
+    group: root
+  with_items:
+    # hive config
+    - hive-env.sh
+    - hive-site.xml
+    - hive-log4j2.properties
+    - hive-exec-log4j2.properties
+    # beeline config
+    - beeline-site.xml
+    - beeline-log4j2.properties
+    - ivysettings.xml
+    - llap-cli-log4j2.properties
+    - llap-daemon-log4j2.properties
+    - parquet-logging.properties
+
+- name: Link hadoop mapred-site.xml to hive conf
+  file: 
+    src: "{{ hadoop_conf_dir }}/mapred-site.xml" 
+    dest: "{{ hive_conf_dir }}/mapred-site.xml"
+    state: link

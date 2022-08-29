@@ -1,3 +1,4 @@
+---
 - hosts: kafka
   become: yes
   vars_files:

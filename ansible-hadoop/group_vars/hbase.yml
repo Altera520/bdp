@@ -1,0 +1,7 @@
+---
+hbase_download_path: "https://dlcdn.apache.org/hbase/{{ hbase_version }}"
+hbase_download_filename: "hbase-{{ hbase_version }}-bin"
+
+hbase_log_dir: /var/log/hbase
+hbase_run_dir: /var/run/hbase
+hbase_conf_dir: /etc/hbase/conf

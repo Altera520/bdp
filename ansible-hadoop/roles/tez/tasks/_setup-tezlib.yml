@@ -1,0 +1,5 @@
+---
+- name: Add tez_lib_uris
+  shell: |
+    sudo su hdfs -c 'hdfs dfs -mkdir -p {{ tez_lib_uris | first }}'
+    sudo su hdfs -c 'hdfs dfs -put {{ stack_root }}/tez/share/{{ tez_lib_uris | last }} {{ tez_lib_uris | first }}/'

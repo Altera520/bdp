@@ -7,7 +7,6 @@
     - shell: sudo su hdfs -c 'hdfs haadmin -getServiceState nn2'
       register: result
     - debug: msg='nn2 => {{ result.stdout }}'
-  tags: status_namenode_ha
 
 - name: rm ha status
   block:
@@ -18,4 +17,3 @@
     - shell: sudo su yarn -c 'yarn rmadmin -getServiceState rm2'
       register: result
     - debug: msg='rm2 => {{ result.stdout }}'
-  tags: status_resourcemanager_ha

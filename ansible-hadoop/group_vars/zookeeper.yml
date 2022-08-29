@@ -3,6 +3,8 @@
 zookeeper_download_path: "https://dlcdn.apache.org/zookeeper/zookeeper-{{ zookeeper_version }}"
 zookeeper_download_filename: "apache-zookeeper-{{ zookeeper_version }}-bin"
 
+zookeeper_conf_dir: /etc/zookeeper/conf 
+
 # zoo.cfg
 zookeeper_data_dir: /hadoop/zookeeper
 zookeeper_client_port: "2181"

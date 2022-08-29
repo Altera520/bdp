@@ -1,0 +1,16 @@
+[Unit]
+Description=HBase Master Service
+Wants=network.target network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=forking
+PIDFile={{ hbase_run_dir }}/hbase-master.pid
+User=hbase
+ExecStart={{ stack_root }}/hbase/bin/start-hbase.sh
+ExecStop={{ stack_root }}/hbase/bin/stop-hbase.sh
+Restart=no
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

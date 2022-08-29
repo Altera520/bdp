@@ -1,0 +1,4 @@
+---
+- systemd:
+    name: hbase-backup-master
+    state: stopped

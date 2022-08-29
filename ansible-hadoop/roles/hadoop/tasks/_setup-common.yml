@@ -43,7 +43,7 @@
       # hadoop config link
       - { 
         src: "{{ stack_root }}/hadoop/etc/hadoop",
-        dest: /etc/hadoop/conf 
+        dest: "{{ hadoop_conf_dir }}"
       }
       # hadoop component link
       - {
@@ -63,10 +63,16 @@
 # https://hadoop.apache.org/docs/stable/hadoop-yarn/hadoop-yarn-site/GracefulDecommission.html
 - name: Graceful decommission of YARN nodes
   file: 
-    path: "{{ yarn_resourcemanager_nodes_exclude_path }}"
+    path: "{{ yarn.resourcemanager.nodes_exclude_path }}"
     state: touch
     owner: yarn
     group: hadoop 
+
+- file: 
+    path: "{{ dfs.hosts_exclude_path }}"
+    state: touch
+    owner: hdfs
+    group: hadoop
 
 - name: Create the required directory
   file: 
@@ -88,7 +94,15 @@
     - "{{ hadoop_run_dir }}/yarn"
     - "{{ hadoop_run_dir }}/mapred"
 
+- name: distro files
+  shell: mv {{ stack_root }}/hadoop/bin/{{ item }} {{ stack_root }}/hadoop/bin/{{ item }}.distro
+  with_items:
+    - hdfs
+    - yarn
+
 - name: Append HADOOP_HOME
-  lineinfile:
-    path: "/etc/profile.d/{{ cluster_env }}"
-    line: export HADOOP_HOME={{ stack_root }}/hadoop
+  block:
+  - lineinfile:
+      path: "/etc/profile.d/{{ cluster_env }}"
+      line: export HADOOP_HOME={{ stack_root }}/hadoop
+  - shell: "source /etc/profile.d/{{ cluster_env }}"

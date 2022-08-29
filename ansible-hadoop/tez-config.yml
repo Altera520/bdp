@@ -1,0 +1,9 @@
+---
+- hosts: hadoop
+  become: yes
+  vars_files:
+    - group_vars/tez.yml
+  vars:
+    act: config
+  roles:
+    - tez

@@ -1,0 +1,153 @@
+---
+- name: Create user and group
+  user:
+    name: hive
+    group: hadoop
+    state: present
+
+- name: Install hive
+  block:
+  - get_url:
+      url: "{{ hive_download_path }}/{{ hive_download_filename }}.tar.gz"
+      dest: /tmp/
+  - unarchive:
+      src: "/tmp/{{ hive_download_filename }}.tar.gz"
+      dest: "{{ stack_root }}"
+      copy: no
+      owner: root
+      group: root
+  - file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+      - "/tmp/{{ hive_download_filename }}.tar.gz"
+
+- name: Install mysql connector-J
+  block:
+  - get_url: 
+      url: "http://dev.mysql.com/get/Downloads/Connector-J/{{ mysql_connector_j }}.tar.gz"
+      dest: /tmp/
+  - unarchive:
+      src: "/tmp/{{ mysql_connector_j }}.tar.gz"
+      dest: /tmp/
+      copy: no
+  - shell: |
+      mv /tmp/{{ mysql_connector_j }}/{{ mysql_connector_j }}.jar /usr/share/java/{{ mysql_connector_j }}.jar
+      rm -rf /tmp/{{ mysql_connector_j }}
+  - file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+      - "/tmp/{{ mysql_connector_j }}.tar.gz"
+
+- name: Link installed hive
+  block:
+  - file:
+      path: "{{ item }}"
+      state: directory
+      owner: root
+      group: root
+    with_items:
+      - /etc/hive
+      - /etc/hive-webhcat
+      - /etc/hive-hcatalog
+  - file:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      state: link
+      owner: root
+      group: root
+    loop:
+      # hive install directory link
+      - { 
+        src: "{{ stack_root }}/{{ hive_download_filename }}", 
+        dest: "{{ stack_root }}/hive" 
+      }
+
+- name: Create required directories
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    state: directory
+  loop:
+    - {
+      path: "{{ stack_root }}/hive/auxlib",
+      owner: root,
+      group: root
+    }
+    - {
+      path: "{{ stack_root }}/hive/logs",
+      owner: hive,
+      group: hadoop
+    }
+    - {
+      path: "{{ hive_log_dir }}",
+      owner: hive,
+      group: hadoop
+    }
+    - {
+      path: "{{ hive_run_dir }}",
+      owner: hive,
+      group: hadoop
+    }
+
+- name: Create required links
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    state: link
+  loop:
+    - {
+      src: "{{ stack_root }}/hive/hcatalog/share/hcatalog/hive-hcatalog-core-{{ hive_version }}.jar",
+      dest: "{{ stack_root }}/hive/hcatalog/share/hive-hcatalog-core.jar"
+    }
+    - {
+      src: "/usr/share/java/{{ mysql_connector_j }}.jar",
+      dest: "{{ stack_root }}/hive/lib/{{ mysql_connector_j }}.jar"
+    }
+
+- name: distro files
+  shell: mv {{ stack_root }}/hive/bin/{{ item }} {{ stack_root }}/hive/bin/{{ item }}.distro
+  with_items:
+    - hive
+    - beeline
+
+- alternatives:
+    name: "{{ item.name }}"
+    link: "{{ item.link }}"
+    path: "{{ item.path }}"
+    priority: 20
+  loop:
+    - {
+      name: hive-conf,
+      link: "{{ hive_conf_dir }}",
+      path: "{{ stack_root }}/hive/conf"
+    }
+    - {
+      name: hive-webhcat-conf,
+      link: /etc/hive-webhcat/conf,
+      path: "{{ stack_root }}/hive/conf"
+    }
+    - {
+      name: hive-hcatalog-conf,
+      link: /etc/hive-hcatalog/conf,
+      path: "{{ stack_root }}/hive/conf"
+    }
+    - {
+      name: hiveserver2,
+      link: /usr/bin/hiveserver2,
+      path: "{{ stack_root }}/hive/bin/hiveserver2"
+    }
+    - {
+      name: hive,
+      link: /usr/bin/hive,
+      path: "{{ stack_root }}/hive/bin/hive"
+    }
+    - {
+      name: beeline,
+      link: /usr/bin/beeline,
+      path: "{{ stack_root }}/hive/bin/beeline"
+    }

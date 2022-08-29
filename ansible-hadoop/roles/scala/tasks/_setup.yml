@@ -1,0 +1,11 @@
+---
+- get_url:
+    url: "https://downloads.lightbend.com/scala/{{ scala_version }}/scala-{{ scala_version }}.rpm"
+    dest: /tmp/
+- dnf:
+    name: "/tmp/scala-{{ scala_version }}.rpm"
+    disable_gpg_check: yes
+    state: present
+- file:
+    path: "/tmp/scala-{{ scala_version }}.rpm"
+    state: absent

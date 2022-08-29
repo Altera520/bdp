@@ -88,9 +88,10 @@
     cd "{{ stack_root }}/airflow"
     source venv/bin/activate
     airflow users create \
-      --username airflow \
+      --username {{ airflow_admin_id }} \
       --firstname {{ airflow_admin_name | split(' ') | first }} \
       --lastname {{ airflow_admin_name | split(' ') | last }} \
+      --password {{ airflow_admin_password }} \
       --role Admin \
       --email {{ cluster_admin_email }}
     deactivate

@@ -1,0 +1,10 @@
+---
+- block:
+  - name: Check if scala is installed 
+    shell: scala -version
+    register: installed_scala
+    failed_when: False
+  - name: Install scala
+    import_tasks: _setup.yml
+    when: installed_scala.rc != 0
+  when: act == 'setup'

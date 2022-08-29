@@ -1,0 +1,10 @@
+---
+- name: start spark_historyserver
+  block:
+  - systemd:
+      name: spark-historyserver
+      state: started
+  - wait_for:
+      host: "{{ inventory_hostname }}"
+      port: "{{ spark_historyserver_ui_port }}"
+      state: started

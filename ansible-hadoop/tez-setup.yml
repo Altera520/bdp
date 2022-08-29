@@ -1,0 +1,22 @@
+---
+- import_playbook: hadoop-start.yml
+
+- hosts: hadoop
+  become: yes
+  vars_files:
+    - group_vars/tez.yml
+  vars:
+    act: setup
+  roles:
+    - tez
+
+- name: Add tez lib in hdfs
+  hosts: hadoop[0]
+  become: yes
+  vars_files:
+    - group_vars/tez.yml
+  vars:
+    act: setup
+    target: tezlib
+  roles:
+    - tez

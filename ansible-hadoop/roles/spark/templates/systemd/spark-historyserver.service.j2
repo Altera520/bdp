@@ -1,0 +1,15 @@
+[Unit]
+Description=Spark
+After=syslog.target network.target
+
+[Service]
+User=spark
+Type=forking
+ExecStart={{ stack_root }}/spark/sbin/start-history-server.sh
+ExecStop={{ stack_root }}/spark/sbin/stop-history-server.sh
+WorkingDirectory={{ stack_root }}/spark/bin/
+Restart=always
+LimitNOFILE=32768
+
+[Install]
+WantedBy=multi-user.target

@@ -18,9 +18,10 @@
     {% set local_dirs = [] %}
     {% set log_dirs = [] %}
     {% for disk in hadoop_mount_disks %}
-    {{ local_dirs.append(disk + yarn.nodemanager.local-dirs) }}
-    {{ log_dirs.append(disk + yarn.nodemanager.log-dirs) }}
+    {{ local_dirs.append(disk + yarn.nodemanager.local_sub_dir) }}
+    {{ log_dirs.append(disk + yarn.nodemanager.log_sub_dir) }}
     {% endfor %}
+    
     <property>
         <name>yarn.nodemanager.local-dirs</name>
         <value>{{ local_dirs | join(',') }}</value>
@@ -28,7 +29,7 @@
 
     <property>
       <name>yarn.nodemanager.log-dirs</name>
-      <value>{{ log_dirs }}</value>
+      <value>{{ log_dirs | join(',') }}</value>
     </property>
 
     <property>
@@ -96,8 +97,6 @@
         <name>yarn.resourcemanager.zk-address</name>
         <value>{{ zookeeper_connect | join(',') }}</value>
     </property>
-    <!-- ------------------------------------------------------------------ -->
-
 
     <property>
         <name>yarn.application.classpath</name>
@@ -112,8 +111,8 @@
     </property>
 
     <property>
-      <name>yarn.resourcemanager.nodes.exclude-path</name>
-      <value>{{ yarn_resourcemanager_nodes_exclude_path }}</value>
+        <name>yarn.resourcemanager.nodes.exclude-path</name>
+        <value>{{ yarn.resourcemanager.nodes_exclude_path }}</value>
     </property>
 
 </configuration>

@@ -1,0 +1,30 @@
+---
+- name: Apply config
+  hosts: hadoop
+  become: yes
+  vars_files:
+    - group_vars/hive.yml
+    - group_vars/zookeeper.yml
+    - group_vars/mariadb.yml
+    - group_vars/iceberg.yml
+  vars:
+    act: config
+    target: all
+  roles:
+    - hive
+
+- hosts: hiveserver2
+  become: yes
+  vars:
+    act: config
+    target: hiveserver2
+  roles:
+    - hive
+
+- hosts: hivemetastore
+  become: yes
+  vars:
+    act: config
+    target: hivemetastore
+  roles:
+    - hive

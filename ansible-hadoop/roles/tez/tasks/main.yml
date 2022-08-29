@@ -1,0 +1,18 @@
+- block:
+  - name: check installed status
+    stat: 
+      path: "{{ stack_root }}/{{ tez_download_filename }}"
+    register: installed
+  - include_tasks: "_setup.yml"
+    when: not installed.stat.exists
+  when:
+    - act == 'setup'
+
+- include_tasks: "_setup-tezlib.yml"
+  when:
+    - act == 'setup'
+    - target is defined and 
+      target == 'tezlib'
+
+- include_tasks: "_config.yml"
+  when: act in ['setup', 'config']

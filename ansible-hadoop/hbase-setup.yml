@@ -1,0 +1,40 @@
+- hosts: hadoop
+  become: yes
+  vars_files:
+    - group_vars/hbase.yml
+    - group_vars/hadoop.yml
+  vars:
+    act: setup
+    target: all
+  roles:
+    - hbase
+
+- hosts: namenode
+  become: yes
+  vars_files:
+    - group_vars/hbase.yml
+  vars:
+    act: setup
+    target: master
+  roles:
+    - hbase
+
+- hosts: namenode
+  become: yes
+  vars_files:
+    - group_vars/hbase.yml
+  vars:
+    act: setup
+    target: backup_master
+  roles:
+    - hbase
+
+- hosts: datanode
+  become: yes
+  vars_files:
+    - group_vars/hbase.yml
+  vars:
+    act: setup
+    target: regionserver
+  roles:
+    - hbase

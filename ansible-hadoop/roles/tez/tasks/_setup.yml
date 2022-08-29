@@ -1,0 +1,63 @@
+---
+- name: Create user
+  user:
+    name: tez
+    group: hadoop
+    state: present
+
+- name: Install tez
+  block:
+  - get_url:
+      url: "{{ tez_download_path }}/{{ tez_download_filename }}.tar.gz"
+      dest: /tmp/
+  - unarchive:
+      src: "/tmp/{{ tez_download_filename }}.tar.gz"
+      dest: "{{ stack_root }}"
+      copy: no
+      owner: root
+      group: root
+  - file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+      - "/tmp/{{ tez_download_filename }}.tar.gz"
+
+- name: Link installed tez
+  block:
+  - file:
+      path: /etc/tez
+      state: directory
+      owner: root
+      group: root
+  - file:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      state: link
+      owner: root
+      group: root
+    loop:
+      # tez install directory link
+      - { 
+        src: "{{ stack_root }}/{{ tez_download_filename }}", 
+        dest: "{{ stack_root }}/tez" 
+      }
+      # tez config link
+      - { 
+        src: "{{ stack_root }}/tez/conf",
+        dest: "{{ tez_conf_dir }}"
+      }
+  - shell: |
+      rm -rf {{ stack_root }}/tez/lib/hadoop-*.jar
+      rm -rf {{ stack_root }}/tez/lib/slf4j-log4j12-*.jar
+
+- name: Append TEZ variables
+  block:
+  - lineinfile:
+      dest: "/etc/profile.d/{{ cluster_env }}"
+      line: "{{ item }}"
+    with_items:
+      - export TEZ_HOME={{ stack_root }}/tez
+      - export TEZ_CONF_DIR={{ stack_root }}/tez/conf
+      - export TEZ_JARS={{ stack_root }}/tez
+      - export HADOOP_CLASSPATH=${HADOOP_CLASSPATH}:${TEZ_CONF_DIR}:${TEZ_JARS}/*:${TEZ_JARS}/lib/*
+  - shell: "source /etc/profile.d/{{ cluster_env }}"

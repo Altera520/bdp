@@ -1,0 +1,9 @@
+---
+tez_download_path: "https://dlcdn.apache.org/tez/{{ tez_version }}"
+tez_download_filename: "apache-tez-{{ tez_version }}-bin"
+
+tez_conf_dir: /etc/tez/conf
+
+# tez-site.xml
+tez_am_resource_memory_mb: 1024
+tez_lib_uris: [ '/apps/tez', 'tez.tar.gz']

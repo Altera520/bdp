@@ -1,0 +1,16 @@
+[Unit]
+Description=HBase Backup Master Service
+Wants=network.target network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=forking
+PIDFile={{ hbase_run_dir }}/hbase-master.pid
+User=hbase
+ExecStart={{ stack_root }}/hbase/bin/hbase-daemon.sh start master
+ExecStop={{ stack_root }}/hbase/bin/hbase-daemon.sh stop master
+Restart=no
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,30 @@
+---
+hive_download_path: "https://dlcdn.apache.org/hive/hive-{{ hive_version }}"
+hive_download_filename: "apache-hive-{{ hive_version }}-bin"
+
+hive_db_user: hive
+hive_db_name: hive
+hive_db_password: hive
+
+hive_log_dir: /var/log/hive
+hive_run_dir: /var/run/hive
+hive_conf_dir: /etc/hive/conf
+
+use_iceberg: True
+
+# hive-env.sh
+hiveserver2_heapsize: 2048
+hivemetastore_heapsize: 1024
+
+# hive-site.xml
+hivemetastore_port: 9083
+hivemetastore_warehouse_dir: /user/hive/warehouse
+hive_auto_convert_join_noconditionaltask_size: 10000000
+hive_execution_engine: tez
+
+hiveserver2_thrift_port: 10000
+hiveserver2_webui_port: 10002
+
+hive_tez_container_size: 1024
+
+hive_aux_jar_path: "{{ stack_root }}/hive/auxlib"

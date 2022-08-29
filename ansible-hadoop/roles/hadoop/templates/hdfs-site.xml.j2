@@ -19,8 +19,38 @@
 <configuration>
 
     <property>
+        <name>dfs.cluster.administrators</name>
+        <value>hdfs</value>
+    </property>
+
+    <property>
+        <name>dfs.datanode.address</name>
+        <value>0.0.0.0:50010</value>
+    </property>
+
+    <property>
+        <name>dfs.datanode.http.address</name>
+        <value>0.0.0.0:50075</value>
+    </property>
+    
+    <property>
+        <name>dfs.datanode.https.address</name>
+        <value>0.0.0.0:50475</value>
+    </property>
+    
+    <property>
+        <name>dfs.datanode.ipc.address</name>
+        <value>0.0.0.0:8010</value>
+    </property>
+
+    <property>
         <name>dfs.nameservices</name>
         <value>{{ dfs.nameservices }}</value>
+    </property>
+
+    <property>
+        <name>dfs.hosts.exclude</name>
+        <value>{{ dfs.hosts_exclude_path }}</value>
     </property>
 
     <property>
@@ -30,13 +60,18 @@
 
     <property>
         <name>dfs.namenode.name.dir</name>
-        <value>/hadoop/hdfs/namenode</value>
+        <value>{{ dfs.namenode.name_dir }}</value>
         <final>true</final>
     </property>
 
+    {% set data_dirs = [] %}
+    {% for disk in hadoop_mount_disks %}
+    {{ data_dirs.append(disk + dfs.datanode.data_sub_dir) }}
+    {% endfor %}
+
     <property>
         <name>dfs.datanode.data.dir</name>
-        <value>{{ dfs.datanode.data.dir | join(',') }}</value>
+        <value>{{ data_dirs | join(',') }}</value>
         <final>true</final>
     </property>
 
@@ -46,24 +81,80 @@
     </property>
 
     <property>
-        <name>dfs.namenode.rpc-address.{{ dfs.nameservices }}.nn1</name>
+        <name>dfs.namenode.rpc-address.{{ dfs.nameservices }}.nn2</name>
         <value>{{ groups.namenode.1 }}:8020</value>
     </property>
 
     <property>
+      <name>dfs.namenode.http-address.{{ dfs.nameservices }}.nn1</name>
+      <value>{{ groups.namenode.0 }}:50070</value>
+    </property>
+    
+    <property>
+      <name>dfs.namenode.http-address.{{ dfs.nameservices }}.nn2</name>
+      <value>{{ groups.namenode.1 }}:50070</value>
+    </property>
+
+    <property>
         <name>dfs.namenode.https-address.{{ dfs.nameservices }}.nn1</name>
-        <value>{{ groups.namenode.0 }}:9871</value>
+        <value>{{ groups.namenode.0 }}:50470</value>
     </property>
 
     <property>
         <name>dfs.namenode.https-address.{{ dfs.nameservices }}.nn2</name>
-        <value>{{ groups.namenode.1 }}:9871</value>
+        <value>{{ groups.namenode.1 }}:50470</value>
+    </property>
+
+    <property>
+        <name>dfs.journalnode.edits.dir</name>
+        <value>{{ dfs.journalnode.edits_dir }}</value>
+    </property>
+
+    <property>
+        <name>dfs.namenode.acls.enabled</name>
+        <value>true</value>
+    </property>
+    
+    <property>
+        <name>dfs.namenode.audit.log.async</name>
+        <value>true</value>
+    </property>
+
+    <property>
+      <name>dfs.namenode.avoid.read.stale.datanode</name>
+      <value>true</value>
+    </property>
+
+    <property>
+        <name>dfs.namenode.avoid.write.stale.datanode</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>dfs.namenode.name.dir.restore</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>dfs.namenode.checkpoint.dir</name>
+        <value>/hadoop/hdfs/namesecondary</value>
+    </property>
+    
+    <property>
+        <name>dfs.namenode.checkpoint.edits.dir</name>
+        <value>${dfs.namenode.checkpoint.dir}</value>
+    </property>
+
+    <property>
+        <name>dfs.permissions.superusergroup</name>
+        <value>hdfs</value>
     </property>
 
     {% set zookeeper_connect = [] %}
     {% for hostname in groups.zookeeper %}
     {{ zookeeper_connect.append(hostname + ':' + '8485') }}
     {% endfor %}
+
     <property>
         <name>dfs.namenode.shared.edits.dir</name>
         <value>qjournal://{{ zookeeper_connect | join(';') }}/{{ dfs.nameservices }}</value>

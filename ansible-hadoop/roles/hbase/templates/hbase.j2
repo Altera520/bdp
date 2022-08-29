@@ -1,0 +1,9 @@
+#!/bin/bash
+
+export JAVA_HOME={{ java_home }}
+export HBASE_HOME={{ stack_root }}/hbase
+export HADOOP_HOME={{ stack_root }}/hadoop
+export HADOOP_CONF={{ hadoop_conf_dir }}
+export ZOOKEEPER_HOME=${ZOOKEEPER_HOME:-{{ stack_root }}/zookeeper}
+
+exec ${HBASE_HOME}/bin/hbase.distro "$@"

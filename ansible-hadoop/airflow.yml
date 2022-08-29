@@ -5,12 +5,14 @@
   gather_facts: false
   vars_files:
     - group_vars/airflow.yml
-  tasks:
-  - include_role:
-      name: mariadb
-      apply:
-        tags: createdb
-  tags: setup
+  vars:
+    createdb: True
+    db_user: "{{ airflow_db_user }}"
+    db_name: "{{ airflow_db_name }}"
+    db_password: "{{ airflow_db_password }}"
+  roles:
+    - mariadb
+  when: act == 'setup'
 
 - hosts: airflow
   become: yes

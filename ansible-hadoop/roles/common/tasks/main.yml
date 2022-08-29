@@ -3,6 +3,6 @@
   - stat:
       path: "{{ stack_root }}"
     register: stack_root_dir
-  - import_tasks: _setup.yml
+  - include_tasks: _setup.yml
     when: not stack_root_dir.stat.exists
   tags: setup

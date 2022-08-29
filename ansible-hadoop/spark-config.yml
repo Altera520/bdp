@@ -1,0 +1,11 @@
+---
+- hosts: hadoop
+  become: yes
+  vars_files:
+    - group_vars/spark.yml
+    - group_vars/hive.yml
+  vars:
+    act: config
+    target: all
+  roles:
+    - spark

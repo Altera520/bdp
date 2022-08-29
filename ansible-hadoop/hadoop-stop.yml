@@ -2,29 +2,26 @@
 - hosts: datanode
   become: yes
   serial: 1
-  tasks:
-  - include_role:
-      name: hadoop
-      apply:
-        tags: stop_datanode
-  tags: stop
+  vars:
+    act: stop
+    target: datanode
+  roles: 
+    - hadoop
 
 - hosts: namenode
   become: yes
   serial: 1
-  tasks:
-  - include_role:
-      name: hadoop
-      apply:
-        tags: stop_namenode
-  tags: stop
+  vars:
+    act: stop
+    target: namenode
+  roles: 
+    - hadoop
 
 - hosts: journalnode
   become: yes
   serial: 1
-  tasks:
-  - include_role:
-      name: hadoop
-      apply:
-        tags: stop_journalnode
-  tags: stop
+  vars:
+    act: stop
+    target: journalnode
+  roles: 
+    - hadoop

@@ -1,0 +1,52 @@
+---
+- name: Create hive schema
+  hosts: mariadb
+  become: yes
+  gather_facts: false
+  vars_files:
+    - group_vars/hive.yml
+  vars:
+    createdb: True
+    db_user: "{{ hive_db_user }}"
+    db_name: "{{ hive_db_name }}"
+    db_password: "{{ hive_db_password }}"
+  roles:
+    - mariadb
+
+- name: Setup hive all hadoop nodes
+  hosts: hadoop
+  become: yes
+  vars_files:
+    - group_vars/hive.yml
+    - group_vars/iceberg.yml
+  vars:
+    act: setup
+    target: all
+  roles:
+    - common
+    - java
+    - hive
+
+- import_playbook: hive-config.yml
+
+- hosts: hiveserver2
+  become: yes
+  vars_files:
+    - group_vars/iceberg.yml
+  vars:
+    act: setup
+    target: hiveserver2
+  roles:
+    - hive
+  tasks:
+    - include_role: 
+        name: iceberg
+      when: use_iceberg
+
+- hosts: hivemetastore
+  become: yes
+  vars:
+    act: setup
+    target: hivemetastore
+  roles:
+    - hive

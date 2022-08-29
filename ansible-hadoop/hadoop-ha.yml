@@ -1,0 +1,65 @@
+---
+- import_playbook: hadoop-stop.yml
+
+- name: Check edits dir
+  hosts: journalnode
+  become: yes
+  serial: 1
+  vars:
+    act: check_edits_dir
+    target: journalnode
+  roles:
+    - hadoop
+
+- name: journalnode start
+  hosts: journalnode
+  become: yes
+  serial: 1
+  vars:
+    act: start
+    target: journalnode
+  roles:
+    - hadoop
+
+- name: format active namenode
+  hosts: namenode[0]
+  become: yes
+  vars:
+    act: format_active_namenode
+    target: active_namenode
+  roles:
+    - hadoop
+
+- name: bootstrap standby namenode
+  hosts: namenode[1]
+  become: yes
+  vars:
+    act: bootstrap_standby_namenode
+    target: standby_namenode
+  roles:
+    - hadoop
+
+- name: format active namenode's zookeeper & start active namenode's zkfc
+  hosts: namenode[0]
+  become: yes
+  vars:
+    act: format_zkfc
+    target: standby_namenode
+  roles:
+    - hadoop
+
+- name: start standby namenode's zkfc
+  hosts: namenode[1]
+  become: yes
+  vars:
+    act: start_zkfc
+    target: standby_namenode
+  roles:
+    - hadoop
+
+# - hosts: namenode[0]
+#   become: yes
+#   vars:
+#     act: status
+#   roles:
+#     - hadoop

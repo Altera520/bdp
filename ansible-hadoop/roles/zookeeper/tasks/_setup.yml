@@ -44,7 +44,7 @@
       # zookeeper config link
       - { 
         src: "{{ stack_root }}/zookeeper/conf", 
-        dest: /etc/zookeeper/conf 
+        dest: "{{ zookeeper_conf_dir }}"
       }
 
 - file:

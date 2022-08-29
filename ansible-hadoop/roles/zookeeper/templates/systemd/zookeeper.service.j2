@@ -5,6 +5,9 @@ After=syslog.target network.target
 [Service]
 User=zookeeper
 Type=forking
+PermissionsStartOnly=true
+ExecStartPre=-/bin/mkdir {{ zookeeper_run_dir }}
+ExecStartPre=-/bin/chown -R zookeeper:hadoop {{ zookeeper_run_dir }}
 ExecStart={{ stack_root }}/zookeeper/bin/zkServer.sh start
 ExecStop={{ stack_root }}/zookeeper/bin/zkServer.sh stop
 WorkingDirectory={{ stack_root }}/zookeeper/bin/

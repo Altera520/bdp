@@ -1,68 +1,42 @@
 ---
 - block:
-  # - name: check installed status
-  #   stat: 
-  #     path: "{{ stack_root }}/{{ hadoop_download_filename }}"
-  #   register: installed
-  - include_tasks: _setup-common.yml
-    # when: not installed.stat.exists
-  tags: setup
+  - name: check installed status
+    stat: 
+      path: "{{ stack_root }}/{{ hadoop_download_filename }}"
+    register: installed
+  - include_tasks: "_setup-common.yml"
+    when: not installed.stat.exists
+  when:
+    - act == 'setup'
+    - target is defined and 
+      target == 'all'
 
-- import_tasks: _config.yml
-  tags: 
-    - setup
-    - config
+- include_tasks: "_config-common.yml"
+  when: 
+    - act in ['setup', 'config']
+    - target is defined and 
+      target == 'all'
 
-- import_tasks: _setup-namenode.yml
-  tags: setup_namenode
+- include_tasks: "_setup-{{ target }}.yml"
+  when: 
+    - act == 'setup'
+    - target is defined and 
+      target in ['namenode', 'datanode', 'journalnode', 'historyserver']
 
-- import_tasks: _setup-journalnode.yml
-  tags: setup_journalnode
+- include_tasks: "_setup-namenode-ha.yml"
 
-- import_tasks: _setup-datanode.yml
-  tags: setup_datanode
+- include_tasks: "_start-{{ target }}.yml"
+  when: 
+    - act in ['start', 'restart']
+    - target is defined and 
+      target in ['namenode', 'datanode', 'journalnode']
 
-- import_tasks: _setup-historyserver.yml
-  tags: setup_historyserver
+- include_tasks: "_stop-{{ target }}.yml"
+  when: 
+    - act in ['stop', 'restart']
+    - target is defined and 
+      target in ['namenode', 'datanode', 'journalnode']
 
-- import_tasks: _format-namenode.yml
-  tags:
-    - format_namenode
-    - bootstrap_standby_namenode
-    - format_zookeeper
-    - start_zkfc
-
-- import_tasks: _stop-namenode.yml
-  tags: 
-    - stop_namenode
-    - restart_namenode
-
-- import_tasks: _stop-journalnode.yml
-  tags: 
-    - stop_journalnode
-    - restart_journalnode
-
-- import_tasks: _stop-datanode.yml
-  tags: 
-    - stop_datanode
-    - restart_datanode
-
-- import_tasks: _start-namenode.yml
-  tags: 
-    - start_namenode
-    - restart_namenode
-
-- import_tasks: _start-journalnode.yml
-  tags: 
-    - start_journalnode
-    - restart_journalnode
-
-- import_tasks: _start-datanode.yml
-  tags: 
-    - start_datanode
-    - restart_datanode
-
-- import_tasks: _status.yml
-  tags:
-    - status_namenode_ha
-    - status_resourcemanager_ha
+- include_tasks: _status.yml
+  when: 
+    - act == 'status'

@@ -5,6 +5,11 @@
     state: stopped
 
 - name: stop airflow-webserver
-  systemd:
-    name: airflow-webserver
-    state: stopped
+  block:
+  - systemd:
+      name: airflow-webserver
+      state: stopped
+  - wait_for:
+      host: "{{ inventory_hostname }}"
+      port: "{{ airflow_webserver_port }}"
+      state: stopped

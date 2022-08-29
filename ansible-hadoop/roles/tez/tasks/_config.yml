@@ -1,0 +1,7 @@
+---
+- template:
+    src: "{{ item }}.j2"
+    dest: "{{ stack_root }}/tez/conf/{{ item }}"
+  with_items:
+    - tez-env.sh
+    - tez-site.xml

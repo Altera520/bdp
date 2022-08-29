@@ -1,0 +1,37 @@
+---
+- block:
+  - name: check installed status
+    stat: 
+      path: "{{ stack_root }}/{{ hive_download_filename }}"
+    register: installed
+  - include_tasks: "_setup-common.yml"
+    when: not installed.stat.exists
+  when:
+    - act == 'setup'
+    - target == 'all'
+
+- include_tasks: "_setup-{{ target }}.yml"
+  when: 
+    - act == "setup"
+    - target in ['hiveserver2', 'hivemetastore']
+
+# this task require group_vars/mariadb.yml, group_vars/zookeeper.yml
+- include_tasks: "_config-common.yml"
+  when:
+    - act == 'config'
+    - target == 'all'
+
+- include_tasks: "_config-{{ target }}.yml"
+  when: 
+    - act == "config"
+    - target in ['hiveserver2', 'hivemetastore']
+
+- include_tasks: "_start-{{ target }}.yml"
+  when: 
+    - act == "start"
+    - target in ['hiveserver2', 'hivemetastore']
+
+- include_tasks: "_stop-{{ target }}.yml"
+  when: 
+    - act == "stop"
+    - target in ['hiveserver2', 'hivemetastore']

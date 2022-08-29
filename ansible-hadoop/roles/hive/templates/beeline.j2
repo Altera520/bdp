@@ -1,0 +1,14 @@
+#!/bin/bash
+
+export HIVE_HOME={{ stack_root }}/hive
+export HADOOP_HOME={{ stack_root }}/hadoop
+
+HCATALOG_JAR_PATH=${HIVE_HOME}/hcatalog/share/hcatalog/hive-hcatalog-core-{{ hive_version }}.jar:${HIVE_HOME}/hcatalog/share/hcatalog/hive-hcatalog-server-extensions-{{ hive_version }}.jar:${HIVE_HOME}/hcatalog/share/webhcat/java-client/hive-webhcat-java-client-{{ hive_version }}.jar
+
+if [ -z "${HADOOP_CLASSPATH}" ]; then
+  export HADOOP_CLASSPATH=${HCATALOG_JAR_PATH}
+else
+  export HADOOP_CLASSPATH=${HADOOP_CLASSPATH}:${HCATALOG_JAR_PATH}
+fi
+
+exec "${HIVE_HOME}/bin/beeline.distro" "$@"
