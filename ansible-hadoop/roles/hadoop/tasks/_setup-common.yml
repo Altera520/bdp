@@ -8,6 +8,7 @@
     - hdfs
     - yarn
     - mapred
+    - yarn-ats
 
 - name: Install hadoop
   block:
@@ -93,6 +94,17 @@
     - "{{ hadoop_run_dir }}/hdfs"
     - "{{ hadoop_run_dir }}/yarn"
     - "{{ hadoop_run_dir }}/mapred"
+
+- name: Create the required directory
+  file:
+    path: "{{ item }}"
+    owner: yarn-ats 
+    group: hadoop
+    state: directory
+  with_items:
+    - "{{ hadoop_conf_dir }}/embedded-yarn-ats-hbase"
+    - "{{ hadoop_log_dir }}/embedded-yarn-ats-hbase"
+    - "{{ hadoop_run_dir }}/yarn-hbase"
 
 - name: distro files
   shell: mv {{ stack_root }}/hadoop/bin/{{ item }} {{ stack_root }}/hadoop/bin/{{ item }}.distro

@@ -1,0 +1,9 @@
+---
+- block:
+  - systemd:
+      name: nodemanager
+      state: stopped
+  # - wait_for: 
+  #     host: "{{ inventory_hostname }}"
+  #     port: 8042
+  #     state: stopped

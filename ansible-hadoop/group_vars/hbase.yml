@@ -5,3 +5,15 @@ hbase_download_filename: "hbase-{{ hbase_version }}-bin"
 hbase_log_dir: /var/log/hbase
 hbase_run_dir: /var/run/hbase
 hbase_conf_dir: /etc/hbase/conf
+
+# hbase-site.xml
+
+hbase_regionserver_info_port: 16030
+hbase_regionserver_port: 16020
+hbase_root_dir: /apps/hbase/data
+hbase_bulkload_staging_dir: /apps/hbase/staging
+hbase_zookeeper_znode_parent: /hbase-unsecure
+hbase_master_heapsize: 4096m
+hbase_regionserver_heapsize: 2048m
+hbase_hregion_memstore_flush_size: 268435456
+hbase_hregion_max_filesize: 27917287424

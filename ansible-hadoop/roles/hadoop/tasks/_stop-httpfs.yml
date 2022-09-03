@@ -1,0 +1,8 @@
+---
+- systemd:
+    name: httpfs
+    state: stopped
+- wait_for: 
+    host: "{{ inventory_hostname }}"
+    port: "{{ httpfs_http_port }}"
+    state: stopped

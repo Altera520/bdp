@@ -25,3 +25,21 @@
     target: datanode
   roles: 
     - hadoop
+
+- hosts: namenode
+  become: yes
+  serial: 1
+  vars:
+    act: start
+    target: resourcemanager
+  roles: 
+    - hadoop
+
+- hosts: datanode
+  become: yes
+  serial: 1
+  vars:
+    act: start
+    target: nodemanager
+  roles: 
+    - hadoop

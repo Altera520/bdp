@@ -22,6 +22,18 @@
     - container-executor.cfg
     - log4j.properties
 
+# - name: Apply config timelineserver
+#   template:
+#     src: "{{ item }}.j2"
+#     dest: "{{ hadoop_conf_dir }}/embedded-yarn-ats-hbase/{{ item }}"
+#   with_items:
+#     - hbase-env.sh
+#     - hbase-site.xml
+#     - hadoop-metrics2-hbase.properties
+#     - hbase_grant_permissions.sh
+#     - hbase-policy.xml
+#     - log4j.properties
+
 - file:
     path: "{{ stack_root }}/hadoop/bin/container-executor"
     owner: root

@@ -924,29 +924,9 @@
         <value>true</value>
     </property>
 
-    {% if use_iceberg == True %}
-    <!-- adding hive jars permanently -->
-    <property>
-        <name>hive.aux.jars.path</name>
-        <value>file://{{ hive_aux_jar_path }}/{{ iceberg_download_filename }}</value>
-    </property>
-
-    <property>
-        <name>iceberg.engine.hive.enabled</name>
-        <value>true</value>
-    </property>
-    {% endif %}
-
-    {% if use_iceberg == True %}
-    <property>
-        <name>hive.vectorized.execution.enabled</name>
-        <value>false</value>
-    </property>
-    {% else %}
     <property>
         <name>hive.vectorized.execution.enabled</name>
         <value>true</value>
     </property>
-    {% endif %}
 
 </configuration>

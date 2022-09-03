@@ -25,3 +25,21 @@
     target: journalnode
   roles: 
     - hadoop
+
+- hosts: datanode
+  become: yes
+  serial: 1
+  vars:
+    act: stop
+    target: nodemanager
+  roles: 
+    - hadoop
+
+- hosts: namenode
+  become: yes
+  serial: 1
+  vars:
+    act: stop
+    target: resourcemanager
+  roles: 
+    - hadoop

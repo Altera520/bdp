@@ -3,6 +3,7 @@
   vars_files:
     - group_vars/hbase.yml
     - group_vars/hadoop.yml
+    - group_vars/zookeeper.yml
   vars:
     act: setup
     target: all

@@ -77,11 +77,4 @@
   - shell: "source /etc/profile.d/{{ cluster_env }}"
 
 - name: copy spark's yarn shuffle jar to hadoop's yarn share dir
-  block:
-  - shell: echo '{{ stack_root }}/spark/jars/spark-network-shuffle_{{ (scala_version | split('.'))[0:2] | join('.') }}-{{ spark_version }}.jar'
-    register: src_jar
-  - stat:
-      path: "{{ stack_root }}/hadoop/share/hadoop/yarn/lib/{{ src_jar.stdout }}"
-    register: dst_jar_exist
-  - shell: cp {{ src_jar.stdout }} {{ stack_root }}/hadoop/share/hadoop/yarn/lib/
-    when: not dst_jar_exist.stat.exists
+  shell: cp {{ stack_root }}/spark/yarn/spark-{{ spark_version }}-yarn-shuffle.jar {{ stack_root }}/hadoop/share/hadoop/yarn/lib/

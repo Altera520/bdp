@@ -1,0 +1,16 @@
+[Unit]
+Description=TimelineReader Service
+Wants=network.target network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=forking
+PIDFile={{ hadoop_run_dir }}/yarn/hadoop-yarn-timelinereader.pid
+User=yarn
+ExecStart={{ stack_root }}/hadoop/bin/yarn --daemon start timelinereader
+ExecStop={{ stack_root }}/hadoop/bin/yarn --daemon stop timelinereader
+Restart=no
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
