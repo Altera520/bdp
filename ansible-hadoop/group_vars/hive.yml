@@ -10,8 +10,6 @@ hive_log_dir: /var/log/hive
 hive_run_dir: /var/run/hive
 hive_conf_dir: /etc/hive/conf
 
-use_iceberg: True
-
 # hive-env.sh
 hiveserver2_heapsize: 2048
 hivemetastore_heapsize: 1024

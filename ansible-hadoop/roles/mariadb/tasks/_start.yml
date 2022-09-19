@@ -1,7 +1,7 @@
 - name: start mariadb
   block:
   - file:
-      name: /var/run/mysqld/
+      name: /var/run/mysqld
       state: directory
       owner: mysql
       group: mysql

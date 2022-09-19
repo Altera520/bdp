@@ -95,6 +95,24 @@
     - "{{ hadoop_run_dir }}/yarn"
     - "{{ hadoop_run_dir }}/mapred"
 
+- name: Install hadoop native libraries
+  block:
+  - dnf:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - snappy
+      - openssl
+      - openssl-devel
+  - file:
+      src: "/usr/lib64/{{ item }}"
+      dest: "{{ stack_root }}/hadoop/lib/native/{{ item }}"
+      state: link
+      owner: root
+      group: root
+    with_items:
+      - libsnappy.so.1
+
 - name: Create the required directory
   file:
     path: "{{ item }}"

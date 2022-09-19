@@ -6,7 +6,6 @@
     - group_vars/hive.yml
     - group_vars/zookeeper.yml
     - group_vars/mariadb.yml
-    - group_vars/iceberg.yml
   vars:
     act: config
     target: all

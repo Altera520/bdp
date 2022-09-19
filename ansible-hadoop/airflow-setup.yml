@@ -12,12 +12,13 @@
     db_password: "{{ airflow_db_password }}"
   roles:
     - mariadb
-  when: act == 'setup'
 
 - hosts: airflow
   become: yes
   vars_files:
     - group_vars/mariadb.yml
+  vars:
+    act: setup
   roles:
     - common
     - python
