@@ -4,7 +4,7 @@
 
 | stack     | version     |
 |:----------|:------------|
-| hadoop    | 3.3.3       |
+| hadoop    | 3.2.3       |
 | tez       | 0.10.1      |
 | hive      | 3.1.3       |
 | hbase     | N/A         |

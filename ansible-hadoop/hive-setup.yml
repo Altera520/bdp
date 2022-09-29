@@ -1,4 +1,8 @@
 ---
+- import_playbook: mariadb.yml
+  vars:
+    act: start
+    
 - name: Create hive schema
   hosts: mariadb
   become: yes

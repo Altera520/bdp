@@ -95,24 +95,6 @@
     - "{{ hadoop_run_dir }}/yarn"
     - "{{ hadoop_run_dir }}/mapred"
 
-- name: Install hadoop native libraries
-  block:
-  - dnf:
-      name: "{{ item }}"
-      state: present
-    with_items:
-      - snappy
-      - openssl
-      - openssl-devel
-  - file:
-      src: "/usr/lib64/{{ item }}"
-      dest: "{{ stack_root }}/hadoop/lib/native/{{ item }}"
-      state: link
-      owner: root
-      group: root
-    with_items:
-      - libsnappy.so.1
-
 - name: Create the required directory
   file:
     path: "{{ item }}"
@@ -136,3 +118,10 @@
       path: "/etc/profile.d/{{ cluster_env }}"
       line: export HADOOP_HOME={{ stack_root }}/hadoop
   - shell: "source /etc/profile.d/{{ cluster_env }}"
+
+- name: Install snappy
+  shell: |
+    dnf config-manager --enable epel
+    dnf config-manager --set-enabled powertools
+    dnf config-manager --set-enabled powertools-source
+    dnf -y --enablerepo=powertools install snappy-devel

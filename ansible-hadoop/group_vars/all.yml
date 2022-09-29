@@ -14,7 +14,12 @@ mysql_connector_j: mysql-connector-java-8.0.30
 stack_root: "/usr/bdp"
 general_user: altera
 
-hadoop_version: 3.3.3
+# to build hadoop
+cmake_version: 3.19.0
+protobuf_version: 3.7.1
+gcc_version: 9.3.0
+
+hadoop_version: 3.2.3
 zookeeper_version: 3.6.3
 
 # To use the Tez engine on Hive 3.1.2 or later, Tez needs to be upgraded to >= 0.10.1 which contains a necessary fix TEZ-4248.

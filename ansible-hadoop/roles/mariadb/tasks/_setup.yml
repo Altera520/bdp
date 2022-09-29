@@ -1,4 +1,9 @@
 ---
+- name: Create group
+  group:
+    name: mysql
+    state: present
+
 - name: Create user
   user:
     name: mysql
@@ -41,4 +46,4 @@
     echo "flush privileges;" | mysql -u root
 
 - name: Apply config
-  include_tasks: config-mariadb.yml
+  include_tasks: _config.yml

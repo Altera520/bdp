@@ -1,30 +1,7 @@
-- hosts: hadoop
+- hosts: datanode
   become: yes
-  tasks:
-  - shell: |
-      rm -rf "{{ stack_root }}/hadoop/lib/native/libsnappy.so"
-      rm -rf "{{ stack_root }}/hadoop/lib/native/libsnappy.so.1"
-  - name: Install compression libraries
-    block:
-    - dnf:
-        name: "{{ item }}"
-        state: present
-      with_items:
-        - snappy
-    - file:
-        src: /usr/lib64/libsnappy.so.1
-        dest: "{{ stack_root }}/hadoop/lib/native/libsnappy.so"
-        state: link
-        owner: root
-        group: root
-  # - shell: |
-  #     zip -d /usr/bdp/hive/lib/hive-exec-3.1.3.jar "com/google/common/*" 
-  # - file:
-  #     name: "{{ stack_root }}/hive/lib/{{ item }}"
-  #     state: absent
-  #   with_items:
-  #     - guava-19.0.jar
-  # - shell: |
-  #     ln -s {{ stack_root }}/hadoop/share/hadoop/common/lib/{{ item }} {{ stack_root }}/hive/lib/guava-19.0.jar 
-  #   with_items:
-  #     - guava-27.0-jre.jar
+  vars:
+    act: tmp
+  roles:
+    - hadoop
+  
