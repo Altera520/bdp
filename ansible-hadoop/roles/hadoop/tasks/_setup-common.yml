@@ -119,9 +119,14 @@
       line: export HADOOP_HOME={{ stack_root }}/hadoop
   - shell: "source /etc/profile.d/{{ cluster_env }}"
 
-- name: Install snappy
+- name: Install snappy devel
   shell: |
     dnf config-manager --enable epel
     dnf config-manager --set-enabled powertools
     dnf config-manager --set-enabled powertools-source
     dnf -y --enablerepo=powertools install snappy-devel
+
+- name: Link openssl
+  shell: |
+    cd /usr/lib64
+    ln -s libcrypto.so.1.1.1k libcrypto.so
