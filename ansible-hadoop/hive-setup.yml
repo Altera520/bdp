@@ -1,10 +1,10 @@
 ---
-- import_playbook: mariadb.yml
+- import_playbook: mysql.yml
   vars:
     act: start
     
 - name: Create hive schema
-  hosts: mariadb
+  hosts: mysql
   become: yes
   gather_facts: false
   vars_files:
@@ -15,7 +15,7 @@
     db_name: "{{ hive_db_name }}"
     db_password: "{{ hive_db_password }}"
   roles:
-    - mariadb
+    - mysql
 
 - name: Setup hive all hadoop nodes
   hosts: hadoop

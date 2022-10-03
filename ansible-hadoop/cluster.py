@@ -6,7 +6,7 @@ HOME_PATH='/ansible/ansible-hadoop'
 COMPONENT = {
     'airflow': True,
     'python': False,
-    'mariadb': True,
+    'mysql': True,
     'hadoop': True,
     'superset': True,
     'hive': True,
@@ -19,11 +19,11 @@ COMPONENT = {
 }
 
 STACK = {
-    'airflow': ['python', 'mariadb'],
+    'airflow': ['python', 'mysql'],
     'hadoop': ['java', 'zookeeper'],
-    'mariadb': [],
-    'superset': ['python', 'mariadb'],
-    'hive': ['hadoop', 'mariadb', 'zookeeper', 'tez'],
+    'mysql': [],
+    'superset': ['python', 'mysql'],
+    'hive': ['hadoop', 'mysql', 'zookeeper', 'tez'],
     'kafka': ['java', 'zookeeper'],
     'zookeeper': ['java'],
     'spark': ['scala', 'hive', 'hadoop'],

@@ -27,7 +27,7 @@ all:
     kafka:
       hosts:
 
-    mariadb:
+    mysql:
       hosts:
 
     airflow:

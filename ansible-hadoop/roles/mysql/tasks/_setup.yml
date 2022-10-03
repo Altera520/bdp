@@ -12,14 +12,10 @@
     groups: hadoop
     append: yes
 
-- template:
-    src: "{{ item }}.j2"
-    dest: "/etc/yum.repos.d/{{ item }}"
-  with_items:
-    - mariadb.repo
-
 - shell: |
-    dnf -y install mariadb-server mariadb
+     wget https://dev.mysql.com/get/mysql80-community-release-el7-6.noarch.rpm -O /tmp/mysql80-community-release-el7-6.noarch.rpm
+     rpm -ivh /tmp/mysql80-community-release-el7-6.noarch.rpm
+     dnf -y install mysql-server
 
 - file:
     path: "{{ item }}"
@@ -28,21 +24,21 @@
     owner: mysql
     group: mysql
   with_items:
-    - "{{ mariadb_data_dir }}"
-    - "{{ mariadb_log_dir }}"
-    - "{{ mariadb_run_dir }}"
+    - "{{ mysql_data_dir }}"
+    - "{{ mysql_log_dir }}"
+    - "{{ mysql_run_dir }}"
 - file:
-    path: "{{ mariadb_data_dir }}"
+    path: "{{ mysql_data_dir }}"
     mode: 0755
 
 - systemd:
-    name: mariadb
+    name: mysqld
     state: started
     enabled: yes
     daemon_reload: yes
 
 - shell: |
-    echo "set password=password('{{ mariadb_root_password }}');" | mysql -u root
+    echo "set password=password('{{ mysql_root_password }}');" | mysql -u root
     echo "flush privileges;" | mysql -u root
 
 - name: Apply config

@@ -26,7 +26,7 @@
     with_items:
       - "apache-airflow-{{ airflow_version }}"
   - file:
-      src: "{{ stack_root }}/airflow-{{ airflow_version }}"
+      src: "{{ stack_root }}/apache-airflow-{{ airflow_version }}"
       dest: "{{ stack_root }}/airflow"
       state: link
       owner: root
@@ -74,7 +74,7 @@
     - pymysql
 
 - name: Apply config
-  include_tasks: config-airflow.yml
+  include_tasks: _config.yml
 
 - name: Initialize airflow
   shell: |

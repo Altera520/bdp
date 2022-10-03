@@ -2,7 +2,7 @@
 - hosts: airflow
   become: yes
   vars_files:
-    - group_vars/mariadb.yml
+    - group_vars/mysql.yml
   vars:
     act: start
   roles:

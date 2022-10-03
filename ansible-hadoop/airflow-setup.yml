@@ -1,6 +1,6 @@
 ---
 - name: Create airflow schema
-  hosts: mariadb
+  hosts: mysql
   become: yes
   gather_facts: false
   vars_files:
@@ -11,12 +11,12 @@
     db_name: "{{ airflow_db_name }}"
     db_password: "{{ airflow_db_password }}"
   roles:
-    - mariadb
+    - mysql
 
 - hosts: airflow
   become: yes
   vars_files:
-    - group_vars/mariadb.yml
+    - group_vars/mysql.yml
   vars:
     act: setup
   roles:

@@ -13,7 +13,7 @@
 | kafka     | 3.2.0       |
 | airflow   | 2.2.5       |
 | superset  | 2.0.0       |
-| mariadb   | 10.8.3      |
+| mysql     | 8.0.30      |
 | hue       | N/A         |
 | zeppelin  | N/A         |
 | java      | openjdk-1.8 |

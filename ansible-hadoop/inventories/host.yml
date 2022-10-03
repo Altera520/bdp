@@ -52,7 +52,7 @@ all:
         bdp-dn3:
           id: 3
 
-    mariadb:
+    mysql:
       hosts:
         bdp-nn1:
 

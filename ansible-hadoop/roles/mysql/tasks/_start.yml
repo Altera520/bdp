@@ -1,4 +1,4 @@
-- name: start mariadb
+- name: start mysql
   block:
   - file:
       name: /var/run/mysqld
@@ -6,5 +6,5 @@
       owner: mysql
       group: mysql
   - systemd:
-      name: mariadb
+      name: mysqld
       state: started

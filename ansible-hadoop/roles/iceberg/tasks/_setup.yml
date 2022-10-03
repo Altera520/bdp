@@ -1,6 +1,0 @@
----
-- name: Download iceberg
-  block:
-  - get_url:
-      url: "{{ iceberg_download_path }}/{{ iceberg_download_filename }}"
-      dest: "{{ hive_aux_jar_path }}/"

@@ -1,7 +1,11 @@
-- hosts: datanode
+- name: test
+  hosts: mysql
   become: yes
+  gather_facts: false
   vars:
-    act: tmp
+    createdb: True
+    db_user: "test"
+    db_name: "test"
+    db_password: "test"
   roles:
-    - hadoop
-  
+    - mysql

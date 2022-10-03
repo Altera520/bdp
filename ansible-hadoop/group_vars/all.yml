@@ -14,27 +14,20 @@ mysql_connector_j: mysql-connector-java-8.0.30
 stack_root: "/usr/bdp"
 general_user: altera
 
-# to build hadoop
-cmake_version: 3.19.0
-protobuf_version: 3.7.1
-gcc_version: 9.3.0
-
 hadoop_version: 3.2.3
 zookeeper_version: 3.6.3
 
 # To use the Tez engine on Hive 3.1.2 or later, Tez needs to be upgraded to >= 0.10.1 which contains a necessary fix TEZ-4248.
 hive_version: 3.1.3
 tez_version: 0.10.1
-iceberg_version: 0.14.0
 
 kafka_version: 3.2.0
 scala_version: 2.13.8
 spark_version: 3.3.0
-mariadb_version: 10.8
-python_version: 3.8.9
+python_version: 3.10.0
 hbase_version: 2.4.13
 
-# airflow 2.3 version cannot use mariadb backend database
+# airflow 2.3 version cannot use mysql backend database
 # https://github.com/apache/airflow/issues/24247
 airflow_version: 2.2.5
 
