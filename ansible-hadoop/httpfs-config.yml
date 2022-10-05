@@ -1,0 +1,12 @@
+---
+- hosts: appmaster
+  become: yes
+  vars_files:
+    - group_vars/hadoop.yml
+  vars:
+    act: config
+    target: httpfs
+  roles:
+    - hadoop
+
+- import_playbook: httpfs-restart.yml

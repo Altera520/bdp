@@ -1,5 +1,32 @@
 ---
 - name: Add tez_lib_uris
-  shell: |
-    sudo su hdfs -c 'hdfs dfs -mkdir -p {{ tez_lib_uris | first }}'
-    sudo su hdfs -c 'hdfs dfs -put {{ stack_root }}/tez/share/{{ tez_lib_uris | last }} {{ tez_lib_uris | first }}/'
+  block:
+  - shell: |
+      tar -xvzf {{ stack_root }}/tez/share/{{ tez_lib_uris | last }} -C {{ stack_root }}/tez/share
+  # TEZ-4322
+  - name: Add jetty
+    copy:
+      src: "{{ item }}"
+      dest: "{{ stack_root }}/tez/share/lib"
+    with_items:
+      - jetty-client-9.3.19.v20170502.jar
+      - jetty-http-9.3.19.v20170502.jar
+      - jetty-io-9.3.19.v20170502.jar
+      - jetty-util-9.3.19.v20170502.jar
+      - jetty-servlet-9.3.19.v20170502.jar
+      - jetty-server-9.3.19.v20170502.jar
+      - jetty-webapp-9.3.19.v20170502.jar
+      - jetty-security-9.3.19.v20170502.jar
+      - jetty-xml-9.3.19.v20170502.jar
+  - shell: |
+      cd {{ stack_root }}/tez/share
+      rm {{ tez_lib_uris | last }}
+      tar -cvzf {{ tez_lib_uris | last }} .
+    failed_when: False
+  #- shell: rm -rf -v !({{ tez_lib_uris | last }})
+  - shell: |
+      sudo su hdfs -c 'hdfs dfs -rm -r {{ tez_lib_uris | first }}'
+    failed_when: False
+  - shell: |
+      sudo su hdfs -c 'hdfs dfs -mkdir -p {{ tez_lib_uris | first }}'
+      sudo su hdfs -c 'hdfs dfs -put {{ stack_root }}/tez/share/{{ tez_lib_uris | last }} {{ tez_lib_uris | first }}/'

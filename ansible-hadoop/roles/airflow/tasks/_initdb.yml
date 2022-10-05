@@ -1,0 +1,7 @@
+---
+- name: Initialize airflow
+  shell: |
+    source {{ stack_root }}/airflow/venv/bin/activate
+    export AIRFLOW_HOME={{ stack_root }}/airflow
+    airflow db init
+    airflow users create --username {{ airflow_admin_id }} --firstname {{ airflow_admin_name | split(' ') | first }} --lastname {{ airflow_admin_name | split(' ') | last }} --password {{ airflow_admin_password }} --role Admin --email {{ cluster_admin_email }}

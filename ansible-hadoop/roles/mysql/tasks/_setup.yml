@@ -1,0 +1,45 @@
+---
+- name: Create group
+  group:
+    name: mysql
+    state: present
+
+- name: Create user
+  user:
+    name: mysql
+    group: mysql
+    state: present
+    groups: hadoop
+    append: yes
+
+- shell: |
+     wget https://dev.mysql.com/get/mysql80-community-release-el7-6.noarch.rpm -O /tmp/mysql80-community-release-el7-6.noarch.rpm
+     rpm -ivh /tmp/mysql80-community-release-el7-6.noarch.rpm
+     dnf -y install mysql-server
+
+- file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: mysql
+    group: mysql
+  with_items:
+    - "{{ mysql_data_dir }}"
+    - "{{ mysql_log_dir }}"
+    - "{{ mysql_run_dir }}"
+- file:
+    path: "{{ mysql_data_dir }}"
+    mode: 0755
+
+- systemd:
+    name: mysqld
+    state: started
+    enabled: yes
+    daemon_reload: yes
+
+- shell: |
+    echo "set password=password('{{ mysql_root_password }}');" | mysql -u root
+    echo "flush privileges;" | mysql -u root
+
+- name: Apply config
+  include_tasks: _config.yml

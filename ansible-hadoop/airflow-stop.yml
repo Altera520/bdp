@@ -1,0 +1,9 @@
+---
+- hosts: airflow
+  become: yes
+  vars_files:
+    - group_vars/mysql.yml
+  vars:
+    act: stop
+  roles:
+    - airflow

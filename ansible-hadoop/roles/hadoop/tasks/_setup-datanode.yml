@@ -13,7 +13,7 @@
     path: "{{ item }}/yarn"
     state: directory
     recurse: yes
-    owner: hdfs
+    owner: yarn
     group: hadoop
   with_items: "{{ hadoop_mount_disks }}"
 

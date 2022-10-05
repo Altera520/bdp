@@ -381,7 +381,7 @@
 
     <property>
         <name>hive.metastore.dml.events</name>
-        <value>true</value>
+        <value>false</value>
     </property>
 
     <property>
@@ -891,7 +891,7 @@
 
     <property>
         <name>javax.jdo.option.ConnectionURL</name>
-        <value>jdbc:mysql://{{ groups.mariadb.0 }}:{{ mariadb_port }}/{{ hive_db_name }}?createDatabaseIfNotExist=true</value>
+        <value>jdbc:mysql://{{ groups.mysql.0 }}:{{ mysql_port }}/{{ hive_db_name }}?createDatabaseIfNotExist=true</value>
     </property>
 
     <property>
@@ -924,29 +924,9 @@
         <value>true</value>
     </property>
 
-    {% if use_iceberg == True %}
-    <!-- adding hive jars permanently -->
-    <property>
-        <name>hive.aux.jars.path</name>
-        <value>file://{{ hive_aux_jar_path }}/{{ iceberg_download_filename }}</value>
-    </property>
-
-    <property>
-        <name>iceberg.engine.hive.enabled</name>
-        <value>true</value>
-    </property>
-    {% endif %}
-
-    {% if use_iceberg == True %}
-    <property>
-        <name>hive.vectorized.execution.enabled</name>
-        <value>false</value>
-    </property>
-    {% else %}
     <property>
         <name>hive.vectorized.execution.enabled</name>
         <value>true</value>
     </property>
-    {% endif %}
 
 </configuration>

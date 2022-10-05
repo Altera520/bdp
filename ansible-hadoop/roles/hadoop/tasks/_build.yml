@@ -1,0 +1,126 @@
+- name: Install hadoop source
+  block:
+  - get_url:
+      url: "https://archive.apache.org/dist/hadoop/common/hadoop-{{ hadoop_version }}/hadoop-{{ hadoop_version }}-src.tar.gz"
+      dest: /tmp/
+  - unarchive:
+      src: "/tmp/hadoop-{{ hadoop_version }}-src.tar.gz"
+      dest: /tmp/
+      copy: no
+      owner: root
+      group: root
+
+- block:
+  - dnf:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - make
+      - bzip2
+      - libtool
+      - gcc
+      - gcc-c++
+      - openssl
+      - openssl-devel
+      - maven
+      - snappy
+      - zlib-devel
+
+# https://gist.github.com/yosoufe/ad45f45c10fe08abecbf53000d0d199f
+- name: Install gcc
+  shell: |
+    wget https://ftp.gnu.org/gnu/gcc/gcc-9.3.0/gcc-9.3.0.tar.gz -O /tmp/gcc-9.3.0.tar.gz
+    cd /tmp
+    tar -zxvf gcc-9.3.0.tar.gz && cd gcc-9.3.0
+    mkdir build
+    ./contrib/download_prerequisites
+    cd build
+    ../configure \
+    --prefix=/usr \
+    --enable-checking=release \
+    --enable-language=c,c++ \
+    --disable-multilib
+    make -j$(nproc)
+    make install
+
+# - name: Install cmake
+#   shell: |
+#     curl -L https://cmake.org/files/v{{ (cmake_version | split('.'))[0:2] | join('.') }}/cmake-{{ cmake_version }}.tar.gz > /tmp/cmake-{{ cmake_version }}.tar.gz
+#     cd /tmp
+#     tar -zxvf cmake-{{ cmake_version }}.tar.gz && cd cmake-{{ cmake_version }}
+#     ./bootstrap
+#     make -j$(nproc)
+#     sudo make install
+
+# - name: Install protobuf
+#   shell: |
+#     curl -L -s -S https://github.com/protocolbuffers/protobuf/releases/download/v{{ protobuf_version }}/protobuf-java-{{ protobuf_version }}.tar.gz -o /tmp/protobuf-{{ protobuf_version }}.tar.gz
+#     cd /tmp
+#     mkdir protobuf-{{ protobuf_version }}-src
+#     tar xzf protobuf-{{ protobuf_version }}.tar.gz --strip-components 1 -C protobuf-{{ protobuf_version }}-src && cd protobuf-{{ protobuf_version }}-src
+#     ./configure
+#     make -j$(nproc)
+#     sudo make install
+
+# - name: Install boost
+#   shell: |
+#     curl -L https://sourceforge.net/projects/boost/files/boost/1.72.0/boost_1_72_0.tar.bz2/download > /tmp/boost_1_72_0.tar.bz2
+#     cd /tmp
+#     tar --bzip2 -xf boost_1_72_0.tar.bz2 && cd boost_1_72_0
+#     ./bootstrap.sh --prefix=/usr/
+#     ./b2 --without-python
+#     sudo ./b2 --without-python install
+
+# - name: Build hadoop
+#   shell: |
+#     cd /tmp/hadoop-{{ hadoop_version }}-src
+#     mvn package -Pdist -Pnative -DskipTests -Dtar -Dmaven.javadoc.skip=true
+
+# sudo dnf -y group install --with-optional 'Development Tools'
+# dnf -y install git
+# git clone https://github.com/protocolbuffers/protobuf
+# cd protobuf
+# git checkout v3.7.1
+# autoreconf -i
+# ./configure --prefix=/usr/local
+# make
+# sudo make install
+# cd ..
+
+# sudo dnf -y install libtirpc-devel zlib-devel lz4-devel bzip2-devel openssl-devel cyrus-sasl-devel libpmem-devel
+
+# sudo dnf -y install gcc-toolset-9-gcc gcc-toolset-9-gcc-c++
+# source /opt/rh/gcc-toolset-9/enable
+
+# curl -L https://cmake.org/files/v3.19/cmake-3.19.0.tar.gz > cmake-3.19.0.tar.gz
+# tar -zxvf cmake-3.19.0.tar.gz && cd cmake-3.19.0
+# ./bootstrap
+# make -j$(nproc)
+# sudo make install
+
+# curl -L -o boost_1_72_0.tar.bz2 https://sourceforge.net/projects/boost/files/boost/1.72.0/boost_1_72_0.tar.bz2/download
+# tar xjf boost_1_72_0.tar.bz2
+# cd boost_1_72_0
+# ./bootstrap.sh --prefix=/usr/local
+# ./b2
+# sudo ./b2 install
+
+
+# sudo dnf config-manager --enable epel
+# sudo dnf config-manager --set-enabled powertools
+# sudo dnf config-manager --set-enabled powertools-source
+# sudo dnf -y --enablerepo=powertools install snappy-devel
+
+# sudo dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+# sudo dnf --enablerepo=epel install libzstd-devel
+
+# sudo dnf -y --enablerepo=powertools install nasm
+# git clone https://github.com/intel/isa-l
+# cd isa-l/
+# ./autogen.sh
+# ./configure
+# make
+# sudo make install
+
+# dnf -y install maven
+# mvn package -Pdist,native -DskipTests -Dtar -Dmaven.javadoc.skip=true

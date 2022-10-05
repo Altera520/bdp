@@ -37,6 +37,7 @@
       <value>gz</value>
     </property>
 
+    <!-- https://spark.apache.org/docs/3.3.0/running-on-yarn.html#configuring-the-external-shuffle-service -->
     <property>
         <name>yarn.nodemanager.aux-services</name>
         <value>mapreduce_shuffle,spark_shuffle</value>
@@ -80,12 +81,12 @@
     </property>
 
     <property>
-        <name>yarn.resourcemanager.resource-tracker.address.rm1</name>
+        <name>yarn.resourcemanager.webapp.address.rm1</name>
         <value>{{ groups.namenode.0 }}:8088</value>
     </property>
     
     <property>
-        <name>yarn.resourcemanager.resource-tracker.address.rm2</name>
+        <name>yarn.resourcemanager.webapp.address.rm2</name>
         <value>{{ groups.namenode.1 }}:8088</value>
     </property>
 

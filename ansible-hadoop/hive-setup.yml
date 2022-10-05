@@ -1,6 +1,10 @@
 ---
+- import_playbook: mysql.yml
+  vars:
+    act: start
+    
 - name: Create hive schema
-  hosts: mariadb
+  hosts: mysql
   become: yes
   gather_facts: false
   vars_files:
@@ -11,14 +15,13 @@
     db_name: "{{ hive_db_name }}"
     db_password: "{{ hive_db_password }}"
   roles:
-    - mariadb
+    - mysql
 
 - name: Setup hive all hadoop nodes
   hosts: hadoop
   become: yes
   vars_files:
     - group_vars/hive.yml
-    - group_vars/iceberg.yml
   vars:
     act: setup
     target: all
@@ -31,17 +34,11 @@
 
 - hosts: hiveserver2
   become: yes
-  vars_files:
-    - group_vars/iceberg.yml
   vars:
     act: setup
     target: hiveserver2
   roles:
     - hive
-  tasks:
-    - include_role: 
-        name: iceberg
-      when: use_iceberg
 
 - hosts: hivemetastore
   become: yes

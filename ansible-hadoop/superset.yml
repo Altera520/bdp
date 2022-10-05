@@ -1,6 +1,6 @@
 ---
 - name: Create superset schema
-  hosts: mariadb
+  hosts: mysql
   become: yes
   gather_facts: false
   vars_files:
@@ -11,13 +11,13 @@
     db_name: "{{ superset_db_name }}"
     db_password: "{{ superset_db_password }}"
   roles:
-    - mariadb
+    - mysql
   when: act == 'setup'
 
 - hosts: superset
   become: yes
   vars_files:
-    - group_vars/mariadb.yml
+    - group_vars/mysql.yml
   roles:
     - common
     - python

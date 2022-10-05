@@ -115,6 +115,23 @@
     - hive
     - beeline
 
+- name: match guava library with hadoop
+  block:
+  # HIVE-22915
+  - file:
+      name: "{{ stack_root }}/hive/lib/{{ item }}"
+      state: absent
+    with_items:
+      - guava-19.0.jar
+  - shell: ln -s {{ stack_root }}/hadoop/share/hadoop/common/lib/{{ item }} {{ stack_root }}/hive/lib/{{ item }}
+    with_items:
+      - guava-27.0-jre.jar
+    failed_when: False
+    
+  # HIVE-22717
+  - shell: zip -d {{ stack_root }}/hive/lib/hive-exec-{{ hive_version }}.jar "com/google/common/*"
+    failed_when: False
+
 - alternatives:
     name: "{{ item.name }}"
     link: "{{ item.link }}"
@@ -144,10 +161,10 @@
     - {
       name: hive,
       link: /usr/bin/hive,
-      path: "{{ stack_root }}/hive/bin/hive"
+      path: "{{ stack_root }}/hive/bin/hive.distro"
     }
     - {
       name: beeline,
       link: /usr/bin/beeline,
-      path: "{{ stack_root }}/hive/bin/beeline"
+      path: "{{ stack_root }}/hive/bin/beeline.distro"
     }

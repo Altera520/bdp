@@ -1,0 +1,10 @@
+- name: start mysql
+  block:
+  - file:
+      name: /var/run/mysqld
+      state: directory
+      owner: mysql
+      group: mysql
+  - systemd:
+      name: mysqld
+      state: started

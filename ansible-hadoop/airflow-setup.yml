@@ -1,0 +1,25 @@
+---
+- name: Create airflow schema
+  hosts: mysql
+  become: yes
+  gather_facts: false
+  vars_files:
+    - group_vars/airflow.yml
+  vars:
+    createdb: True
+    db_user: "{{ airflow_db_user }}"
+    db_name: "{{ airflow_db_name }}"
+    db_password: "{{ airflow_db_password }}"
+  roles:
+    - mysql
+
+- hosts: airflow
+  become: yes
+  vars_files:
+    - group_vars/mysql.yml
+  vars:
+    act: setup
+  roles:
+    - common
+    - python
+    - airflow

@@ -1,0 +1,7 @@
+---
+- template:
+    src: "{{ item }}.j2" 
+    dest: "{{ hadoop_conf_dir }}/{{ item }}"
+  with_items:
+    - httpfs-env.sh
+    - httpfs-site.xml

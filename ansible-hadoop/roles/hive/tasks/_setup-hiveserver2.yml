@@ -3,7 +3,7 @@
   shell: |
     sudo su hdfs -c 'hdfs dfs -chmod 777 /'
     sudo su hdfs -c 'hdfs dfs -mkdir -p {{ hivemetastore_warehouse_dir }}'
-    sudo su hdfs -c 'hdfs dfs -chmod 755 /user'
+    sudo su hdfs -c 'hdfs dfs -chmod 777 /user'
     sudo su hdfs -c 'hdfs dfs -chown -R hive:hdfs /user/hive'
     sudo su hdfs -c 'hdfs dfs -chmod 777 {{ hivemetastore_warehouse_dir }}'
     sudo su hdfs -c 'hdfs dfs -mkdir -p /user/{{ general_user }}'

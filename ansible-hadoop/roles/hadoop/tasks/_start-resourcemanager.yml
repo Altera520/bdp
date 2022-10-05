@@ -1,0 +1,9 @@
+---
+- block:
+  - systemd:
+      name: resourcemanager
+      state: started
+  # - wait_for: 
+  #     host: "{{ inventory_hostname }}"
+  #     port: 8032
+  #     state: started

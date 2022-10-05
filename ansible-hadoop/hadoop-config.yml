@@ -10,3 +10,5 @@
   roles:
     - hadoop
     - tez
+
+- import_playbook: httpfs-config.yml

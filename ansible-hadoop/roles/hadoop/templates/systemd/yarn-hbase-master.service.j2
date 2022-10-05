@@ -1,0 +1,16 @@
+[Unit]
+Description=Yarn HBase Master Service
+Wants=network.target network-online.target
+After=network.target network-online.target
+
+[Service]
+Type=forking
+PIDFile={{ hadoop_run_dir }}/yarn-hbase/hbase-yarn-ats-master.pid
+User=yarn-ats
+ExecStart={{ stack_root }}/hbase/bin/hbase-daemon.sh --config {{ hadoop_conf_dir }}/embedded-yarn-ats-hbase start master
+ExecStop={{ stack_root }}/hbase/bin/hbase-daemon.sh --config {{ hadoop_conf_dir }}/embedded-yarn-ats-hbase stop master
+Restart=no
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target

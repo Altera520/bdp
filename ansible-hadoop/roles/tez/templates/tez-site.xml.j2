@@ -42,7 +42,8 @@
 
     <property>
         <name>tez.am.launch.cluster-default.cmd-opts</name>
-        <value>-server -Djava.net.preferIPv4Stack=true -Dhdp.version=${hdp.version}</value>
+        <value>-server -Djava.net.preferIPv4Stack=true</value>
+        <!--<value>-server -Djava.net.preferIPv4Stack=true -Dhdp.version=${hdp.version}</value>-->
     </property>
 
     <property>
@@ -73,6 +74,9 @@
     <property>
         <name>tez.am.resource.memory.mb</name>
         <value>{{ tez_am_resource_memory_mb }}</value>
+        <description>The amount of memory to be used by the AppMaster.
+            Used only if the value is not specified explicitly by the DAG definition.
+        </description>
     </property>
 
     <property>
@@ -157,7 +161,7 @@
 
     <property>
         <name>tez.runtime.io.sort.mb</name>
-        <value>4055</value>
+        <value>800</value>
     </property>
 
     <property>

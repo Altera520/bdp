@@ -44,6 +44,10 @@
   roles: 
     - hadoop
 
+- import_playbook: httpfs-setup.yml
+
 - import_playbook: hadoop-ha.yml
+
+- import_playbook: spark-setup.yml
 
 - import_playbook: tez-setup.yml

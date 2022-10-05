@@ -34,3 +34,5 @@ yarn:
   nodemanager:
     local_sub_dir: /yarn/nm-local
     log_sub_dir: /yarn/container-log
+
+httpfs_http_port: 14000
