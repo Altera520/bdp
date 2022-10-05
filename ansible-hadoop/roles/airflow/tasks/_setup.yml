@@ -76,26 +76,6 @@
 - name: Apply config
   include_tasks: _config.yml
 
-- name: Initialize airflow
-  shell: |
-    cd "{{ stack_root }}/airflow"
-    source venv/bin/activate
-    airflow db init
-    deactivate
-
-- name: Create airflow user
-  shell: |
-    cd "{{ stack_root }}/airflow"
-    source venv/bin/activate
-    airflow users create \
-      --username {{ airflow_admin_id }} \
-      --firstname {{ airflow_admin_name | split(' ') | first }} \
-      --lastname {{ airflow_admin_name | split(' ') | last }} \
-      --password {{ airflow_admin_password }} \
-      --role Admin \
-      --email {{ cluster_admin_email }}
-    deactivate
-
 - name: Register with systemd
   block:
   - template:

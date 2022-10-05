@@ -19,3 +19,6 @@
 
 - include_tasks: _restart.yml
   when: act == ['config', 'restart']
+
+- include_tasks: _initdb.yml
+  when: act in ['initdb', 'setup']

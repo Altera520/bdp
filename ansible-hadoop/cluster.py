@@ -64,6 +64,8 @@ if __name__ == '__main__':
         print('need one argument: setup | start | stop')
         sys.exit(2)
     
+
+    print(os.system(build_ansible_command()))
     
 
     gen_topology_indegree

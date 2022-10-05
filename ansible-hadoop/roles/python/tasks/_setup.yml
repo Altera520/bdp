@@ -68,3 +68,4 @@
 - name: autoenv enable all user
   shell: |
     echo 'source /usr/local/bin/activate.sh' > /etc/profile.d/autoenv.sh
+    source /etc/profile.d/autoenv.sh
