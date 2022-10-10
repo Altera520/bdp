@@ -130,3 +130,4 @@
   shell: |
     cd /usr/lib64
     ln -s libcrypto.so.1.1.1k libcrypto.so
+  failed_when: False

@@ -46,7 +46,3 @@
 - include_tasks: _status.yml
   when: 
     - act == 'status'
-
-# - include_tasks: "_build.yml"
-#   when:
-#     - act == 'build'

@@ -1,4 +1,8 @@
 ---
+- import_playbook: hadoop-start.yml
+
+- import_playbook: hive-setup.yml
+
 - hosts: hadoop
   become: yes
   vars_files:
@@ -11,10 +15,6 @@
     - java
     - scala
     - spark
-
-- import_playbook: hadoop-start.yml
-
-- import_playbook: hive-setup.yml
 
 - hosts: spark_historyserver
   become: yes

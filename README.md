@@ -17,5 +17,5 @@
 | hue       | N/A         |
 | zeppelin  | N/A         |
 | java      | openjdk-1.8 |
-| python    | 3.8.9       |
+| python    | 3.10.0      |
 | scala     | 2.13.8      |

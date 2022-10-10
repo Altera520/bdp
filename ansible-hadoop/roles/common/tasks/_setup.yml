@@ -25,3 +25,10 @@
     path: "/etc/profile.d/{{ cluster_env }}"
     state: touch
     mode: '0644'
+
+- name: Append BDP_HOME
+  block:
+  - lineinfile:
+      dest: "/etc/profile.d/{{ cluster_env }}"
+      line: "export BDP_HOME={{ stack_root }}"
+  - shell: "source /etc/profile.d/{{ cluster_env }}"
