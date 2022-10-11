@@ -7,7 +7,9 @@ TOPOLOGY = {
     'zookeeper': ['kafka', 'hadoop'],
     'mysql': ['hadoop', 'airflow'],
     # hadoop-setup -> tez-setup, spark-setup -> hive-setup
-    'hadoop': END,
+    'hadoop': ['hive'],
+    'hive': ['spark'],
+    'spark': END,
     'kafka': END,
     'airflow': END,
 }
