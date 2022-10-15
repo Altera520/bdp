@@ -3,9 +3,9 @@ all:
   hosts:
   
   children:
-    appl_master:
+    appmaster:
       hosts:
-        
+
     namenode:
       hosts:
     
@@ -23,9 +23,15 @@ all:
 
     zookeeper:
       hosts:
+        # example)
+        # bdp-eg1:
+        #   id: 1
 
     kafka:
       hosts:
+        # example)
+        # bdp-dn1:
+        #   id: 1
 
     mysql:
       hosts:
@@ -36,6 +42,15 @@ all:
     superset:
       hosts:
 
+    hiveserver2:
+      hosts:
+
+    hivemetastore:
+      hosts:
+
+    spark_historyserver:
+      hosts:
+
     hadoop:
       children:
         namenode:
@@ -43,3 +58,12 @@ all:
         resourcemanager:
         journalnode:
         historyserver:
+
+    hive:
+      children:
+        hiveserver2:
+        hivemetastore:
+
+    spark:
+      children:
+        spark_historyserver:

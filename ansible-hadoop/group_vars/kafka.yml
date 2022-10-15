@@ -1,6 +1,6 @@
 ---
 # kafka basic vars
-kafka_download_path: "https://dlcdn.apache.org/kafka/{{ kafka_version }}"
+kafka_download_path: "https://archive.apache.org/dist/kafka/{{ kafka_version }}"
 kafka_download_filename: "kafka_{{ (scala_version | split('.'))[0:2] | join('.') }}-{{ kafka_version }}"
 
 # server.properties

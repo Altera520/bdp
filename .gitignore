@@ -1,2 +1,4 @@
 /scripts/env.sh
 node-specs.yml
+
+/ansible-hadoop/inventories/host.yml
