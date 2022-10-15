@@ -8,5 +8,3 @@
     target: httpfs
   roles:
     - hadoop
-
-- import_playbook: httpfs-restart.yml

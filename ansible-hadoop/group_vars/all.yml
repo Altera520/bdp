@@ -26,6 +26,7 @@ scala_version: 2.13.8
 spark_version: 3.3.0
 python_version: 3.10.0
 hbase_version: 2.4.13
+hue_version: 4.10.0
 
 # airflow 2.3 version cannot use mysql backend database
 # https://github.com/apache/airflow/issues/24247

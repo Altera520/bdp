@@ -161,10 +161,10 @@
     - {
       name: hive,
       link: /usr/bin/hive,
-      path: "{{ stack_root }}/hive/bin/hive.distro"
+      path: "{{ stack_root }}/hive/bin/hive"
     }
     - {
       name: beeline,
       link: /usr/bin/beeline,
-      path: "{{ stack_root }}/hive/bin/beeline.distro"
+      path: "{{ stack_root }}/hive/bin/beeline"
     }

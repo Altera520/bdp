@@ -17,17 +17,17 @@
     - target is defined and 
       target == 'all'
 
-- include_tasks: "_config-{{ target }}.yml"
-  when: 
-    - act == 'config'
-    - target is defined and 
-      target == 'httpfs'
-
 - include_tasks: "_setup-{{ target }}.yml"
   when: 
     - act == 'setup'
     - target is defined and 
       target in ['namenode', 'datanode', 'journalnode', 'historyserver', 'httpfs']
+
+- include_tasks: "_config-{{ target }}.yml"
+  when: 
+    - act == 'config'
+    - target is defined and 
+      target == 'httpfs'
 
 - include_tasks: "_setup-namenode-ha.yml"
 

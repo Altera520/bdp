@@ -17,8 +17,8 @@
     owner: httpfs
     group: hadoop 
   with_items:
-    - "{{ hadoop_run_dir }}"
-    - "{{ hadoop_log_dir }}"
+    - "{{ hadoop_run_dir }}/httpfs"
+    - "{{ hadoop_log_dir }}/httpfs"
 
 - name: Register with systemd
   block:
