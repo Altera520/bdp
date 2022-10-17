@@ -1,0 +1,11 @@
+#!/bin/bash
+
+KAFKA_HOME={{ stack_root }}/kafka
+
+{% set bootstrap_servers = [] %}
+{% for hostname in groups.kafka %}
+{{ bootstrap_servers.append(hostname + ':' + kafka_port) }}
+{% endfor %}
+
+BOOTSTRAP_SERVERS={{ bootstrap_servers | join(',') }}
+DEFAULT_REPLICA_FACTOR={{ bootstrap_servers | length }}

@@ -1,5 +1,6 @@
 import os, sys
 from collections import defaultdict, deque
+import copy
 
 HOME_PATH='/ansible/ansible-hadoop'
 END = []
@@ -13,11 +14,15 @@ TOPOLOGY = {
     'spark': END,
     'kafka': END,
     'airflow': END,
+    'appmaster': END
 }
 NEED_EXTRA_VARS = [
     'zookeeper',
     'mysql',
     'kafka',
+]
+FILTER_LIST = [
+    'appmaster'
 ]
 
 
@@ -31,9 +36,9 @@ def play(target, act):
     print(os.system(ansible_command))
 
 
-def topology_sort():
+def topology_sort(topology):
     indegree = defaultdict(int)
-    for parent, childs in TOPOLOGY.items():
+    for parent, childs in topology.items():
         if parent not in indegree:
             indegree[parent] = 0
         for child in childs:
@@ -44,29 +49,36 @@ def topology_sort():
     while dq:
         parent = dq.popleft()
         seq.append(parent)
-        for child in TOPOLOGY[parent]:
+        for child in topology[parent]:
             indegree[child] -= 1
             if indegree[child] == 0:
                 dq.append(child)
     return seq
     
 
-def topology_play(func, act):
-    seq = topology_sort()
+def topology_play(func, act, topology):
+    seq = topology_sort(topology)
     while seq:
         play(func(seq), act)
+
+
+def filter(topology):
+    topology = copy.deepcopy(TOPOLOGY)
+    for target in FILTER_LIST:
+        del topology[target]
+    return topology
     
 
 def cluster_setup():
-    topology_play(lambda seq: seq.popleft(), 'setup')
+    topology_play(lambda seq: seq.popleft(), 'setup', TOPOLOGY)
 
 
 def cluster_start():
-    topology_play(lambda seq: seq.popleft(), 'start')
+    topology_play(lambda seq: seq.popleft(), 'start', filter(TOPOLOGY))
 
 
 def cluster_stop():
-    topology_play(lambda seq: seq.pop(), 'stop')
+    topology_play(lambda seq: seq.pop(), 'stop', filter(TOPOLOGY))
 
 
 def print_usage():
