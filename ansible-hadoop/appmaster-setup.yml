@@ -1,0 +1,10 @@
+---
+- hosts: appmaster
+  become: yes
+  vars_files:
+    - group_vars/kafka.yml
+  vars:
+    act: setup
+    target: all
+  roles:
+    - appmaster

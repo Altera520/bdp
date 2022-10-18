@@ -7,3 +7,12 @@
     - common
     - java
     - kafka
+
+- hosts: appmaster
+  vars_files:
+    - group_vars/zookeeper.yml
+    - group_vars/kafka.yml
+  roles:
+    - common
+    - java
+    - kafka

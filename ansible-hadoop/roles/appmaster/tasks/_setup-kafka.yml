@@ -1,0 +1,29 @@
+---
+- shell: |
+    KAFKA_UTIL=/home/{{ general_user }}/kafka
+    mkdir ${KAFKA_UTIL}
+    chown -R {{ general_user }}:hadoop ${KAFKA_UTIL}
+
+- copy: 
+    src: "kafka/{{ item }}"
+    dest: "/home/{{ general_user }}/kafka/"
+    owner: "{{ general_user }}"
+    group: hadoop
+    mode: 0755
+  with_items:
+    - desc.sh
+    - consume.sh
+    - produce.sh
+    - create-topic.sh
+    - delete-topic.sh
+    - desc-topic.sh
+    - reassign.sh
+
+- template:
+    src: "kafka/{{ item }}.j2"
+    dest: "/home/{{ general_user }}/kafka/{{ item }}"
+    owner: "{{ general_user }}"
+    group: hadoop
+    mode: 0755
+  with_items:
+    - kafka-env.sh
