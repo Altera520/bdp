@@ -1,0 +1,13 @@
+---
+- hosts: kafka_confluent
+  become: yes
+  vars_files:
+    - group_vars/kafka.yml
+  vars:
+    act: setup
+    target: kafka-confluent
+  roles:
+    - common
+    - kafka
+
+- import_playbook: kafka-connect-config.yml

@@ -25,10 +25,10 @@
     # kafka connect install directory link
     - { 
       src: "{{ stack_root }}/{{ kafka_connect_download_filename | first }}", 
-      dest: "{{ stack_root }}/kafka-connect" 
+      dest: "{{ stack_root }}/kafka-confluent" 
     }
 
-- name: Create kafka log directory
+- name: Create kafka connect required directories
   file:
     path: "{{ item }}"
     state: directory
@@ -37,6 +37,7 @@
     group: hadoop
   with_items: 
     - "{{ kafka_log_dir }}"
+    - "{{ kafka_connect_plugin_path }}"
 
 - name: Register with systemd
   block:

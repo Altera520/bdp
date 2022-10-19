@@ -10,7 +10,7 @@ Group=hadoop
 Environment="LOG_DIR={{ kafka_log_dir }}"
 # Uncomment the following line to enable authentication for the kafka connect
 # Environment="KAFKA_OPTS=-Djava.security.auth.login.config=/etc/kafka/kafka_connect_jaas.conf"
-ExecStart={{ stack_root }}/kafka-connect/bin/connect-distributed -daemon {{ stack_root }}/kafka-connect/etc/kafka/connect-distributed.properties
+ExecStart={{ stack_root }}/kafka-confluent/bin/connect-distributed -daemon {{ stack_root }}/kafka-confluent/etc/kafka/connect-distributed.properties
 
 [Install]
 WantedBy=multi-user.target

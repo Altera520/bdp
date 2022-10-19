@@ -14,24 +14,24 @@
   - name: check installed status kafka connect
     stat: 
       path: "{{ stack_root }}/{{ kafka_connect_download_filename | first }}"
-    register: installed_kafka_connect
-  - import_tasks: _setup-kafka-connect.yml
-    when: not installed_kafka_connect.stat.exists
+    register: installed_kafka_confluent
+  - import_tasks: _setup-kafka-confluent.yml
+    when: not installed_kafka_confluent.stat.exists
   when: 
     - act == 'setup'
-    - target == 'kafka_connect'
+    - target == 'kafka-confluent'
 
 - include_tasks: _config-{{ target }}.yml
   when: 
     - act in ['setup', 'config']
-    - target in ['kafka', 'kafka_connect']
+    - target in ['kafka', 'kafka-connect']
 
 - include_tasks: _start-{{ target }}.yml
   when: 
     - act == 'start'
-    - target in ['kafka', 'kafka_connect']
+    - target in ['kafka', 'kafka-connect']
   
 - include_tasks: _stop-{{ target }}.yml
   when: 
     - act == 'stop'
-    - target in ['kafka', 'kafka_connect']
+    - target in ['kafka', 'kafka-connect']

@@ -13,6 +13,7 @@ kafka_connect_port: 8083
 
 # kafka connect log
 kafka_log_dir: /var/log/kafka
+kafka_connect_plugin_path: /usr/share/kafka/connectors
 
 # kafka log
 log_dirs: 

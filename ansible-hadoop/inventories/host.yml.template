@@ -33,7 +33,7 @@ all:
         # bdp-dn1:
         #   id: 1
 
-    kafka_connect:
+    kafka_confluent:
       hosts:
 
     mysql:
