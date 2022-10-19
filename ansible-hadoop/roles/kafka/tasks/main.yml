@@ -24,14 +24,14 @@
 - include_tasks: _config-{{ target }}.yml
   when: 
     - act in ['setup', 'config']
-    - target in ['kafka', 'kafka-connect']
+    - target in ['kafka', 'kafka-connect', 'schema-registry']
 
 - include_tasks: _start-{{ target }}.yml
   when: 
     - act == 'start'
-    - target in ['kafka', 'kafka-connect']
+    - target in ['kafka', 'kafka-connect', 'schema-registry']
   
 - include_tasks: _stop-{{ target }}.yml
   when: 
     - act == 'stop'
-    - target in ['kafka', 'kafka-connect']
+    - target in ['kafka', 'kafka-connect', 'schema-registry']

@@ -42,7 +42,10 @@
 - name: Register with systemd
   block:
   - template:
-      src: systemd/kafka-connect.service.j2
-      dest: /etc/systemd/system/kafka-connect.service
+      src: systemd/{{ item }}.j2
+      dest: /etc/systemd/system/{{ item }}.service
+    with_items:
+      - kafka-connect.service
+      - schema-registry.service
   - systemd:
       daemon_reload: yes

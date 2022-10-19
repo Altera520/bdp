@@ -1,0 +1,8 @@
+---
+- template:
+    src: "schema-registry/{{ item }}.j2"
+    dest: "{{ stack_root }}/kafka-confluent/etc/schema-registry/{{ item }}"
+  with_items:
+    - schema-registry.properties
+    - connect-avro-distributed.properties
+    - connect-avro-standalone.properties

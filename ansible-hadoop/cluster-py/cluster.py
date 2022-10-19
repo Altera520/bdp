@@ -44,18 +44,6 @@ def filter(topology, filter_list):
     for target in filter_list:
         del topology[target]
     return topology
-    
-
-def cluster_setup():
-    topology_play(lambda seq: seq.popleft(), 'setup', filter(TOPOLOGY, SETUP_FILTER_LIST))
-
-
-def cluster_start():
-    topology_play(lambda seq: seq.popleft(), 'start', filter(TOPOLOGY, EXEC_FILTER_LIST))
-
-
-def cluster_stop():
-    topology_play(lambda seq: seq.pop(), 'stop', filter(TOPOLOGY, EXEC_FILTER_LIST))
 
 
 def print_usage():
@@ -69,11 +57,14 @@ if __name__ == '__main__':
 
     target = sys.argv[1]
     act = sys.argv[2]
+
+    func = {
+        'setup': lambda _: topology_play(lambda seq: seq.popleft(), 'setup', filter(TOPOLOGY, SETUP_FILTER_LIST)),
+        'start': lambda _: topology_play(lambda seq: seq.popleft(), 'start', filter(TOPOLOGY, EXEC_FILTER_LIST)),
+        'stop': lambda _: topology_play(lambda seq: seq.pop(), 'stop', filter(TOPOLOGY, EXEC_FILTER_LIST)),
+    }
+    
     if target == 'all':
-        func = {
-            'setup': cluster_setup,
-            'start': cluster_start,
-            'stop': cluster_stop,
-        }[act]()
+        func[act]()
     else:
         play(target, act)

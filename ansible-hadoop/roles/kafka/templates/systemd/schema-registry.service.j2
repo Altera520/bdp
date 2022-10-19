@@ -10,7 +10,7 @@ Group=hadoop
 Environment="LOG_DIR={{ kafka_log_dir }}"
 # Uncomment the following line to enable authentication for the schema registry
 # Environment="SCHEMA_REGISTRY_OPTS=-Djava.security.auth.login.config=/etc/schema-registry/schema_registry_jaas.conf"
-ExecStart=/usr/bin/schema-registry-start -daemon /etc/schema-registry/schema-registry.properties
+ExecStart={{ stack_root }}/kafka-confluent/bin/schema-registry-start -daemon {{ stack_root }}/kafka-confluent/etc/schema-registry/schema-registry.properties
 ExecStop=/usr/bin/schema-registry-stop
 
 [Install]
