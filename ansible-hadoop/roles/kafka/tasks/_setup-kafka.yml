@@ -47,7 +47,7 @@
         dest: /etc/kafka/conf 
       }
 
-- name: Create kafka log directory
+- name: Create kafka log directory on each disk
   file:
     path: "{{ item }}"
     state: directory

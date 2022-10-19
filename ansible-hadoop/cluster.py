@@ -19,10 +19,10 @@ TOPOLOGY = {
 NEED_EXTRA_VARS = [
     'zookeeper',
     'mysql',
-    'kafka',
 ]
 FILTER_LIST = [
-    'appmaster'
+    'appmaster',
+    
 ]
 
 

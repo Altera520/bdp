@@ -1,6 +1,6 @@
 ---
 - template:
-    src: "{{ item }}.j2"
+    src: "kafka/{{ item }}.j2"
     dest: "{{ stack_root }}/kafka/config/{{ item }}"
   with_items:
     - server.properties

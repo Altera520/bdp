@@ -1,0 +1,8 @@
+---
+- hosts: kafka
+  become: yes
+  vars:
+    act: config
+    target: kafka
+  roles:
+    - kafka

@@ -3,6 +3,9 @@
   become: yes
   vars_files:
     - group_vars/zookeeper.yml
+  vars:
+    act: setup
+    target: kafka
   roles:
     - common
     - java
@@ -12,6 +15,9 @@
   vars_files:
     - group_vars/zookeeper.yml
     - group_vars/kafka.yml
+  vars:
+    act: setup
+    target: kafka
   roles:
     - common
     - java

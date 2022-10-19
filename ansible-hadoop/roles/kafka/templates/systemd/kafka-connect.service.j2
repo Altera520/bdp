@@ -1,0 +1,16 @@
+[Unit]
+Description=Apache Kafka Connect
+After=network.target kafka.service schema-registry.service
+
+[Service]
+Type=forking
+User=kafka
+Group=hadoop
+#Environment="KAFKA_JMX_OPTS=-Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=10040 -Dcom.sun.management.jmxremote.local.only=true -Dcom.sun.management.jmxremote.authenticate=false"
+Environment="LOG_DIR={{ kafka_log_dir }}"
+# Uncomment the following line to enable authentication for the kafka connect
+# Environment="KAFKA_OPTS=-Djava.security.auth.login.config=/etc/kafka/kafka_connect_jaas.conf"
+ExecStart={{ stack_root }}/kafka-connect/bin/connect-distributed -daemon {{ stack_root }}/kafka-connect/etc/kafka/connect-distributed.properties
+
+[Install]
+WantedBy=multi-user.target

@@ -33,6 +33,9 @@ all:
         # bdp-dn1:
         #   id: 1
 
+    kafka_connect:
+      hosts:
+
     mysql:
       hosts:
 
