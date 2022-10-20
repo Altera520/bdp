@@ -9,3 +9,4 @@ KAFKA_HOME={{ stack_root }}/kafka
 
 BOOTSTRAP_SERVERS={{ bootstrap_servers | join(',') }}
 DEFAULT_REPLICA_FACTOR={{ bootstrap_servers | length }}
+KAFKA_CONNECTOR_URL=http://{{ groups['kafka_connect'][0] }}:{{ kafka_connect_port }}

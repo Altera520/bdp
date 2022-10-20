@@ -1,0 +1,10 @@
+---
+- name: start kafka
+  block:
+  - systemd:
+      name: kafka-ui
+      state: stopped
+  - wait_for:
+      host: "{{ inventory_hostname }}"
+      port: "{{ kafka_ui_port }}"
+      state: stopped

@@ -1,0 +1,10 @@
+---
+- name: stop kafka schema registry
+  block:
+  - systemd:
+      name: schema-registry
+      state: stopped
+  - wait_for:
+      host: "{{ inventory_hostname }}"
+      port: "{{ schema_registry_port }}"
+      state: stopped

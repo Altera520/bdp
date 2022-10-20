@@ -43,7 +43,7 @@
   block:
   - template:
       src: systemd/{{ item }}.j2
-      dest: /etc/systemd/system/{{ item }}.service
+      dest: /etc/systemd/system/{{ item }}
     with_items:
       - kafka-connect.service
       - schema-registry.service

@@ -1,0 +1,10 @@
+---
+- name: start kafka connect
+  block:
+  - systemd:
+      name: schema-registry
+      state: started
+  - wait_for:
+      host: "{{ inventory_hostname }}"
+      port: "{{ kafka_connect_port }}"
+      state: started
