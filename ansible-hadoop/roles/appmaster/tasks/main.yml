@@ -1,4 +1,9 @@
 ---
+- import_tasks: _setup-common.yml
+  when: 
+    - act == 'setup'
+    - target == 'all'
+
 - import_tasks: _setup-kafka.yml
   when: 
     - act == 'setup'

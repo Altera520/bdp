@@ -49,3 +49,12 @@
       - schema-registry.service
   - systemd:
       daemon_reload: yes
+
+- name: Add datagen kafka connector in plugin path
+  copy: 
+    src: kafka-connect/{{ item }}
+    dest: "{{ kafka_connect_plugin_path }}"
+    owner: kafka
+    group: hadoop
+  with_items:
+    - kafka-connect-datagen-0.7.0-SNAPSHOT
