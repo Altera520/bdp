@@ -10,16 +10,10 @@
     - act == 'setup'
     - target == 'kafka'
 
-- block:
-  - name: check installed status kafka connect
-    stat: 
-      path: "{{ stack_root }}/{{ kafka_connect_download_filename | first }}"
-    register: installed_kafka_confluent
-  - import_tasks: _setup-kafka-confluent.yml
-    when: not installed_kafka_confluent.stat.exists
+- include_tasks: _setup-kafka-connect.yml
   when: 
     - act == 'setup'
-    - target == 'kafka-confluent'
+    - target == 'kafka-connect'
 
 - include_tasks: _setup-kafka-ui.yml
   when: 

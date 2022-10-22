@@ -24,11 +24,8 @@ TOPOLOGY = {
     ],
     'spark': END,
     'kafka': [
-        'kafka-confluent', 
         'kafka-connect',
-        'schema-registry',
     ],
-    'kafka-confluent': END,
     'kafka-connect': END,
     'airflow': END,
     'appmaster': END
@@ -40,11 +37,9 @@ NEED_EXTRA_VARS = [
 ]
 
 SETUP_FILTER_LIST = [
-    'kafka-connect',
-    'schema-registry',
+    
 ]
 
 EXEC_FILTER_LIST = [
     'appmaster',
-    'kafka-confluent',
 ]

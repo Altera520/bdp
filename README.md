@@ -11,7 +11,7 @@
 | zookeeper         | 3.6.3       |
 | spark             | 3.3.0       |
 | kafka             | 3.2.0       |
-| kafka confluent   | 7.2.0       |
+| debezium          | 1.5.4       |
 | airflow           | 2.2.5       |
 | superset          | N/A         |
 | mysql             | 8.0.30      |

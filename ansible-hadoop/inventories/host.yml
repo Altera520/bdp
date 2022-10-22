@@ -52,7 +52,7 @@ all:
         bdp-dn3:
           id: 3
 
-    kafka_confluent:
+    kafka_util:
       hosts:
         bdp-eg1:
 

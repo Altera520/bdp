@@ -8,6 +8,11 @@ kafka_connect_download_filename: ["confluent-{{ kafka_confluent_version }}", "ta
 kafka_ui_download_path: "https://github.com/provectus/kafka-ui/releases/download/v{{ kafka_ui_version }}"
 kafka_ui_download_filename: "kafka-ui-api-v{{ kafka_ui_version }}.jar"
 
+debezium_download_path: https://repo1.maven.org/maven2/io/debezium/debezium-connector-mysql/{{ debezium_version }}.Final
+debezium_download_filename: 
+  - debezium-connector-mysql-{{ debezium_version }}.Final-plugin.tar.gz
+  - debezium-connector-oracle-{{ debezium_version }}.Final-plugin.tar.gz
+
 # server.properties
 kafka_port: "9092"
 offsets_topic_replication_factor: 3
