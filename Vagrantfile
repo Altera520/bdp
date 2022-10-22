@@ -22,12 +22,12 @@ Vagrant.configure(VAGRANT_API_VER) do |config|
 
             # move local file to vm
             config.vm.provision "file", source: SPEC_FILE, destination: "/tmp/"
-            config.vm.provision "file", source: "scripts/env.sh", destination: "/tmp/"
+            config.vm.provision "file", source: "vagrant-scripts/env.sh", destination: "/tmp/"
 
             # shell provisioning
-            node.vm.provision "shell", path: "scripts/increase-disk.sh"
+            node.vm.provision "shell", path: "vagrant-scripts/increase-disk.sh"
             node.vm.provision "shell" do |shell|
-                shell.path = "scripts/setup-vm.sh"
+                shell.path = "vagrant-scripts/setup-vm.sh"
                 shell.args = [node_spec["name"]]
                 shell.reboot = "true"
             end

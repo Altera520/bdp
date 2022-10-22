@@ -1,0 +1,8 @@
+---
+- template:
+    src: "kafka-connect/{{ item }}.j2"
+    dest: "{{ stack_root }}/kafka/config/{{ item }}"
+  with_items:
+    - connect-distributed.properties
+    - connect-standalone.properties
+

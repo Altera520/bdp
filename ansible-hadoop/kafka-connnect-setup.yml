@@ -1,0 +1,13 @@
+---
+- hosts: kafka_util
+  become: yes
+  vars_files:
+    - group_vars/kafka.yml
+  vars:
+    act: setup
+    target: kafka-connect
+  roles:
+    - common
+    - kafka
+
+- import_playbook: kafka-connect-config.yml

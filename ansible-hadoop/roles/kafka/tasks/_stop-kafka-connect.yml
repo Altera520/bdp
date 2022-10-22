@@ -1,0 +1,10 @@
+---
+- name: stop kafka connect
+  block:
+  - systemd:
+      name: kafka-connect
+      state: stopped
+  - wait_for:
+      host: "{{ inventory_hostname }}"
+      port: "{{ kafka_connect_port }}"
+      state: stopped

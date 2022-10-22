@@ -9,16 +9,17 @@ function consume {
   TOPIC=$1
   STARTING_OFFSETS=$2
 
-  case STARTING_OFFSETS in
+
+  case ${STARTING_OFFSETS} in
     earliest)
     ${KAFKA_HOME}/bin/kafka-console-consumer.sh \
-      --bootstrap-server ${BOOTSTRAP} \
+      --bootstrap-server ${BOOTSTRAP_SERVERS} \
       --topic ${TOPIC} \
       --from-beginning
     ;;
     latest)
-    ${KAFKA_HOME}/bin/kafka-topics.sh \
-      --bootstrap-server ${BOOTSTRAP} \
+    ${KAFKA_HOME}/bin/kafka-console-consumer.sh \
+      --bootstrap-server ${BOOTSTRAP_SERVERS} \
       --topic ${TOPIC}
     ;;
   esac

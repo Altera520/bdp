@@ -1,10 +1,32 @@
 ---
-# kafka basic vars
 kafka_download_path: "https://archive.apache.org/dist/kafka/{{ kafka_version }}"
 kafka_download_filename: "kafka_{{ (scala_version | split('.'))[0:2] | join('.') }}-{{ kafka_version }}"
+
+kafka_connect_download_path: "https://packages.confluent.io/archive/{{ (kafka_confluent_version | split('.'))[0:2] | join('.') }}"
+kafka_connect_download_filename: ["confluent-{{ kafka_confluent_version }}", "tar.gz"]
+
+kafka_ui_download_path: "https://github.com/provectus/kafka-ui/releases/download/v{{ kafka_ui_version }}"
+kafka_ui_download_filename: "kafka-ui-api-v{{ kafka_ui_version }}.jar"
+
+debezium_download_path: https://repo1.maven.org/maven2/io/debezium/debezium-connector-mysql/{{ debezium_version }}.Final
+debezium_download_filename: 
+  - debezium-connector-mysql-{{ debezium_version }}.Final-plugin.tar.gz
+  - debezium-connector-oracle-{{ debezium_version }}.Final-plugin.tar.gz
 
 # server.properties
 kafka_port: "9092"
 offsets_topic_replication_factor: 3
+
+kafka_connect_port: 8083
+
+# kafka connect log
+kafka_log_dir: /var/log/kafka
+kafka_connect_plugin_path: /usr/share/kafka/connectors
+
+schema_registry_port: 48081
+
+kafka_ui_port: 48082
+
+# kafka log
 log_dirs: 
   - /data/kafka-logs

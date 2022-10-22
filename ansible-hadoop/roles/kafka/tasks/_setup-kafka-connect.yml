@@ -1,0 +1,48 @@
+- name: Create kafka connect required directories
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+    owner: kafka
+    group: hadoop
+  with_items: 
+    - "{{ kafka_log_dir }}"
+    - "{{ kafka_connect_plugin_path }}"
+
+- name: Register with systemd
+  block:
+  - template:
+      src: systemd/{{ item }}.j2
+      dest: /etc/systemd/system/{{ item }}
+    with_items:
+      - kafka-connect.service
+      - schema-registry.service
+  - systemd:
+      daemon_reload: yes
+
+- name: Add datagen kafka connector in plugin path
+  copy: 
+    src: kafka-connect/{{ item }}
+    dest: "{{ kafka_connect_plugin_path }}"
+    owner: kafka
+    group: hadoop
+  with_items:
+    - kafka-connect-datagen-0.7.0-SNAPSHOT.jar
+
+- name: Add debezium connector
+  block:
+  - get_url:
+      url: "{{ debezium_download_path }}/{{ item }}"
+      dest: /tmp/
+    with_items: "{{ debezium_download_filename }}"
+  - unarchive:
+      src: "/tmp/{{ item }}"
+      dest: "{{ kafka_connect_plugin_path }}"
+      copy: no
+      owner: kafka
+      group: hadoop
+    with_items: "{{ debezium_download_filename }}"
+  - file:
+      path: "{{ kafka_connect_plugin_path }}/{{ item }}"
+      state: absent
+    with_items: "{{ debezium_download_filename }}"

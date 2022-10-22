@@ -1,0 +1,13 @@
+[Unit]
+Description=Kafka UI
+After=network.target kafka.service schema-registry.service
+
+[Service]
+Type=forking
+User=kafka
+Group=hadoop
+Environment="LOG_DIR={{ kafka_log_dir }}"
+ExecStart=java -Dspring.config.additional-location={{ stack_root }}/kafka-ui/application-local.yml -jar {{ stack_root }}/kafka-ui/{{ kafka_ui_download_filename }}
+
+[Install]
+WantedBy=multi-user.target

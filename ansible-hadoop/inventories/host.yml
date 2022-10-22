@@ -52,6 +52,10 @@ all:
         bdp-dn3:
           id: 3
 
+    kafka_util:
+      hosts:
+        bdp-eg1:
+
     mysql:
       hosts:
         bdp-nn1:

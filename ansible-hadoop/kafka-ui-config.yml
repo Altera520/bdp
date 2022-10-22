@@ -1,0 +1,11 @@
+---
+- hosts: kafka_confluent
+  become: yes
+  vars_files:
+    - group_vars/kafka.yml
+    - group_vars/zookeeper.yml
+  vars:
+    act: config
+    target: kafka-ui
+  roles:
+    - kafka
