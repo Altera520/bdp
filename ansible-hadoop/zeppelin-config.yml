@@ -1,0 +1,10 @@
+---
+- hosts: appmaster
+  become: yes
+  vars_files:
+    - group_vars/zeppelin.yml
+    - group_vars/config.yml
+  vars:
+    act: setup
+  roles:
+    - zeppelin

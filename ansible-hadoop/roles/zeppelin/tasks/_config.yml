@@ -1,0 +1,22 @@
+---
+- template:
+    src: "{{ item }}.j2"
+    dest: "{{ stack_root }}/zeppelin/conf/{{ item }}"
+    owner: zeppelin 
+    group: hadoop
+  with_items:
+    - zeppelin-site.xml
+    - zeppelin-env.sh
+    - shiro.ini
+    - interpreter.json
+
+- name: Hadoop intergration
+  file:
+    src: /etc/hadoop/conf/{{ item }}
+    dest: "{{ stack_root }}/zeppelin/conf/external-dependency-conf/{{ item }}"
+    owner: zeppelin 
+    group: hadoop
+    state: link
+  with_items:
+    - core-site.xml
+    - hdfs-site.xml

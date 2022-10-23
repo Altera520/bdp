@@ -1,0 +1,77 @@
+---
+- name: Create user
+  user:
+    name: zeppelin
+    group: hadoop
+    state: present
+
+- name: Install zeppelin
+  block:
+  - get_url:
+      url: "{{ zeppelin_download_path }}/{{ zeppelin_download_filename | join('.') }}"
+      dest: /tmp/
+  - unarchive:
+      src: "/tmp/{{ zeppelin_download_filename | join('.') }}"
+      dest: "{{ stack_root }}"
+      copy: no
+      owner: root
+      group: root
+  - file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+      - "/tmp/{{ zeppelin_download_filename | join('.') }}"
+
+- name: Link installed zeppelin
+  block:
+  - file:
+      path: /etc/zeppelin
+      state: directory
+      owner: zeppelin
+      group: hadoop
+  - file:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      state: link
+      owner: zeppelin
+      group: hadoop
+    loop:
+      # zeppelin install directory link
+      - { 
+        src: "{{ stack_root }}/{{ zeppelin_download_filename | first }}", 
+        dest: "{{ stack_root }}/zeppelin" 
+      }
+      # zeppelin config link
+      - { 
+        src: "{{ stack_root }}/zeppelin/conf", 
+        dest: "{{ zeppelin_conf_dir }}"
+      }
+  - file:
+      path: "{{ item }}"
+      state: directory
+      owner: zeppelin
+      group: hadoop
+    with_items:
+      - "{{ zeppelin_ext_conf_dir }}"
+      - "{{ zeppelin_run_dir }}"
+      - "{{ zeppelin_log_dir }}"
+
+- name: Register with systemd
+  block:
+  - template:
+      src: systemd/{{ item }}.j2
+      dest: /etc/systemd/system/{{ item }}
+    with_items:
+      - zeppelin.service
+  - systemd:
+      daemon_reload: yes
+
+- shell: |
+    su hdfs -c 'hdfs dfs -mkdir -p /user/zeppelin'
+    su hdfs -c 'hdfs dfs -put {{ stack_root }}/zeppelin/notebook /user/zeppelin/'
+    su hdfs -c 'hdfs dfs -mkdir -p /user/zeppelin/test'
+    su hdfs -c 'hdfs dfs -mkdir -p /user/zeppelin/conf'
+    su hdfs -c 'hdfs dfs -chown -R zeppelin:hdfs /user/zeppelin'
+    su hdfs -c 'hdfs dfs -mkdir -p /apps/zeppelin'
+    su hdfs -c 'hdfs dfs -chown -R zeppelin:hdfs /apps/zeppelin'
+  failed_when: False
