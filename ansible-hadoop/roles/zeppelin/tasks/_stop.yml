@@ -1,0 +1,10 @@
+---
+- name: stop zeppelin
+  block:
+  - systemd:
+      name: zeppelin
+      state: stopped
+  - wait_for:
+      host: "{{ inventory_hostname }}"
+      port: "{{ zeppelin_port }}"
+      state: stopped

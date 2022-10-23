@@ -1,0 +1,10 @@
+---
+zeppelin_download_path: "https://dlcdn.apache.org/zeppelin/zeppelin-{{ zeppelin_version }}"
+zeppelin_download_filename: ["zeppelin-{{ zeppelin_version }}-bin-all", "tgz"]
+
+zeppelin_log_dir: /var/log/zeppelin
+zeppelin_run_dir: /var/run/zeppelin
+zeppelin_conf_dir: /etc/zeppelin/conf
+zeppelin_ext_conf_dir: "{{ zeppelin_conf_dir }}/external-dependency-conf"
+zeppelin_notebook_dir: /user/zeppelin/notebook
+zeppelin_port: 29999
