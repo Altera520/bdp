@@ -16,18 +16,22 @@ TOPOLOGY = {
     'hadoop': [
         'hive', 
         'spark', 
-        'httpfs'
+        'httpfs',
+        'zeppelin',
     ],
     'httpfs': END,
     'hive': [
         'spark'
     ],
-    'spark': END,
+    'spark': [
+        'zeppelin',
+    ],
     'kafka': [
         'kafka-connect',
     ],
     'kafka-connect': END,
     'airflow': END,
+    'zeppelin': END,
     'appmaster': END
 }
 
