@@ -59,9 +59,9 @@ if __name__ == '__main__':
     act = sys.argv[2]
 
     func = {
-        'setup': lambda _: topology_play(lambda seq: seq.popleft(), 'setup', filter(TOPOLOGY, SETUP_FILTER_LIST)),
-        'start': lambda _: topology_play(lambda seq: seq.popleft(), 'start', filter(TOPOLOGY, EXEC_FILTER_LIST)),
-        'stop': lambda _: topology_play(lambda seq: seq.pop(), 'stop', filter(TOPOLOGY, EXEC_FILTER_LIST)),
+        'setup': lambda : topology_play(lambda seq: seq.popleft(), 'setup', filter(TOPOLOGY, SETUP_FILTER_LIST)),
+        'start': lambda : topology_play(lambda seq: seq.popleft(), 'start', filter(TOPOLOGY, EXEC_FILTER_LIST)),
+        'stop': lambda : topology_play(lambda seq: seq.pop(), 'stop', filter(TOPOLOGY, EXEC_FILTER_LIST)),
     }
     
     if target == 'all':

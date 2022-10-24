@@ -16,7 +16,7 @@
 | superset          | N/A         |
 | mysql             | 8.0.30      |
 | hue               | N/A         |
-| zeppelin          | 0.10.1      |
+| zeppelin          | N/A         |
 | java              | openjdk-1.8 |
 | python            | 3.10.0      |
 | scala             | 2.13.8      |
