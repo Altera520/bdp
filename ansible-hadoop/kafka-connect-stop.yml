@@ -1,5 +1,5 @@
 ---
-- hosts: kafka_util
+- hosts: kafka_connect
   become: yes
   vars_files:
     - group_vars/kafka.yml

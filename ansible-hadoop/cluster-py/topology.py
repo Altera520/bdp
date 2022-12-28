@@ -24,14 +24,14 @@ TOPOLOGY = {
         'spark'
     ],
     'spark': [
-        #'zeppelin',
+        'zeppelin',
     ],
     'kafka': [
         'kafka-connect',
     ],
     'kafka-connect': END,
     'airflow': END,
-    #'zeppelin': END,
+    'zeppelin': END,
     'appmaster': END
 }
 

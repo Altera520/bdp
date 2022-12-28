@@ -25,7 +25,8 @@ kafka_version: 3.2.0
 kafka_confluent_version: 7.2.0
 kafka_ui_version: 0.4.0
 debezium_version: 1.5.4
-scala_version: 2.13.8
+#scala_version: 2.13.8
+scala_version: 2.12.11
 spark_version: 3.3.0
 python_version: 3.10.0
 hbase_version: 2.4.13
