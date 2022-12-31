@@ -31,3 +31,20 @@
     src: "{{ hadoop_conf_dir }}/mapred-site.xml" 
     dest: "{{ hive_conf_dir }}/mapred-site.xml"
     state: link
+
+- alternatives:
+    name: "{{ item.name }}"
+    link: "{{ item.link }}"
+    path: "{{ item.path }}"
+    priority: 20
+  loop:
+    - {
+      name: hive,
+      link: /usr/bin/hive,
+      path: "{{ stack_root }}/hive/bin/hive"
+    }
+    - {
+      name: beeline,
+      link: /usr/bin/beeline,
+      path: "{{ stack_root }}/hive/bin/beeline"
+    }

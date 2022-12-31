@@ -1,7 +1,8 @@
 ---
-spark_download_path: "https://dlcdn.apache.org/spark/spark-{{ spark_version }}"
+spark_download_path: "https://archive.apache.org/dist/spark/spark-{{ spark_version }}"
+
 #spark_download_filename: "spark-{{ spark_version }}-bin-hadoop{{ hadoop_version | split('.') | first }}-scala{{ (scala_version | split('.'))[0:2] | join('.') }}"
-spark_download_filename: "spark-{{ spark_version }}-bin-hadoop{{ hadoop_version | split('.') | first }}"
+spark_download_filename: "spark-{{ spark_version }}-bin-hadoop{{ (hadoop_version | split('.'))[0:2] | join('.') }}"
 
 spark_log_dir: /var/log/spark
 spark_run_dir: /var/run/spark

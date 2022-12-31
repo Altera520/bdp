@@ -1,0 +1,7 @@
+---
+- hosts: zookeeper
+  become: yes
+  vars:
+    act: start
+  roles:
+    - zookeeper

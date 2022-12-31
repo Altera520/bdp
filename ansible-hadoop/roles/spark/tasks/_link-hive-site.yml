@@ -1,0 +1,8 @@
+---
+- name: Link hive-site.xml to spark
+  file:
+    src: "{{ stack_root }}/hive/conf/hive-site.xml"
+    dest: /etc/spark/conf/hive-site.xml
+    state: link
+    owner: root
+    group: root

@@ -1,0 +1,7 @@
+---
+- hosts: mysql
+  become: yes
+  vars:
+    act: setup
+  roles:
+    - mysql

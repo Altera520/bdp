@@ -24,9 +24,11 @@
 
 - name: Install mysql connector-J
   block:
-  - get_url: 
-      url: "http://dev.mysql.com/get/Downloads/Connector-J/{{ mysql_connector_j }}.tar.gz"
-      dest: /tmp/
+  - copy: 
+      src: "{{ item }}"
+      dest: "/tmp/"
+    with_items:
+      - "{{ mysql_connector_j }}.tar.gz"
   - unarchive:
       src: "/tmp/{{ mysql_connector_j }}.tar.gz"
       dest: /tmp/
@@ -157,14 +159,4 @@
       name: hiveserver2,
       link: /usr/bin/hiveserver2,
       path: "{{ stack_root }}/hive/bin/hiveserver2"
-    }
-    - {
-      name: hive,
-      link: /usr/bin/hive,
-      path: "{{ stack_root }}/hive/bin/hive"
-    }
-    - {
-      name: beeline,
-      link: /usr/bin/beeline,
-      path: "{{ stack_root }}/hive/bin/beeline"
     }
