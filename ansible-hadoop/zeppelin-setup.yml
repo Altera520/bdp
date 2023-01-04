@@ -4,6 +4,7 @@
   vars_files:
     - group_vars/zeppelin.yml
     - group_vars/hadoop.yml
+    - group_vars/spark.yml
   vars:
     act: setup
   roles:

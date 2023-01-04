@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
     target = sys.argv[1]
     act = sys.argv[2]
-    cmd = act_to_cmd()
+    cmd = act_to_cmd(act)
 
     if target == 'all':
         for component in topology_sort(TOPOLOGY, cmd, act == 'stop'):

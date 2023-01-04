@@ -12,6 +12,7 @@
     - scala
     - spark
 
+# hadoop은 spark yarn shuffle jar를 복사한후에 실행
 - import_playbook: hadoop-start.yml
 
 - import_playbook: hive-setup.yml
