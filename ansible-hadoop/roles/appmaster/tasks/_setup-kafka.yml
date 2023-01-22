@@ -11,7 +11,6 @@
     group: hadoop
     mode: 0755
   with_items:
-    - desc.sh
     - consume.sh
     - produce.sh
     - create-topic.sh

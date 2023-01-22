@@ -1,70 +1,78 @@
 import os, sys
-from collections import defaultdict, deque
-import copy
-from topology import HOME_PATH, NEED_EXTRA_VARS, TOPOLOGY, SETUP_FILTER_LIST, EXEC_FILTER_LIST
-
-def play(target, act):
-    # ansible-playbook -i <inventory-file> <playbook-file>
-    ansible_command = f"ansible-playbook -i {HOME_PATH}/inventories/host.yml "
-    if target not in NEED_EXTRA_VARS:
-        ansible_command += f'{HOME_PATH}/{target}-{act}.yml'
-    else:
-        ansible_command += f'{HOME_PATH}/{target}.yml --extra-vars \"act={act}\"'
-    print(os.system(ansible_command))
+from typing import *
+from collections import deque
+from cmd import Cmd
+from topology import HOME_PATH, TOPOLOGY
 
 
-def topology_sort(topology):
-    indegree = defaultdict(int)
-    for parent, childs in topology.items():
-        if parent not in indegree:
-            indegree[parent] = 0
-        for child in childs:
-            indegree[child] += 1
 
-    dq = deque([k for k, v in indegree.items() if v == 0])
-    seq = deque([])
-    while dq:
-        parent = dq.popleft()
-        seq.append(parent)
-        for child in topology[parent]:
-            indegree[child] -= 1
-            if indegree[child] == 0:
-                dq.append(child)
+def ansible_play(target, act):
+    cmd = f"ansible-playbook -i {HOME_PATH}/inventories/host.yml "
+    cmd += f'{HOME_PATH}/{target}-{act}.yml'
+    #cmd += f'{HOME_PATH}/{target}.yml --extra-vars \"act={act}\"'
+    print(os.system(cmd))
+
+
+def topology_sort(graph: Dict[str, List[str]],
+                  cmd: str,
+                  reverse: bool = False,
+                  exclude: List[str] = []) -> List[str]:
+    indegree = dict.fromkeys(graph.keys(), 0)
+    seq = []
+
+    for c in graph.values():
+        for _ in c['child']:
+            indegree[_] += 1
+
+    q = deque([k for k, v in indegree.items() if not v])
+    while q:
+        p = q.popleft()
+        seq.append(p)
+        for c in graph[p]['child']:
+            indegree[c] -= 1
+            if not indegree[c]:
+                q.append(c)
+    seq = filter(seq, cmd, graph, exclude)
+    if reverse:
+        seq.reverse()
+    print_seq(seq)
     return seq
-    
-
-def topology_play(func, act, topology):
-    seq = topology_sort(topology)
-    while seq:
-        play(func(seq), act)
 
 
-def filter(topology, filter_list):
-    topology = copy.deepcopy(TOPOLOGY)
-    for target in filter_list:
-        del topology[target]
-    return topology
+def filter(seq: List[str],
+           cmd: str,
+           graph: Dict[str, List[str]],
+           exclude: List[str]) -> List[str]:
+    exclude = dict.fromkeys(exclude, 0)
+    seq = [component for component in seq if component not in exclude and graph[component]['cmd'] == cmd or graph[component]['cmd'] == Cmd.ALL]
+    return seq
 
 
-def print_usage():
-    print('illegal arguments')
+def print_seq(seq: List[str]) -> None:
+    if seq:
+        base_len = max([len(_) for _ in seq])
+    plan = [f"{str(i + 1).rjust(2, ' ')}. {component.ljust(base_len, ' ')}" for i, component in enumerate(seq)]
+    print("======= ANSIBLE PLAN =======")
+    print(" >>\n".join(plan))
+    print("============================")
+
+
+def act_to_cmd(act: str) -> str:
+    cmd = ('run' if act == 'start' or act == 'stop' else act).upper()
+    return cmd
 
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print_usage()
+        print('illegal arguments')
         sys.exit(2)
 
     target = sys.argv[1]
     act = sys.argv[2]
+    cmd = act_to_cmd(act)
 
-    func = {
-        'setup': lambda : topology_play(lambda seq: seq.popleft(), 'setup', filter(TOPOLOGY, SETUP_FILTER_LIST)),
-        'start': lambda : topology_play(lambda seq: seq.popleft(), 'start', filter(TOPOLOGY, EXEC_FILTER_LIST)),
-        'stop': lambda : topology_play(lambda seq: seq.pop(), 'stop', filter(TOPOLOGY, EXEC_FILTER_LIST)),
-    }
-    
     if target == 'all':
-        func[act]()
+        for component in topology_sort(TOPOLOGY, cmd, act == 'stop'):
+            ansible_play(component, act)
     else:
-        play(target, act)
+        ansible_play(target, act)

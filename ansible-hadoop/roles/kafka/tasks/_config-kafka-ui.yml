@@ -1,7 +1,0 @@
----
-- template:
-    src: "kafka-ui/{{ item }}.j2"
-    dest: "{{ stack_root }}/kafka-ui/{{ item }}"
-  with_items:
-    - application-local.yml
-

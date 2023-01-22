@@ -1,0 +1,9 @@
+---
+- hosts: zookeeper
+  become: yes
+  vars:
+    act: setup
+  roles:
+    - common
+    - java
+    - zookeeper

@@ -15,11 +15,6 @@
     - act == 'setup'
     - target == 'kafka-connect'
 
-- include_tasks: _setup-kafka-ui.yml
-  when: 
-    - act == 'setup'
-    - target == 'kafka-ui'
-
 - include_tasks: _config-{{ target }}.yml
   when: 
     - act in ['setup', 'config']

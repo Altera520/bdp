@@ -1,8 +1,4 @@
 ---
-- import_playbook: hadoop-start.yml
-
-- import_playbook: hive-setup.yml
-
 - hosts: hadoop
   become: yes
   vars_files:
@@ -16,6 +12,11 @@
     - scala
     - spark
 
+# hadoop은 spark yarn shuffle jar를 복사한후에 실행
+- import_playbook: hadoop-start.yml
+
+- import_playbook: hive-setup.yml
+
 - hosts: spark_historyserver
   become: yes
   vars_files:
@@ -23,5 +24,14 @@
   vars:
     act: setup
     target: spark_historyserver
+  roles:
+    - spark
+
+# copy hive-site.xml to spark conf
+- hosts: hadoop
+  become: yes
+  vars:
+    act: link
+    target: all
   roles:
     - spark

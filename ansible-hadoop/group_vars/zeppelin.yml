@@ -7,4 +7,4 @@ zeppelin_run_dir: /var/run/zeppelin
 zeppelin_conf_dir: /etc/zeppelin/conf
 zeppelin_ext_conf_dir: "{{ zeppelin_conf_dir }}/external-dependency-conf"
 zeppelin_notebook_dir: /user/zeppelin/notebook
-zeppelin_port: 29999
+zeppelin_port: 9999

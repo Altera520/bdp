@@ -3,6 +3,7 @@
 # - name: bdp-eg1
 #   box: rockylinux/8
 #   network: public_network
+#   network_if: enp1s0
 #   ip: 192.168.45.244
 #   mem: 32
 #   cpu: 8
@@ -14,7 +15,8 @@
 
 - name: 
   box: 
-  network: 
+  network:
+  network_if: 
   ip: 
   mem: 
   cpu: 

@@ -9,7 +9,7 @@ Vagrant.configure(VAGRANT_API_VER) do |config|
     NODES.each do |node_spec|
         config.vm.define node_spec["name"] do |node|
             node.vm.box = node_spec["box"]
-            node.vm.network node_spec["network"], ip: node_spec["ip"]
+            node.vm.network node_spec["network"], ip: node_spec["ip"], bridge: node_spec["network_if"]
             node.vbguest.installer_options = { allow_kernel_upgrade: true }
 
             # VM resource setting
