@@ -31,6 +31,9 @@
     path: "{{ mysql_data_dir }}"
     mode: 0755
 
+- name: Apply config
+  include_tasks: _config.yml
+
 - systemd:
     name: mysqld
     state: started
@@ -40,6 +43,3 @@
 - shell: |
     echo "set password=password('{{ mysql_root_password }}');" | mysql -u root
     echo "flush privileges;" | mysql -u root
-
-- name: Apply config
-  include_tasks: _config.yml

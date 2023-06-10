@@ -1,9 +1,7 @@
 ---
 - import_playbook: hadoop-stop.yml
 
-- import_playbook: zookeeper.yml
-  vars:
-    act: start
+- import_playbook: zookeeper-start.yml
 
 - name: Check edits dir
   hosts: journalnode

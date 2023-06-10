@@ -1,17 +1,59 @@
-# node-specs.yml example
-# 
-# - name: bdp-eg1
-#   box: rockylinux/8
-#   network: public_network
-#   network_if: enp1s0
-#   ip: 192.168.45.244
-#   mem: 32
-#   cpu: 8
-#   disk: 200
-#   scripts:
-#     - setup-python
-#     - setup-ansible
-#
+#- name: bdp-dn1
+#  box: rockylinux/8
+#  network: public_network
+#  ip: 192.168.45.241
+#  mem: 12
+#  cpu: 4
+#  disk: 100
+#  scripts:
+
+#- name: bdp-dn2
+#  box: rockylinux/8
+#  network: public_network
+#  ip: 192.168.45.242
+#  mem: 12
+#  cpu: 4
+#  disk: 100
+#  scripts:
+
+#- name: bdp-dn3
+#  box: rockylinux/8
+#  network: public_network
+#  ip: 192.168.45.243
+#  mem: 12
+#  cpu: 4
+#  disk: 100
+#  scripts:
+
+#- name: bdp-nn2
+#  box: rockylinux/8
+#  network: public_network
+#  ip: 192.168.45.245
+#  mem: 20
+#  cpu: 4
+#  disk: 100
+#  scripts:
+
+#- name: bdp-nn1
+#  box: rockylinux/8
+#  network: public_network
+#  ip: 192.168.45.240
+#  mem: 20
+#  cpu: 4
+#  disk: 100
+#  scripts:
+
+#- name: bdp-eg1
+#  box: rockylinux/8
+#  network: public_network
+#  ip: 192.168.45.244
+#  mem: 32
+#  cpu: 8
+#  disk: 200
+#  scripts:
+#    - setup-python
+#    - setup-ansible
+#    - copy-sshkey
 
 - name: 
   box: 

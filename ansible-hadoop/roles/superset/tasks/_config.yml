@@ -1,8 +1,0 @@
----
-- template:
-    src: "{{ item }}.j2"
-    dest: "{{ stack_root }}/superset/{{ item }}"
-    owner: superset
-    group: hadoop
-  with_items:
-    - superset_config.py
