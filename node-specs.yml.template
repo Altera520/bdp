@@ -6,6 +6,7 @@
 #  cpu: 4
 #  disk: 100
 #  scripts:
+#    - setup-python
 
 #- name: bdp-dn2
 #  box: rockylinux/8
@@ -15,6 +16,7 @@
 #  cpu: 4
 #  disk: 100
 #  scripts:
+#    - setup-python
 
 #- name: bdp-dn3
 #  box: rockylinux/8
@@ -24,6 +26,7 @@
 #  cpu: 4
 #  disk: 100
 #  scripts:
+#    - setup-python
 
 #- name: bdp-nn2
 #  box: rockylinux/8
@@ -33,6 +36,7 @@
 #  cpu: 4
 #  disk: 100
 #  scripts:
+#    - setup-python
 
 #- name: bdp-nn1
 #  box: rockylinux/8
@@ -42,6 +46,7 @@
 #  cpu: 4
 #  disk: 100
 #  scripts:
+#    - setup-python
 
 #- name: bdp-eg1
 #  box: rockylinux/8
