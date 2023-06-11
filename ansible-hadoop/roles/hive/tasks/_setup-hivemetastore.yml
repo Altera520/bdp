@@ -1,3 +1,7 @@
+- name: remove multiple slf4j
+  shell: |
+    rm /usr/bdp/apache-hive-3.1.3-bin/lib/log4j-slf4j-impl-2.17.1.jar
+
 - name: Init hive metastore's database
   shell: "{{ stack_root }}/hive/bin/schematool -initSchema -dbType mysql -userName {{ hive_db_user }} -password {{ hive_db_password }}"
   ignore_errors: yes

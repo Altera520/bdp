@@ -1,7 +1,6 @@
 ---
-- import_playbook: mysql.yml
-  vars:
-    act: restart
+- import_playbook: mysql-stop.yml
+- import_playbook: mysql-start.yml
     
 - name: Create hive schema
   hosts: mysql
