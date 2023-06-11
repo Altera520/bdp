@@ -39,7 +39,7 @@ TOPOLOGY = {
     },
     'spark': {
         'child': [
-            #'zeppelin',
+            'zeppelin',
             'tez',
         ],
         'cmd': Cmd.ALL
@@ -58,10 +58,10 @@ TOPOLOGY = {
         'child': END,
         'cmd': Cmd.ALL
     },
-    #'zeppelin': {
-    #    'child': END,
-    #    'cmd': Cmd.ALL
-    #},
+    'zeppelin': {
+       'child': END,
+       'cmd': Cmd.ALL
+    },
     'appmaster': {
         'child': END,
         'cmd': Cmd.SETUP

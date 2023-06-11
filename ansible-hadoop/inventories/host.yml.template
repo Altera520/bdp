@@ -76,6 +76,10 @@ all:
       hosts:
         bdp-nn2:
 
+    zeppelin:
+      hosts:
+        bdp-eg1:
+
     hadoop:
       children:
         namenode:
