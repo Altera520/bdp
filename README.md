@@ -226,8 +226,80 @@ all:
 
 ## 실행
 
-클러스터를 구성하는 각 컴포넌트별로 선후행 디펜던시를 가지고 있기에 
+`cluster-py/topology.py`에 클러스터를 구성하는 각 컴포넌트별로 선후행 디펜던시가 설정되어있습니다.
+
+`cluster-py/cluster.py` 실행시 해당 파일을 읽어들여 위상정렬된 순서로 각 컴포넌트별 ansible playbook을 실행합니다.
+```bash
+>> python ansible-hadoop/cluster-py/cluster.py <all|컴포넌트명> <setup|start|stop|config>
+```
+
+### 설치
+- 전체 컴포넌트 설치
+    ```bash
+    >> python ansible-hadoop/cluster-py/cluster.py all setup
+    ```
+
+### 실행
+- 전체 컴포넌트 실행
+    ```bash
+    >> python ansible-hadoop/cluster-py/cluster.py all start
+
+    ======= ANSIBLE PLAN =======
+    1. zookeeper     >>
+    2. mysql         >>
+    3. kafka         >>
+    4. hadoop        >>
+    5. airflow       >>
+    6. kafka-connect >>
+    7. hive          >>
+    8. httpfs        >>
+    9. spark         >>
+    10. zeppelin
+    ============================
+    ```
+
+- 특정 컴포넌트 실행
+    ```bash
+    >> python ansible-hadoop/cluster-py/cluster.py zeppelin start
+    ```
+
+### 중지
+- 전체 컴포넌트 중지
+    ```bash
+    >> python ansible-hadoop/cluster-py/cluster.py all stop
+
+    ======= ANSIBLE PLAN =======
+    1. zeppelin      >>
+    2. spark         >>
+    3. httpfs        >>
+    4. hive          >>
+    5. kafka-connect >>
+    6. airflow       >>
+    7. hadoop        >>
+    8. kafka         >>
+    9. mysql         >>
+    10. zookeeper
+    ============================
+    ```
+
+- 특정 컴포넌트 중지
+    ```bash
+    >> python ansible-hadoop/cluster-py/cluster.py zeppelin stop
+    ```
+
+### 설정값 반영
+
+각 컴포넌트별로 `roles/<컴포넌트>/templates` 디렉토리가 존재하며, 해당 디렉토리 하위에 해당 컴포넌트를 구성하는 설정 템플릿이 들어 있습니다.
+필요한 경우 해당 템플릿의 내용을 수정후 `cluster.py`에 config 인자를 넘기면 템플릿에 맞는 설정파일이 배포됩니다.
+
+```
+roles/hadoop
+├── tasks
+│   └── ...
+└── templates
+    └── ...
+```
 
 ```bash
->> python ansible-hadoop/cluster-py/cluster.py all start
+>> python ansible-hadoop/cluster-py/cluster.py hadoop config
 ```
