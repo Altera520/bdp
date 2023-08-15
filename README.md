@@ -110,7 +110,6 @@ vagrant-scripts 하위에 `node-specs.yml`을 정의하여 생성할 VM별 스�
 ```
 </details>
 
-<br/>
 
 ### 2. ansible 준비
 
