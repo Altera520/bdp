@@ -9,7 +9,7 @@
 | hive              | 3.1.3       |
 | hbase             | N/A         |
 | zookeeper         | 3.6.3       |
-| spark             | 3.3.0       |
+| spark             | 3.1.3       |
 | kafka             | 3.2.0       |
 | debezium          | 1.5.4       |
 | airflow           | 2.2.5       |
