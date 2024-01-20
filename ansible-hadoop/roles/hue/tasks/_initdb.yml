@@ -1,0 +1,6 @@
+---
+- name: Initialize hue
+  block:
+  - shell: "/usr/local/hue/build/env/bin/hue syncdb --noinput"
+  - pause: seconds=1
+  - shell: "/usr/local/hue/build/env/bin/hue migrate"

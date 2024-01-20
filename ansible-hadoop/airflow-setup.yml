@@ -1,4 +1,6 @@
 ---
+- import_playbook: mysql-start.yml
+
 - name: Create airflow schema
   hosts: mysql
   become: yes

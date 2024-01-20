@@ -1,0 +1,10 @@
+---
+- name: stop hue
+  block:
+  - systemd:
+      name: hue
+      state: stopped
+  - wait_for:
+      host: "{{ inventory_hostname }}"
+      port: "{{ hue_port }}"
+      state: stopped

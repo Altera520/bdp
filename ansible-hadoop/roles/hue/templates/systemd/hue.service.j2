@@ -1,0 +1,16 @@
+[Unit]
+Description=Hue
+After=syslog.target network.target
+
+[Service]
+User=hue
+Type=simple
+#ExecStart=/usr/local/hue/build/env/bin/hue runcherrypyserver
+ExecStart=/usr/local/hue/build/env/bin/supervisor --daemon --pid-file=/usr/local/hue/build/env/bin/hue_pid
+ExecStop=/usr/bin/kill -TERM $MAINPID
+WorkingDirectory=/usr/local/hue/build/env/bin/
+Restart=always
+LimitNOFILE=32768
+
+[Install]
+WantedBy=multi-user.target

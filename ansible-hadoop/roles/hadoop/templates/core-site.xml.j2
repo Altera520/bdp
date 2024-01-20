@@ -148,6 +148,16 @@
       <name>hadoop.proxyuser.yarn.hosts</name>
       <value>{{ groups.namenode.0 }},{{ groups.namenode.1 }}</value>
     </property>
+
+    <property>
+      <name>hadoop.proxyuser.hue.hosts</name>
+      <value>*</value>
+    </property>
+
+    <property>
+      <name>hadoop.proxyuser.hue.groups</name>
+      <value>*</value>
+    </property>
     
     <property>
       <name>hadoop.security.auth_to_local</name>

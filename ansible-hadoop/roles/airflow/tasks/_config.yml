@@ -7,10 +7,10 @@
     mode: 0640
   with_items:
     - {
-      src: "airflow{{ (airflow_version | split('.'))[0:2] | join ('.') }}.cfg",
+      src: "v{{ (airflow_version | split('.'))[0:2] | join ('.') }}/airflow.cfg",
       dest: airflow.cfg
     }
     - {
-      src: webserver_config.py,
+      src: "v{{ (airflow_version | split('.'))[0:2] | join ('.') }}/webserver_config",
       dest: webserver_config.py
     }

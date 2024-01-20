@@ -1,0 +1,13 @@
+---
+hue_download_path: https://cdn.gethue.com/downloads
+hue_download_filename: ["hue-{{ hue_version }}", "tgz"]
+
+hue_log_dir: /var/log/hue
+hue_port: 9998
+
+hue_username: hue
+hue_password: hue
+
+hue_db_user: hue
+hue_db_name: hue
+hue_db_password: hue

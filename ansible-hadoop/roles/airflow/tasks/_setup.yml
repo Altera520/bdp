@@ -85,12 +85,12 @@
 - name: Register with systemd
   block:
   - template:
-      src: "{{ item }}.j2"
+      src: "common/{{ item }}.j2"
       dest: "/etc/sysconfig/{{ item }}"
     with_items:
       - airflow
   - template:
-      src: "{{ item }}.j2"
+      src: "common/{{ item }}.j2"
       dest: "/usr/lib/tmpfiles.d/{{ item }}"
     with_items:
       - airflow.conf

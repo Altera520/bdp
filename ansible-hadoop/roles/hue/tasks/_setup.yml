@@ -1,0 +1,93 @@
+---
+- name: Create user
+  user:
+    name: hue
+    group: hadoop
+    state: present
+
+- name: Install Hue tarball
+  block:
+  - get_url:
+      url: "{{ hue_download_path }}/{{ hue_download_filename | join('.') }}"
+      dest: /tmp/
+  - unarchive:
+      src: "/tmp/{{ hue_download_filename | join('.') }}"
+      dest: "{{ stack_root }}"
+      copy: no
+      owner: root
+      group: root
+  - file:
+      path: "{{ item }}"
+      state: absent
+    with_items:
+      - "/tmp/{{ hue_download_filename | join('.') }}"
+
+- name: Link installed hue
+  block:
+  - file:
+      path: /etc/hue
+      state: directory
+      owner: hue
+      group: hadoop
+  - file:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      state: link
+      owner: hue
+      group: hadoop
+    loop:
+      # hue install directory link
+      - { 
+        src: "{{ stack_root }}/{{ hue_download_filename | first }}", 
+        dest: "{{ stack_root }}/hue" 
+      }
+  - file:
+      path: "{{ item }}"
+      state: directory
+      owner: hue
+      group: hadoop
+    with_items:
+      - "{{ hue_log_dir }}"
+
+- name: Download the required package
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - make
+    - gcc
+    - krb5-devel
+    - sqlite
+    - sqlite-devel
+    - mysql-devel
+    - cyrus-sasl-devel
+    - openldap-devel
+    - libxml2-devel
+    - libxslt-devel
+    - python2-devel
+    - '@Development Tools'
+    - epel-release
+    - nodejs
+
+- name: Install Hue
+  block:
+  - shell: |
+      cd {{ stack_root }}/hue
+      rm -rf /usr/local/hue
+      PREFIX=/usr/local make install
+
+
+- name: Register with systemd
+  block:
+  - template:
+      src: systemd/{{ item }}.j2
+      dest: /etc/systemd/system/{{ item }}
+    with_items:
+      - hue.service
+  - systemd:
+      daemon_reload: yes
+
+- shell: |
+    su hdfs -c 'hdfs dfs -mkdir -p /user/admin'
+    su hdfs -c 'hdfs dfs -chown admin:hdfs /user/admin'
+  failed_when: False

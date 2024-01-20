@@ -1,0 +1,9 @@
+---
+- hosts: appmaster
+  become: yes
+  vars_files:
+    - group_vars/hue.yml
+  vars:
+    act: stop
+  roles:
+    - hue

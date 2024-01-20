@@ -1,24 +1,29 @@
 ---
-# - name: Create airflow schema
-#   hosts: mysql
-#   become: yes
-#   gather_facts: false
-#   vars_files:
-#     - group_vars/airflow.yml
-#   vars:
-#     createdb: True
-#     db_user: "{{ airflow_db_user }}"
-#     db_name: "{{ airflow_db_name }}"
-#     db_password: "{{ airflow_db_password }}"
-#   roles:
-#     - mysql
+- import_playbook: mysql-start.yml
+
+- name: Create hue schema
+  hosts: mysql
+  become: yes
+  gather_facts: false
+  vars_files:
+    - group_vars/hue.yml
+  vars:
+    createdb: True
+    db_user: "{{ hue_db_user }}"
+    db_name: "{{ hue_db_name }}"
+    db_password: "{{ hue_db_password }}"
+  roles:
+    - mysql
 
 - hosts: appmaster
   become: yes
   vars_files:
-    - group_vars/zookeeper.yml
-    - group_vars/hadoop.yml
     - group_vars/hue.yml
+    - group_vars/hadoop.yml
+    - group_vars/mysql.yml
+    - group_vars/hive.yml
+    - group_vars/spark.yml
+    - group_vars/zookeeper.yml
   vars:
     act: setup
   roles:

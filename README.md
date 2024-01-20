@@ -14,7 +14,7 @@
 | debezium          | 1.5.4       |
 | airflow           | 2.2.5       |
 | mysql             | 8.0.30      |
-| hue               | N/A         |
+| hue               | 4.10.0      |
 | zeppelin          | 0.10.1      |
 | java              | openjdk-1.8 |
 | python            | 3.10.0      |

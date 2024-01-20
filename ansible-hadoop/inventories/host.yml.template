@@ -96,3 +96,7 @@ all:
     spark:
       children:
         spark_historyserver:
+
+    hue:
+      hosts:
+        bdp-eg1:

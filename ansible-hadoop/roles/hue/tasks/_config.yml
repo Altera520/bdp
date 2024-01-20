@@ -1,0 +1,8 @@
+---
+- template:
+    src: "{{ item }}.j2"
+    dest: "/usr/local/hue/desktop/conf/{{ item }}"
+    owner: hue
+    group: hadoop
+  with_items:
+    - hue.ini
