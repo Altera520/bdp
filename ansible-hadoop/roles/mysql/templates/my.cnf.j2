@@ -71,8 +71,9 @@ back_log                        = 512
 thread_cache_size               = 100
 thread_stack                    = 192K
 
-interactive_timeout             = 180
-wait_timeout                    = 180
+# airflow의 pool recycle 값이 이 두 옵션 보다 작아야한다.
+interactive_timeout             = 3600
+wait_timeout                    = 3600
 
 # For MySQL 5.7+ only (disabled by default)
 #max_execution_time             = 90000 # Set a timeout limit for SELECT statements (value in milliseconds).
