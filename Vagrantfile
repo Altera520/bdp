@@ -17,6 +17,8 @@ Vagrant.configure(VAGRANT_API_VER) do |config|
                 v.name = node_spec["name"]
                 v.memory = node_spec["mem"] * 1024
                 v.cpus = node_spec["cpu"]
+                # host pc와 가상머신간의 시간 동기화 설정
+                v.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000 ]
             end
             node.vm.disk :disk, size: "#{node_spec["disk"]}GB", primary: true
 
