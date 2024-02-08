@@ -1,0 +1,97 @@
+---
+- name: Create user and group
+  user:
+    name: impala
+    group: hadoop
+    state: present
+
+- name: Create the required directory
+  file:
+    path: "{{ item }}"
+    owner: impala 
+    group: hadoop
+    state: directory
+  with_items:
+    - "{{ stack_root }}/impala/conf"
+    - "{{ impala_log_dir }}"
+
+- name: Link installed impala
+  block:
+  - file:
+      path: "{{ item }}"
+      state: directory
+      owner: root
+      group: root
+    with_items:
+      - /etc/impala
+  - file:
+      src: "{{ item.src }}"
+      dest: "{{ item.dest }}"
+      state: link
+      owner: root
+      group: root
+    loop:
+      # impala install directory link
+      - { 
+        src: "{{ stack_root }}/impala-4.2.0-RELEASE", 
+        dest: "{{ stack_root }}/impala" 
+      }
+      # impala config link
+      - {
+        src: "{{ stack_root }}/impala/conf",
+        dest: "{{ impala_conf_dir }}"
+      }
+
+- name: Create required directories
+  file:
+    path: "{{ item.path }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    state: directory
+  loop:
+#    - {
+#      path: "{{ stack_root }}/impala/logs",
+#      owner: impala,
+#      group: hadoop
+#    }
+    - {
+      path: "{{ impala_log_dir }}",
+      owner: impala,
+      group: hadoop
+    }
+#    - {
+#      path: "{{ impala_run_dir }}",
+#      owner: impala,
+#      group: hadoop
+#    }
+
+- name: Create required links
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    state: link
+  loop:
+    - {
+      src: "/usr/share/java/{{ mysql_connector_j }}.jar",
+      dest: "{{ stack_root }}/impala/lib/{{ mysql_connector_j }}.jar"
+    }
+
+
+#- alternatives:
+#    name: "{{ item.name }}"
+#    link: "{{ item.link }}"
+#    path: "{{ item.path }}"
+#    priority: 20
+#  loop:
+#    - {
+#      name: impala-conf,
+#      link: "{{ impala_conf_dir }}",
+#      path: "{{ stack_root }}/impala/conf"
+#    }
+#    - {
+#      name: impalad,
+#      link: /usr/bin/impalad,
+#      path: "{{ stack_root }}/impala/bin/impalad"
+#    }

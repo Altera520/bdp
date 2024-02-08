@@ -1,0 +1,11 @@
+[Unit]
+Description=Apache Impala Admission Control Daemon
+Documentation=http://impala.apache.org
+[Service]
+EnvironmentFile={{ stack_root }}/impala/conf/impala.env
+ExecStart={{ stack_root }}/impala/sbin/admissiond --flagfile={{ impala_conf_dir }}/admissiond.gflagfile
+TimeoutStopSec=5
+Restart=on-failure
+User=impala
+[Install]
+WantedBy=multi-user.target

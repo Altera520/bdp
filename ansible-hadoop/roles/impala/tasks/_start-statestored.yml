@@ -1,0 +1,4 @@
+---
+- systemd:
+    name: impala-statestored
+    state: started

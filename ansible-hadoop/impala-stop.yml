@@ -1,0 +1,32 @@
+---
+- hosts: master
+  become: yes
+  vars:
+    act: stop
+    target: statestored
+  roles:
+    - impala
+
+- hosts: master
+  become: yes
+  vars:
+    act: stop
+    target: catalogd
+  roles:
+    - impala
+
+- hosts: master
+  become: yes
+  vars:
+    act: stop
+    target: admissiond
+  roles:
+    - impala
+
+- hosts: worker
+  become: yes
+  vars:
+    act: stop
+    target: impalad
+  roles:
+    - impala

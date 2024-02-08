@@ -1,0 +1,53 @@
+---
+- name: Apply config
+  hosts: impala
+  become: yes
+  vars_files:
+    - group_vars/impala.yml
+  vars:
+    act: config
+    target: all
+  roles:
+    - impala
+
+
+- hosts: master
+  become: yes
+  vars_files:
+    - group_vars/impala.yml
+  vars:
+    act: config
+    target: admissiond
+  roles:
+    - impala
+
+- hosts: master
+  become: yes
+  vars_files:
+    - group_vars/impala.yml
+  vars:
+    act: config
+    target: statestored
+  roles:
+    - impala
+
+- hosts: master
+  become: yes
+  vars_files:
+    - group_vars/impala.yml
+  vars:
+    act: config
+    target: catalogd
+  roles:
+    - impala
+
+- hosts: worker
+  become: yes
+  vars_files:
+    - group_vars/impala.yml
+  vars:
+    act: config
+    target: impalad
+  roles:
+    - impala
+

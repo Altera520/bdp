@@ -1,0 +1,9 @@
+---
+- block:
+  - template: 
+      src: systemd/{{ item }}.j2 
+      dest: /etc/systemd/system/{{ item }}
+    with_items:
+      - impalad.service
+  - systemd: 
+      daemon_reload: yes

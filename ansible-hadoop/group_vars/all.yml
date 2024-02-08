@@ -34,8 +34,6 @@ hbase_version: 2.4.13
 hue_version: 4.10.0
 zeppelin_version: 0.10.1
 
-# airflow 2.3 version cannot use mysql backend database
-# https://github.com/apache/airflow/issues/24247
 airflow_version: 2.2.5
 
 superset_version: 2.0.0

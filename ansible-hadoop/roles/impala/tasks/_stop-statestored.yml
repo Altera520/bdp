@@ -1,0 +1,3 @@
+- systemd:
+    name: impala-statestored
+    state: stopped

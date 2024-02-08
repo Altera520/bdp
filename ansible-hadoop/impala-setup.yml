@@ -1,0 +1,46 @@
+---
+
+- name: Setup impala all hadoop nodes
+  hosts: impala
+  become: yes
+  vars_files:
+    - group_vars/impala.yml
+  vars:
+    act: setup
+    target: all
+  roles:
+    - impala
+
+- import_playbook: impala-config.yml
+
+#- hosts: impalad
+#  become: yes
+#  vars:
+#    act: setup
+#    target: impalad
+#  roles:
+#    - impala
+
+#- hosts: impala-catalogd
+#  become: yes
+#  vars:
+#    act: setup
+#    target: impala-catalogd
+#  roles:
+#    - impala
+#
+#- hosts: impala-statestored
+#  become: yes
+#  vars:
+#    act: setup
+#    target: impala-statestored
+#  roles:
+#    - impala
+#
+#- hosts: impala-admissiond
+#  become: yes
+#  vars:
+#    act: setup
+#    target: impala-admissiond
+#  roles:
+#    - impala

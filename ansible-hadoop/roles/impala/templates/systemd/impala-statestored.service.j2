@@ -1,0 +1,11 @@
+[Unit]
+Description=Apache Impala StateStore Daemon
+Documentation=http://impala.apache.org
+[Service]
+EnvironmentFile={{ stack_root }}/impala/conf/impala.env
+ExecStart={{ stack_root }}/impala/sbin/statestored --flagfile={{ stack_root }}/impala/conf/statestored.gflagfile
+TimeoutStopSec=5
+Restart=on-failure
+User=impala
+[Install]
+WantedBy=multi-user.target

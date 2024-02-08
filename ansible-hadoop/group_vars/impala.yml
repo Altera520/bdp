@@ -1,0 +1,5 @@
+---
+impala_log_dir: /var/log/impala
+impala_conf_dir: /etc/impala/conf
+
+master_hostname: bdp-nn1

@@ -1,0 +1,4 @@
+---
+- systemd:
+    name: impala-admissiond
+    state: started

@@ -1,0 +1,29 @@
+---
+
+- template:
+    src: "{{ item }}.j2"
+    dest: "{{ impala_conf_dir }}/{{ item }}"
+    owner: root
+    group: root
+  with_items:
+    - admissiond.gflagfile
+    - catalogd.gflagfile
+    - impalad.gflagfile
+    - statestored.gflagfile
+    - impala.env
+#    - systemd/impala-admissiond.service
+#    - systemd/impala-catalogd.service
+#    - systemd/impala-statestored.service
+#    - systemd/impalad.service
+
+- alternatives:
+    name: "{{ item.name }}"
+    link: "{{ item.link }}"
+    path: "{{ item.path }}"
+    priority: 20
+  loop:
+    - {
+      name: impala-shell,
+      link: /usr/bin/impala-shell,
+      path: "{{ stack_root }}/impala/bin/shell/impala-shell"
+    }

@@ -1,0 +1,3 @@
+- systemd:
+    name: impala-catalogd
+    state: stopped
