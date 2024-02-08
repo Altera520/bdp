@@ -11,6 +11,6 @@
       dest: airflow.cfg
     }
     - {
-      src: "v{{ (airflow_version | split('.'))[0:2] | join ('.') }}/webserver_config",
+      src: "v{{ (airflow_version | split('.'))[0:2] | join ('.') }}/webserver_config.py",
       dest: webserver_config.py
     }

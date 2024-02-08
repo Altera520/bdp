@@ -11,7 +11,7 @@ airflow_run_dir: /run/airflow
 
 # airflow.cfg
 executor: LocalExecutor
-airflow_sql_alchemy_conn: "mysql+pymysql://{{ airflow_db_user }}:{{ airflow_db_password }}@{{ groups['mysql'][0] }}:{{ mysql_port }}/{{ airflow_db_name }}"
+airflow_sql_alchemy_conn: "mysql+mysqldb://{{ airflow_db_user }}:{{ airflow_db_password }}@{{ groups['mysql'][0] }}:{{ mysql_port }}/{{ airflow_db_name }}"
 
 airflow_dags_folder: "{{ stack_root }}/airflow/dags"
 airflow_plugins_folder: "{{ stack_root }}/airflow/plugins"
@@ -21,4 +21,4 @@ airflow_webserver_port: 38080
 
 airflow_expose_config: True
 airflow_expose_hostname: True
-airflow_dag_default_view: tree
+airflow_dag_default_view: grid

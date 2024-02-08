@@ -72,8 +72,6 @@
     pip install {{ item }} 
     deactivate
   with_items:
-    - "apache-airflow[mysql]=={{ airflow_version }}"
-    - "apache-airflow-providers-ssh==3.1.0"
     - sasl
     - mysqlclient
     - pymysql
