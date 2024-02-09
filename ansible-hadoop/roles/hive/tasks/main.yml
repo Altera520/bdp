@@ -5,7 +5,7 @@
       path: "{{ stack_root }}/{{ hive_download_filename }}"
     register: installed
   - include_tasks: "_setup-common.yml"
-    when: not installed.stat.exists
+    #when: not installed.stat.exists
   when:
     - act == 'setup'
     - target == 'all'

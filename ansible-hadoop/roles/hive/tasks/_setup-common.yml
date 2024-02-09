@@ -7,11 +7,11 @@
 
 - name: Install hive
   block:
-  - get_url:
-      url: "{{ hive_download_path }}/{{ hive_download_filename }}.tar.gz"
-      dest: /tmp/
+  - copy:
+      src: "apache-hive-3.1.3-patched.tar.gz"
+      dest: "/tmp/"
   - unarchive:
-      src: "/tmp/{{ hive_download_filename }}.tar.gz"
+      src: "/tmp/apache-hive-3.1.3-patched.tar.gz"
       dest: "{{ stack_root }}"
       copy: no
       owner: root
@@ -20,7 +20,7 @@
       path: "{{ item }}"
       state: absent
     with_items:
-      - "/tmp/{{ hive_download_filename }}.tar.gz"
+      - "/tmp/apache-hive-3.1.3-patched.tar.gz"
 
 - name: Install mysql connector-J
   block:
@@ -62,7 +62,7 @@
     loop:
       # hive install directory link
       - { 
-        src: "{{ stack_root }}/{{ hive_download_filename }}", 
+        src: "apache-hive-3.1.3-patched", 
         dest: "{{ stack_root }}/hive" 
       }
 
@@ -101,6 +101,7 @@
     owner: root
     group: root
     state: link
+    force: yes
   loop:
     - {
       src: "{{ stack_root }}/hive/hcatalog/share/hcatalog/hive-hcatalog-core-{{ hive_version }}.jar",

@@ -31,6 +31,7 @@
     src: "{{ hadoop_conf_dir }}/mapred-site.xml" 
     dest: "{{ hive_conf_dir }}/mapred-site.xml"
     state: link
+    force: yes
 
 - alternatives:
     name: "{{ item.name }}"

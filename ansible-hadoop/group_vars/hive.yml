@@ -1,6 +1,4 @@
 ---
-hive_download_path: "https://dlcdn.apache.org/hive/hive-{{ hive_version }}"
-hive_download_filename: "apache-hive-{{ hive_version }}-bin"
 
 hive_db_user: hive
 hive_db_name: hive

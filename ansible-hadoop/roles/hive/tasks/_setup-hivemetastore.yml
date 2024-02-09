@@ -1,3 +1,4 @@
+# /usr/bdp/hadoop-3.2.3/share/hadoop/common/lib/slf4j-log4j12-1.7.25.jar 파일이랑 충돌이 발생하니 제거한다.
 - name: remove multiple slf4j
   shell: |
     rm /usr/bdp/hive/lib/log4j-slf4j-impl-2.17.1.jar
