@@ -29,14 +29,12 @@ TOPOLOGY = {
     },
     'httpfs': {
         'child': [
-            'hue',
         ],
         'cmd': Cmd.ALL
     },
     'hive': {
         'child': [
             'spark',
-            'hue',
         ],
         'cmd': Cmd.RUN
     },
@@ -67,9 +65,5 @@ TOPOLOGY = {
     'appmaster': {
         'child': END,
         'cmd': Cmd.SETUP
-    },
-    'hue': {
-        'child': END,
-        'cmd': Cmd.ALL
     },
 }
