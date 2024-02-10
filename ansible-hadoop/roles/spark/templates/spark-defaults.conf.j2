@@ -55,8 +55,8 @@ spark.shuffle.service.enabled                   true
 spark.shuffle.unsafe.file.output.buffer         5m
 spark.sql.autoBroadcastJoinThreshold            26214400
 spark.sql.hive.convertMetastoreOrc              true
-spark.sql.hive.metastore.jars                   {{ stack_root }}/spark/standalone-metastore/*
-spark.sql.hive.metastore.version                3.0
+spark.sql.hive.metastore.jars                   {{ stack_root }}/hive/lib/*
+spark.sql.hive.metastore.version                3.1.3
 spark.sql.orc.filterPushdown                    true
 spark.sql.orc.impl                              native
 spark.sql.queryExecutionListeners

@@ -30,7 +30,7 @@
     - act in ['stop', 'restart']
     - target == 'spark_historyserver'
 
-- include_tasks: "_link-hive-site.yml"
+- include_tasks: "_link-hive.yml"
   when: 
     - act == 'link'
     - target == 'all'
