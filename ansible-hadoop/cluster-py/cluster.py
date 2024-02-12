@@ -1,78 +1,75 @@
-import os, sys
-from typing import *
+import argparse
+import os
+import sys
 from collections import deque
-from cmd import Cmd
-from topology import HOME_PATH, TOPOLOGY
+from typing import *
 
+from topology import HOME_PATH, TOPOLOGY_FOR_EXEC, TOPOLOGY_FOR_SETUP
 
 
 def ansible_play(target, act):
-    cmd = f"ansible-playbook -i {HOME_PATH}/inventories/host.yml "
-    cmd += f'{HOME_PATH}/{target}-{act}.yml'
-    #cmd += f'{HOME_PATH}/{target}.yml --extra-vars \"act={act}\"'
+    cmd = [
+        f"ansible-playbook -i {HOME_PATH}/inventories/host.yml",
+        f"{HOME_PATH}/{target}-{act}.yml",
+    ]
+    cmd = " ".join(cmd)
     print(os.system(cmd))
 
 
-def topology_sort(graph: Dict[str, List[str]],
-                  cmd: str,
-                  reverse: bool = False,
-                  exclude: List[str] = []) -> List[str]:
+def topology_sort(graph: Dict[str, List[str]]) -> List[str]:
     indegree = dict.fromkeys(graph.keys(), 0)
     seq = []
 
-    for c in graph.values():
-        for _ in c['child']:
-            indegree[_] += 1
+    for components in graph.values():
+        for component in components:
+            indegree[component] += 1
 
     q = deque([k for k, v in indegree.items() if not v])
     while q:
-        p = q.popleft()
-        seq.append(p)
-        for c in graph[p]['child']:
-            indegree[c] -= 1
-            if not indegree[c]:
-                q.append(c)
-    seq = filter(seq, cmd, graph, exclude)
-    if reverse:
-        seq.reverse()
-    print_seq(seq)
+        component = q.popleft()
+        seq.append(component)
+        for child_component in graph[component]:
+            indegree[child_component] -= 1
+            if not indegree[child_component]:
+                q.append(child_component)
     return seq
 
 
-def filter(seq: List[str],
-           cmd: str,
-           graph: Dict[str, List[str]],
-           exclude: List[str]) -> List[str]:
-    exclude = dict.fromkeys(exclude, 0)
-    seq = [component for component in seq if component not in exclude and graph[component]['cmd'] == cmd or graph[component]['cmd'] == Cmd.ALL]
-    return seq
-
-
-def print_seq(seq: List[str]) -> None:
-    if seq:
+def print_plan(topology_list: List[str]) -> None:
+    if topology_list:
         base_len = max([len(_) for _ in seq])
-    plan = [f"{str(i + 1).rjust(2, ' ')}. {component.ljust(base_len, ' ')}" for i, component in enumerate(seq)]
+    plan = [f"{str(i + 1).rjust(2, ' ')}. {component.ljust(base_len, ' ')}" for i, component in enumerate(topology_list)]
     print("======= ANSIBLE PLAN =======")
     print(" >>\n".join(plan))
     print("============================")
 
 
-def act_to_cmd(act: str) -> str:
-    cmd = ('run' if act == 'start' or act == 'stop' else act).upper()
-    return cmd
-
-
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print('illegal arguments')
-        sys.exit(2)
+    parser = argparse.ArgumentParser(description='parser')
+    parser.add_argument('--target', type=str, required=True)
+    parser.add_argument('--act', type=str, required=True)
+    args = parser.parse_args()
 
-    target = sys.argv[1]
-    act = sys.argv[2]
-    cmd = act_to_cmd(act)
+    act = args.act.lower()
+    allow_acts = [
+        'setup',
+        'start',
+        'stop',
+        'config',
+        'link',
+    ]
+    assert act in allow_acts
 
-    if target == 'all':
-        for component in topology_sort(TOPOLOGY, cmd, act == 'stop'):
+    if args.target == 'all':
+        TOPOLOGY = TOPOLOGY_FOR_SETUP if args.act == 'setup' else TOPOLOGY_FOR_EXEC
+        topology_list = topology_sort(TOPOLOGY)
+
+        # stop인 경우 topology를 역순으로 변경
+        if act == 'stop':
+            topology_list.reverse()
+
+        print_plan(topology_list)
+        for component in topology_list:
             ansible_play(component, act)
     else:
         ansible_play(target, act)

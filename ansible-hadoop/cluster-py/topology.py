@@ -1,69 +1,58 @@
-from cmd import Cmd
-
-
 HOME_PATH = '/ansible/ansible-hadoop'
 END = []
 
-TOPOLOGY = {
-    'zookeeper': {
-        'child': [
-            'kafka',
-            'hadoop',
-        ],
-        'cmd': Cmd.ALL
-    },
-    'mysql': {
-        'child': [
-            'hadoop',
-            'airflow',
-        ],
-        'cmd': Cmd.ALL
-    },
-    'hadoop': {
-        'child': [
-            'hive',
-            'spark',
-            'httpfs',
-        ],
-        'cmd': Cmd.ALL
-    },
-    'httpfs': {
-        'child': [
-        ],
-        'cmd': Cmd.ALL
-    },
-    'hive': {
-        'child': [
-            'spark',
-        ],
-        'cmd': Cmd.RUN
-    },
-    'spark': {
-        'child': [
-            'zeppelin',
-        ],
-        'cmd': Cmd.ALL
-    },
-    'kafka': {
-        'child': [
-            'kafka-connect',
-        ],
-        'cmd': Cmd.ALL
-    },
-    'kafka-connect': {
-        'child': END,
-        'cmd': Cmd.ALL
-    },
-    'airflow': {
-        'child': END,
-        'cmd': Cmd.ALL
-    },
-    'zeppelin': {
-       'child': END,
-       'cmd': Cmd.ALL
-    },
-    'appmaster': {
-        'child': END,
-        'cmd': Cmd.SETUP
-    },
+TOPOLOGY_FOR_EXEC = {
+    'zookeeper': [
+        'kafka',
+        'hadoop',
+    ],
+    'mysql': [
+        'hadoop',
+        'airflow',
+    ],
+    'hadoop': [
+        'hive',
+        'spark',
+        'httpfs',
+    ],
+    'httpfs': END,
+    'hive': [
+        'spark',
+    ]
+    'spark': END,
+    'kafka': [
+        'kafka-connect'
+    ],
+    'kafka-connect': END,
+    'airflow': END,
+}
+
+TOPOLOGY_FOR_SETUP = {
+    'zookeeper': [
+        'kafka',
+        'hadoop',
+    ],
+    'mysql': [
+        'hadoop',
+        'airflow',
+    ],
+    'hadoop': [
+        'hive',
+        'spark',
+        'httpfs',
+    ],
+    'httpfs': END,
+    'hive': [
+        'spark',
+    ]
+    'spark': [
+        'tez'
+    ],
+    'kafka': [
+        'kafka-connect'
+    ],
+    'kafka-connect': END,
+    'airflow': END,
+    'tez': END,
+    'appmaster': END,
 }
