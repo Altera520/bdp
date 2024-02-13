@@ -6,6 +6,6 @@
     - group_vars/hadoop.yml
     - group_vars/spark.yml
   vars:
-    act: setup
+    act: config
   roles:
     - zeppelin

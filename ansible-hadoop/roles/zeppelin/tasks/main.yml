@@ -5,7 +5,7 @@
       path: "{{ stack_root }}/{{ zeppelin_download_filename | first }}"
     register: installed
   - include_tasks: _setup.yml
-    when: not installed.stat.exists
+    #when: not installed.stat.exists
   when: act == 'setup'
 
 - import_tasks: _config.yml

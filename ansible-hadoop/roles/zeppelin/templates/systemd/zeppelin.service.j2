@@ -6,6 +6,7 @@ After=syslog.target network.target
 User=zeppelin
 Type=forking
 PermissionsStartOnly=true
+Environment=JAVA_HOME=/usr/lib/jvm/java-11-openjdk-11.0.22.0.7-2.el8.x86_64
 ExecStartPre=-/bin/mkdir -p {{ zeppelin_run_dir }} ; /usr/bin/chown -R zeppelin:hadoop {{ zeppelin_run_dir }}
 ExecStart=/bin/sh -c '{{ stack_root }}/zeppelin/bin/zeppelin-daemon.sh start'
 ExecStop=/usr/bin/kill -TERM $MAINPID

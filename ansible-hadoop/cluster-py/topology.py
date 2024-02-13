@@ -18,13 +18,16 @@ TOPOLOGY_FOR_EXEC = {
     'httpfs': END,
     'hive': [
         'spark',
-    ]
-    'spark': END,
+    ],
+    'spark': [
+        'zeppelin',
+    ],
     'kafka': [
         'kafka-connect'
     ],
     'kafka-connect': END,
     'airflow': END,
+    'zeppelin': END,
 }
 
 TOPOLOGY_FOR_SETUP = {
@@ -44,9 +47,10 @@ TOPOLOGY_FOR_SETUP = {
     'httpfs': END,
     'hive': [
         'spark',
-    ]
+    ],
     'spark': [
-        'tez'
+        'tez',
+        'zeppelin',
     ],
     'kafka': [
         'kafka-connect'
@@ -55,4 +59,5 @@ TOPOLOGY_FOR_SETUP = {
     'airflow': END,
     'tez': END,
     'appmaster': END,
+    'zeppelin': END,
 }

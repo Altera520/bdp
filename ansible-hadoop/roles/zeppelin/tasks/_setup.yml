@@ -5,11 +5,23 @@
     group: hadoop
     state: present
 
+# TODO: java roles에서 통합해서 제공하도록 변경 필요
+- name: install jdk 11 version
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "java-11-openjdk"
+    - "java-11-openjdk-devel"
+
 - name: Install zeppelin
   block:
-  - get_url:
-      url: "{{ zeppelin_download_path }}/{{ zeppelin_download_filename | join('.') }}"
-      dest: /tmp/
+  - copy:
+      src: "zeppelin-0.11.0-bin-all.tgz"
+      dest: "/tmp/"
+  # - get_url:
+  #     url: "{{ zeppelin_download_path }}/{{ zeppelin_download_filename | join('.') }}"
+  #     dest: /tmp/
   - unarchive:
       src: "/tmp/{{ zeppelin_download_filename | join('.') }}"
       dest: "{{ stack_root }}"
